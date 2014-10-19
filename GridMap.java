@@ -62,9 +62,13 @@ public class GridMap
             for(int j = 0; j < map[0].length; j++) //the j represents the column
             {
                 //randomly assigns a numbers to the map
-                if(rand.nextInt(4) == 0) //if the number is 0 then the space becomes water
+                if(i == 0 || i == (map.length - 1) || j == 0 || j == (map[0].length - 1))
+                {
                     map[i][j] = 0;
-                else                    //if the number is 1, 2, or 3 then the space becomes land
+                }
+                else if(rand.nextInt(5) == 0) //if the number is 0 then the space becomes water
+                    map[i][j] = 0;
+                else                    //if the number is 1, 2, 3, or 4 then the space becomes land
                     map[i][j] = 1;
             }
         }
