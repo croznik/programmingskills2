@@ -30,7 +30,7 @@ public class Population
      * 
      * @param map The GridMap object representing the map of the area. 
      */
-    public Population(GridMap map)
+    public Population(GridMap map) //test
     {
         this.map = map;
         nx = map.getNCols();
