@@ -79,29 +79,6 @@ public class GridMap
     }
     
     /**
-     * This method takes in as an input the row the square's map coordinates and returns the row in the 
-     * element's coordinates in the data structure.
-     * 
-     * @param row The row of the element in the map.
-     */
-    
-    public int getDataRow(int row)
-    {
-        return ny - row;
-    }
-    
-    /**
-     * This method takes in as an input the column in the sqaure's map coordinates and returns the column in
-     * the element's coordinates in the data structure. 
-     * 
-     * @param column The column of the element's map coordinates.
-     */
-    public int getDataCol(int column)
-    {
-        return nx - column;
-    }
-    
-    /**
      * This method returns the number of dry squares adjacent to the square at map[row][col]
      * using the square's data coordinates.
      * 
@@ -111,102 +88,25 @@ public class GridMap
      * @return The number of dry neighbors
      */
     
-    public int getDryNeighbors(int row2, int col2)
+    public int getDryNeighbors(int row, int col)
     {
-        int row = getDataRow(row2); //gets the row for the element in the map's data structure
-        int col = getDataCol(col2); //gets the column for the element in the map's data structure
         int neighbors = 0; //the number of dry neighbors
         
-        /*
-         * If the element is in a corner then it can only have two neighbors.
-         */
-        
-        if(row == 0 && col == 0) //if it's in the top left of the map
-        {
-            if(isDry(0,1))
-                neighbors++;
-            if(isDry(1,0))
-                neighbors++;
-        }
-        else if(row == (ny - 1) && col == (nx - 1)) //if it's in the bottom right of the map
-        {
-            if(isDry(ny - 2,nx - 1))
-                neighbors++;
-            if(isDry(ny - 1,nx - 2))
-                neighbors++;
-        }
-        else if(row == (ny - 1) && col == 0)//if it's in the bottom left of the map
-        {
-            if(isDry(ny - 2,0))
-                neighbors++;
-            if(isDry(ny - 1,1))
-                neighbors++;
-        }
-        else if(row == 0 && col == (nx - 1))// if it's in the top right of the map
-        {
-            if(isDry(0,nx - 2))
-                neighbors++;
-            if(isDry(1, nx - 1))
-                neighbors++;
-        }
-            
-        /*
-         * If the element is on the side of the map, but not in the corner then it has only three 
-         * neighbors
-         */
-        
-        else if(row == 0) //if it's in the top row of the map
-        {
-            if(isDry(row,col - 1))
-                neighbors++;
-            if(isDry(row,col + 1))
-                neighbors++;
-            if(isDry(row + 1,col))
-                neighbors++;
-        }
-        else if(row == (ny - 1)) //if it's in the bottom row of the map
-        {
-            if(isDry(row,col - 1))
-                neighbors++;
-            if(isDry(row,col + 1))
-                neighbors++;
-            if(isDry(row - 1,col))
-                neighbors++;
-        }
-        else if(col == 0) // if it's on the left side of the map
-        {
-            if(isDry(row - 1,col))
-                neighbors++;
-            if(isDry(row + 1,col))
-                neighbors++;
-            if(isDry(row,col + 1))
-                neighbors++;
-        }
-        else if(col == (nx - 1)) //if it's on the right side of the map
-        {
-            if(isDry(row - 1,col))
-                neighbors++;
-            if(isDry(row + 1,col))
-                neighbors++;
-            if(isDry(row,col - 1))
-                neighbors++;
-        }
         
         /*
          * Finally for the general case where the square is not in a corner or on one of the sides
          * of the map
          */
-        else
-        {
-            if(isDry(row,col - 1))
-                neighbors++;
-            if(isDry(row,col + 1))
-                neighbors++;
-            if(isDry(row - 1,col))
-                neighbors++;
-            if(isDry(row + 1,col))
-                neighbors++;
-        }
+    
+        if(isDry(row,col - 1))
+            neighbors++;
+        if(isDry(row,col + 1))
+            neighbors++;
+        if(isDry(row - 1,col))
+            neighbors++;
+        if(isDry(row + 1,col))
+            neighbors++;
+   
         
         return neighbors;
     }
@@ -220,9 +120,9 @@ public class GridMap
      * @return True is the neighbor is dry. 
      */
     
-    public boolean isDry(int col, int row)
+    public boolean isDry(int row, int col)
     {
-        if(map[getDataRow(row)][getDataCol(col)] == 1)
+        if(map[row][col] == 1)
         {
             return true;
         }

@@ -19,7 +19,7 @@ public class Population
    private double k = .2; //hare diffusion rate
    private double l = .2; //puma diffusion rate 
    private double delta_t = .4; //the change in time
-   private int T = 1250; //the number of time steps between outputs
+   private double T = 1250; //the number of time steps between outputs
    private double t = 0; //the current time
    private int ny; //the number of rows
    private int nx; //the number of columns
@@ -43,7 +43,7 @@ public class Population
     }
     
     /**
-     * This method updates the population maps 
+     * This method updates the population maps according to the equation given in the assignment. 
      */
     
     public void updatePop()
@@ -56,13 +56,13 @@ public class Population
          * Below the new hare population map is calculated
          */
         
-        for(int i = 0; i < hareMap.length; i++)
+        for(int i = 1; i < (hareMap.length - 1); i++)
         {
-            for(int j = 0; j < hareMap[0].length; j++)
+            for(int j = 1; j < (hareMap[0].length - 1); j++)
             {
                 newHareMap[i][j] = hareMap[i][j] + delta_t * (r * hareMap[i][j] -
                 a * hareMap[i][j] * pumaMap[i][j] + 
-                k * (getAdjHarePops(getMapRow(i),getMapCol(j)) - map.getDryNeighbors(i,j) * hareMap[i][j]));
+                k * (getAdjHarePops(i,j) - map.getDryNeighbors(i,j) * hareMap[i][j]));
             }
         }
         
@@ -70,13 +70,13 @@ public class Population
          * Below the new puma population map is calculated
          */
         
-        for(int i = 0; i < pumaMap.length; i++)
+        for(int i = 1; i < (pumaMap.length - 1); i++)
         {
-            for(int j = 0; j < pumaMap[0].length; j++)
+            for(int j = 1; j < (pumaMap[0].length - 1); j++)
             {
                 newPumaMap[i][j] = pumaMap[i][j] + delta_t * (b * hareMap[i][j] * pumaMap[i][j] -
                 m * pumaMap[i][j] + 
-                l * (getAdjPumaPops(getMapRow(i),getMapCol(j)) - map.getDryNeighbors(i,j) * pumaMap[i][j]));
+                l * (getAdjPumaPops(i,j) - map.getDryNeighbors(i,j) * pumaMap[i][j]));
             }
         }
         
@@ -89,108 +89,30 @@ public class Population
     /**
      * This method returns the combined hare populations of all the squares adjacent to a given square.
      * 
-     * @param row1 The row of the given square's map coordinates.
-     * @param column1 The column of the given square's map coordinates.
+     * @param row The row of the given square's coordinates.
+     * @param col The column of the given square's coordinates.
      * 
      * @return The sum of the adjacent squares' hare populations. 
      */
     
-    public double getAdjHarePops(int row1, int column1)
+    public double getAdjHarePops(int row, int col)
     {
         //the coordinates are translated to the coordinates in the data structure
-        int row = getDataRow(row1);     
-        int col = getDataCol(column1);
         double adjPops = 0; //the sum of the adjacent hare populations
-        
-        /*
-         *  If the element is in a corner then it can only have two neighbors.
-         */
-        
-        if(row == 0 && col == 0) //if it's in the top left of the map
-        {
-            if(map.isDry(0,1))
-                adjPops += getHarePop(0,1);            
-            if(map.isDry(1,0))
-                adjPops += getHarePop(1,0);
-        }
-        else if(row == (ny - 1) && col == (nx - 1)) //if it's in the bottom right of the map
-        {
-            if(map.isDry(ny - 2,nx - 1))
-                adjPops += getHarePop(ny - 2,nx - 1);
-            if(map.isDry(ny - 1,nx - 2))
-                adjPops += getHarePop(ny - 1,nx - 2);
-        }
-        else if(row == (ny - 1) && col == 0)//if it's in the bottom left of the map
-        {
-            if(map.isDry(ny - 2,0))
-                adjPops += getHarePop(ny - 2,0);
-            if(map.isDry(ny - 1,1))
-                adjPops += getHarePop(ny - 2,0);
-        }
-        else if(row == 0 && col == (nx - 1))
-        {
-            if(map.isDry(0,nx - 2))
-                adjPops += getHarePop(0,nx - 2);
-            if(map.isDry(1, nx - 1))
-                adjPops += getHarePop(0,nx - 2);
-        }
-        /*
-         * If the element is on the side of the map, but not in the corner then it has only three 
-         * neighbors
-         */
-        
-        else if(row == 0) //if it's in the top row of the map
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getHarePop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getHarePop(row,col + 1);
-            if(map.isDry(row + 1,col))
-                adjPops += getHarePop(row + 1,col);
-        }
-        else if(row == (ny - 1)) //if it's in the bottom row of the map
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getHarePop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getHarePop(row,col + 1);
-            if(map.isDry(row - 1,col))
-                adjPops += getHarePop(row - 1,col);
-        }
-        else if(col == 0) // if it's on the left side of the map
-        {
-            if(map.isDry(row - 1,col))
-               adjPops += getHarePop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getHarePop(row + 1,col);
-            if(map.isDry(row,col + 1))
-                adjPops += getHarePop(row,col + 1);
-        }
-        else if(col == (nx - 1)) //if it's on the right side of the map
-        {
-            if(map.isDry(row - 1,col))
-                adjPops += getHarePop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getHarePop(row + 1,col);
-            if(map.isDry(row,col - 1))
-                adjPops += getHarePop(row,col - 1);
-        }
         
         /*
          * Finally for the general case where the square is not in a corner or on one of the sides
          * of the map
          */
-        else
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getHarePop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getHarePop(row,col + 1);
-            if(map.isDry(row - 1,col))
-                adjPops += getHarePop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getHarePop(row + 1,col);
-        }
+        
+        if(map.isDry(row,col - 1))
+            adjPops += getHarePop(row,col - 1);
+        if(map.isDry(row,col + 1))
+            adjPops += getHarePop(row,col + 1);
+        if(map.isDry(row - 1,col))
+            adjPops += getHarePop(row - 1,col);
+        if(map.isDry(row + 1,col))
+            adjPops += getHarePop(row + 1,col);
         
         return adjPops;
     }  
@@ -198,108 +120,30 @@ public class Population
     /**
      * This method returns the combined puma populations of all the squares adjacent to a given square.
      * 
-     * @param row1 The row of the given square's map coordinates. 
-     * @param column1 The column of the given square's map coordinates.
+     * @param row The row of the given square's coordinates. 
+     * @param col The column of the given square's coordinates.
      * 
      * @return The sum of the adjacent squares' puma populations. 
      */
     ///
-    public double getAdjPumaPops(int row1, int column1)
+    public double getAdjPumaPops(int row, int col)
     {
         //the coordinates are translated to the coordinates in the data structure
-        int row = getDataRow(row1);     
-        int col = getDataCol(column1);
         double adjPops = 0; //the sum of the adjacent hare populations
-        
-        /*
-         *  If the element is in a corner then it can only have two neighbors.
-         */
-        
-        if(row == 0 && col == 0) //if it's in the top left of the map
-        {
-            if(map.isDry(0,1))
-                adjPops += getPumaPop(0,1);            
-            if(map.isDry(1,0))
-                adjPops += getPumaPop(1,0);
-        }
-        else if(row == (ny - 1) && col == (nx - 1)) //if it's in the bottom right of the map
-        {
-            if(map.isDry(ny - 2,nx - 1))
-                adjPops += getPumaPop(ny - 2,nx - 1);
-            if(map.isDry(ny - 1,nx - 2))
-                adjPops += getPumaPop(ny - 1,nx - 2);
-        }
-        else if(row == (ny - 1) && col == 0)//if it's in the bottom left of the map
-        {
-            if(map.isDry(ny - 2,0))
-                adjPops += getPumaPop(ny - 2,0);
-            if(map.isDry(ny - 1,1))
-                adjPops += getPumaPop(ny - 2,0);
-        }
-        else if(row == 0 && col == (nx - 1))
-        {
-            if(map.isDry(0,nx - 2))
-                adjPops += getPumaPop(0,nx - 2);
-            if(map.isDry(1, nx - 1))
-                adjPops += getPumaPop(0,nx - 2);
-        }
-        /*
-         * If the element is on the side of the map, but not in the corner then it has only three 
-         * neighbors
-         */
-        
-        else if(row == 0) //if it's in the top row of the map
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getPumaPop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getPumaPop(row,col + 1);
-            if(map.isDry(row + 1,col))
-                adjPops += getPumaPop(row + 1,col);
-        }
-        else if(row == (ny - 1)) //if it's in the bottom row of the map
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getPumaPop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getPumaPop(row,col + 1);
-            if(map.isDry(row - 1,col))
-                adjPops += getPumaPop(row - 1,col);
-        }
-        else if(col == 0) // if it's on the left side of the map
-        {
-            if(map.isDry(row - 1,col))
-               adjPops += getPumaPop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getPumaPop(row + 1,col);
-            if(map.isDry(row,col + 1))
-                adjPops += getPumaPop(row,col + 1);
-        }
-        else if(col == (nx - 1)) //if it's on the right side of the map
-        {
-            if(map.isDry(row - 1,col))
-                adjPops += getPumaPop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getPumaPop(row + 1,col);
-            if(map.isDry(row,col - 1))
-                adjPops += getPumaPop(row,col - 1);
-        }
         
         /*
          * Finally for the general case where the square is not in a corner or on one of the sides
          * of the map
          */
-        else
-        {
-            if(map.isDry(row,col - 1))
-                adjPops += getPumaPop(row,col - 1);
-            if(map.isDry(row,col + 1))
-                adjPops += getPumaPop(row,col + 1);
-            if(map.isDry(row - 1,col))
-                adjPops += getPumaPop(row - 1,col);
-            if(map.isDry(row + 1,col))
-                adjPops += getPumaPop(row + 1,col);
-        }
+        
+        if(map.isDry(row,col - 1))
+            adjPops += getPumaPop(row,col - 1);
+        if(map.isDry(row,col + 1))
+            adjPops += getPumaPop(row,col + 1);
+        if(map.isDry(row - 1,col))
+            adjPops += getPumaPop(row - 1,col);
+        if(map.isDry(row + 1,col))
+            adjPops += getPumaPop(row + 1,col);
         
         return adjPops;
     }  
@@ -323,64 +167,13 @@ public class Population
      * coordinates can be used as inputs. 
      * 
      * @param row The row.
-     * @param column The column.
+     * @param col The column.
      * 
      * @return The puma population of the square.
      */
-    public double getPumaPop(int row, int column)
+    public double getPumaPop(int row, int col)
     {
-        return pumaMap[row][column];
-    }
-    
-    /**
-     * This method takes in as an input the row the square's map coordinates and returns the row in the 
-     * element's coordinates in the data structure. 
-     * 
-     * @param row The row in the element's map coordinates.
-     */
-    
-    public int getDataRow(int row)
-    {
-        return ny - row;
-    }
-    
-    /**
-     * This method takes in as an input the column in the sqaure's map coordinates and returns the column in
-     * the element's coordinates in the data structure. 
-     * 
-     * @param column The column of the element's map coordinates. 
-     */
-    public int getDataCol(int column)
-    {
-        return nx - column;
-    }
-    
-    /**
-     * This method takes the column of the square's data structure coordinates and returns the
-     * equivalent map column.
-     * 
-     * @param column The data structure column number.
-     * 
-     * @return The map coordinate column number. 
-     */
-    
-    public int getMapCol(int column)
-    {
-        return nx - column;
-    }
-    
-    /**
-     * This method takes the row of the square's data structure coordinates and returns the
-     * equivalent map row.
-     * 
-     * @param row The data structure row number.
-     * 
-     * @return The map coordinate row number. 
-     */
-    
-    public int getMapRow(int row)
-    {
-        return ny - row;
+        return pumaMap[row][col];
     }
     
     /**
@@ -495,6 +288,8 @@ public class Population
     public void set_delta_t(double delta_t)
     {
         this.delta_t = delta_t;
+        
+        T = t / delta_t; //changing delta_t changes the value of T
     }
     
     /**
@@ -506,32 +301,34 @@ public class Population
     public void set_T(int T)
     {
         this.T = T;
+        
+        delta_t = t / T; //changing the value of T changes the value of delta_t
     }
     
     /**
      * This method sets the hare population at some given map coordinates.
      * 
      * @param newPop The new hare population.
-     * @param ny The row of the map.
-     * @param nx The column of the map. 
+     * @param row The row of the map.
+     * @param col The column of the map. 
      */
     
-    public void set_H(double newPop, int ny, int nx)
+    public void set_H(double newPop, int row, int col)
     {
-        hareMap[getDataRow(ny)][getDataCol(nx)] = newPop;
+        hareMap[row][col] = newPop;
     }
     
     /**
      * This method sets the puma population at some given map coordinates.
      * 
      * @param newPop The new puma population.
-     * @param ny The row of the map.
-     * @param nx The column of the map. 
+     * @param row The row of the map.
+     * @param col The column of the map. 
      */
     
-    public void set_P(double newPop, int ny, int nx)
+    public void set_P(double newPop, int row, int col)
     {
-        pumaMap[getDataRow(ny)][getDataCol(nx)] = newPop;
+        pumaMap[row][col] = newPop;
     }
     
     
