@@ -6,6 +6,9 @@
  * element at column 1 and row 1 is in the bottom left corner. Dry portions of land in the map are coded
  * with a 1 and water areas are coded with a zero.
  * 
+ * Note that this class like the GridMap class distinguishes between map coordinates and data
+ * (structure) coordinates where map coordinates, which are not defined the same. 
+ * 
  * @author (your name) 
  * @version (a version number or a date)
  */
@@ -76,28 +79,26 @@ public class GridMap
     }
     
     /**
-     * This method returns the row of the element as it is stored in the 2D array; because the map
-     * can't be stored in the program like it is represented in the model the coordinates in the data
-     * structure will be different from those in the map.
+     * This method takes in as an input the row the square's map coordinates and returns the row in the 
+     * element's coordinates in the data structure.
      * 
-     * @param nrow The row of the element in the map.
+     * @param row The row of the element in the map.
      */
     
-    public int getRow(int nrow)
+    public int getDataRow(int row)
     {
-        return ny - nrow;
+        return ny - row;
     }
     
     /**
-     * This method returns the column of the element as it is stored in the 2D array; because the map
-     * can't be stored in the program like it is represented in the model the coordinates in the data
-     * structure will be different from those in the map.
+     * This method takes in as an input the column in the sqaure's map coordinates and returns the column in
+     * the element's coordinates in the data structure. 
      * 
-     * @param ncol The row of the element in the map.
+     * @param column The column of the element's map coordinates.
      */
-    public int getCol(int ncol)
+    public int getDataCol(int column)
     {
-        return nx - ncol;
+        return nx - column;
     }
     
     /**
@@ -112,8 +113,8 @@ public class GridMap
     
     public int getDryNeighbors(int row2, int col2)
     {
-        int row = getRow(row2); //gets the row for the element in the map's data structure
-        int col = getCol(col2); //gets the column for the element in the map's data structure
+        int row = getDataRow(row2); //gets the row for the element in the map's data structure
+        int col = getDataCol(col2); //gets the column for the element in the map's data structure
         int neighbors = 0; //the number of dry neighbors
         
         /*
@@ -221,7 +222,7 @@ public class GridMap
     
     public boolean isDry(int col, int row)
     {
-        if(map[getRow(row)][getCol(col)] == 1)
+        if(map[getDataRow(row)][getDataCol(col)] == 1)
         {
             return true;
         }

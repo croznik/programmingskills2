@@ -2,6 +2,9 @@
 /**
  * The population class stores the population maps for pumas and hares.
  * 
+ * Note that this class like the GridMap class distinguishes between map coordinates and data
+ * (structure) coordinates where map coordinates, which are not defined the same. 
+ * 
  * @author (your name) 
  * @version (a version number or a date)
  */
@@ -30,7 +33,7 @@ public class Population
      * 
      * @param map The GridMap object representing the map of the area. 
      */
-    public Population(GridMap map) //test
+    public Population(GridMap map)
     {
         this.map = map;
         nx = map.getNCols();
@@ -95,8 +98,8 @@ public class Population
     public double getAdjHarePops(int row1, int column1)
     {
         //the coordinates are translated to the coordinates in the data structure
-        int row = getRow(row1);     
-        int col = getCol(column1);
+        int row = getDataRow(row1);     
+        int col = getDataCol(column1);
         double adjPops = 0; //the sum of the adjacent hare populations
         
         /*
@@ -204,8 +207,8 @@ public class Population
     public double getAdjPumaPops(int row1, int column1)
     {
         //the coordinates are translated to the coordinates in the data structure
-        int row = getRow(row1);     
-        int col = getCol(column1);
+        int row = getDataRow(row1);     
+        int col = getDataCol(column1);
         double adjPops = 0; //the sum of the adjacent hare populations
         
         /*
@@ -330,28 +333,26 @@ public class Population
     }
     
     /**
-     * This method returns the row of the element as it is stored in the 2D array; because the map
-     * can't be stored in the program like it is represented in the model the coordinates in the data
-     * structure will be different from those in the map.
+     * This method takes in as an input the row the square's map coordinates and returns the row in the 
+     * element's coordinates in the data structure. 
      * 
-     * @param nrow The row of the element in the map.
+     * @param row The row in the element's map coordinates.
      */
     
-    public int getRow(int nrow)
+    public int getDataRow(int row)
     {
-        return ny - nrow;
+        return ny - row;
     }
     
     /**
-     * This method returns the column of the element as it is stored in the 2D array; because the map
-     * can't be stored in the program like it is represented in the model the coordinates in the data
-     * structure will be different from those in the map.
+     * This method takes in as an input the column in the sqaure's map coordinates and returns the column in
+     * the element's coordinates in the data structure. 
      * 
-     * @param ncol The row of the element in the map.
+     * @param column The column of the element's map coordinates. 
      */
-    public int getCol(int ncol)
+    public int getDataCol(int column)
     {
-        return nx - ncol;
+        return nx - column;
     }
     
     /**
@@ -372,7 +373,7 @@ public class Population
      * This method takes the row of the square's data structure coordinates and returns the
      * equivalent map row.
      * 
-     * @param column The data structure row number.
+     * @param row The data structure row number.
      * 
      * @return The map coordinate row number. 
      */
@@ -517,7 +518,7 @@ public class Population
     
     public void set_H(double newPop, int ny, int nx)
     {
-        hareMap[getRow(ny)][getCol(nx)] = newPop;
+        hareMap[getDataRow(ny)][getDataCol(nx)] = newPop;
     }
     
     /**
@@ -530,7 +531,7 @@ public class Population
     
     public void set_P(double newPop, int ny, int nx)
     {
-        pumaMap[getRow(ny)][getCol(nx)] = newPop;
+        pumaMap[getDataRow(ny)][getDataCol(nx)] = newPop;
     }
     
     
