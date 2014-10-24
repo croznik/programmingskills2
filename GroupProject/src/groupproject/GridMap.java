@@ -32,6 +32,43 @@ public class GridMap{
     {
     }
     
+    public GridMap(int nrow, int ncol,String filename){
+     nx = nrow;
+     ny = ncol;
+     map = new int[nx][ny];
+     File file = new File(filename);
+     BufferedReader reader = null;
+    try
+     {
+          reader = new BufferedReader(new FileReader(file));
+          String tempString = null;
+          int line = -1;
+     while ((tempString = reader.readLine()) != null)
+     {
+      if (line == -1)
+     {
+       line++;
+       continue;
+       } 
+       String [] sArray = tempString.split(" ");//store the file to temp array
+       for(int j=0; j<nx; j++)
+    {
+       map[line][j]=Integer.parseInt(sArray[j]);//change string to int
+      }
+      line++;
+      }
+    reader.close();
+    } catch (IOException e) {
+    e.printStackTrace();
+    } finally {
+   if (reader != null) {
+      try {
+     reader.close();
+     } catch (IOException e1) {}
+  }
+ }
+}
+    
     /**
      * Constructor where a map can be created from a given number of input columns and rows and it
      * then randomly generates a map with those dimensions where (roughly) 25% of the map is water. 
