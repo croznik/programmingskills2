@@ -50,10 +50,10 @@ public GridMap(int nrow, int ncol,String filename)
            		line++; 
            		continue;
             }       
-            String [] sArray = tempString.split(" ");//store the file to temp array
+            String [] sArray = tempString.split(" ");
             for(int j=0; j<nx; j++)
             {
-                map[line][j]=Integer.parseInt(sArray[j]);//change string to int
+                map[line][j]=Integer.parseInt(sArray[j]);
             }    			
                 line++;
          }
