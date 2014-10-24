@@ -1,0 +1,277 @@
+package groupproject;
+/**
+ * The population class stores the population maps for pumas and hares.
+ * 
+ * Note that this class like the GridMap class distinguishes between map coordinates and data
+ * (structure) coordinates where map coordinates, which are not defined the same. 
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Population{
+    
+   private double[][] hares; //the density of hares (prey)
+   private double[][] pumas; //the density of pumas (predators)
+   private double delta_t = .4; //the change in time
+   private double T = 1250; //the number of time steps between outputs
+   private double t = 0; //the current time
+   private int ny; //the number of rows
+   private int nx; //the number of columns
+   private double[][] hareMap; //a 2D array representing the hare population densities for each square
+   private double[][] pumaMap; //a 2D array representing the puma population densities for each square
+   private GridMap map; //the geographic map showing what's land and water
+   private Puma pumaObj;
+   private Hare hareObj;
+   
+    /**
+     * This constructor creates a new object that is attached to a GridMap object that shows
+     * the geography of the map.
+     * 
+     * @param map The GridMap object representing the map of the area. 
+     */
+    public Population(GridMap map)
+    {
+        this.map = map;
+        nx = map.getNCols();
+        ny = map.getNRows();
+        hareMap = new double[ny][nx];
+        pumaMap = new double[ny][nx];
+        pumaObj = new Puma();
+        hareObj = new Hare();
+    }
+    
+    /**
+     * This method updates the population maps according to the equation given in the assignment. 
+     */
+    
+    public void updatePop()
+    {
+        //these 2D arrays will temporarily hold the new population maps
+        double[][] newHareMap = new double[ny][nx];
+        double[][] newPumaMap = new double[ny][nx];
+        
+        /*
+         * Below the new hare population map is calculated
+         */
+        
+        for(int i = 1; i < (hareMap.length - 1); i++)
+        {
+            for(int j = 1; j < (hareMap[0].length - 1); j++)
+            {
+                newHareMap[i][j] = hareMap[i][j] + delta_t * (hareObj.getBirthRate() * hareMap[i][j] -
+                pumaObj.getPredationRate() * hareMap[i][j] * pumaMap[i][j] + 
+                hareObj.getDiffusionRate() * (getAdjHarePops(i,j) - map.getDryNeighbors(i,j) * hareMap[i][j]));
+            }
+        }
+        
+        /*
+         * Below the new puma population map is calculated
+         */
+        
+        for(int i = 1; i < (pumaMap.length - 1); i++)
+        {
+            for(int j = 1; j < (pumaMap[0].length - 1); j++)
+            {
+                newPumaMap[i][j] = pumaMap[i][j] + delta_t * (pumaObj.getBirthRate() * hareMap[i][j] * pumaMap[i][j] -
+                pumaObj.getMortalityRate() * pumaMap[i][j] + 
+                pumaObj.getDiffusionRate() * (getAdjPumaPops(i,j) - map.getDryNeighbors(i,j) * pumaMap[i][j]));
+            }
+        }
+        
+        hareMap = newHareMap;
+        pumaMap = newPumaMap;
+        
+        
+        t += delta_t; //updatting the time
+    }
+    
+    /**
+     * This method returns the combined hare populations of all the squares adjacent to a given square.
+     * 
+     * @param row The row of the given square's coordinates.
+     * @param col The column of the given square's coordinates.
+     * 
+     * @return The sum of the adjacent squares' hare populations. 
+     */
+    
+    public double getAdjHarePops(int row, int col)
+    {
+        //the coordinates are translated to the coordinates in the data structure
+        double adjPops = 0; //the sum of the adjacent hare populations
+        
+        /*
+         * Finally for the general case where the square is not in a corner or on one of the sides
+         * of the map
+         */
+        
+        if(map.isDry(row,col - 1))
+            adjPops += getPop(hares,row,col - 1);
+        if(map.isDry(row,col + 1))
+            adjPops += getPop(hares,row,col + 1);
+        if(map.isDry(row - 1,col))
+            adjPops += getPop(hares,row - 1,col);
+        if(map.isDry(row + 1,col))
+            adjPops += getPop(hares,row + 1,col);
+        
+        return adjPops;
+    }  
+    
+    /**
+     * This method returns the combined puma populations of all the squares adjacent to a given square.
+     * 
+     * @param row The row of the given square's coordinates. 
+     * @param col The column of the given square's coordinates.
+     * 
+     * @return The sum of the adjacent squares' puma populations. 
+     */
+    ///
+    public double getAdjPumaPops(int row, int col)
+    {
+        //the coordinates are translated to the coordinates in the data structure
+        double adjPops = 0; //the sum of the adjacent hare populations
+        
+        /*
+         * Finally for the general case where the square is not in a corner or on one of the sides
+         * of the map
+         */
+        
+        if(map.isDry(row,col - 1))
+            adjPops += getPop(pumas,row,col - 1);
+        if(map.isDry(row,col + 1))
+            adjPops += getPop(pumas,row,col + 1);
+        if(map.isDry(row - 1,col))
+            adjPops += getPop(pumas,row - 1,col);
+        if(map.isDry(row + 1,col))
+            adjPops += getPop(pumas,row + 1,col);
+        
+        return adjPops;
+    }  
+    
+
+    
+    
+  public double getPredatorAverageDensity(){
+      
+      double pumaDens = getTotalPop(pumas)/(getTotalPop(pumas)+getTotalPop(hares));
+      
+      return pumaDens;
+  }
+  
+  public double getPreyAverageDensity(){
+      
+      double hareDens = getTotalPop(hares)/(getTotalPop(hares)+getTotalPop(pumas));
+      
+      return hareDens;
+  }
+   
+ public double getTotalDensity(){
+     
+     double out = getTotalPop(hares)+getTotalPop(pumas);
+     return out;
+ }
+              
+
+    /**
+     * This method prints out a graphical representation of the two population maps. 
+     * 
+     * @return Graphic representation of the two population maps.
+     */
+    
+    public String toString()
+    {
+        StringBuilder string = new StringBuilder();
+        
+        string.append("Hare Populations\n\n");
+        
+        for(int i = 0; i < hareMap.length; i++)
+        {
+            for(int j = 0; j < hareMap[0].length; j++)
+            {
+                string.append(hareMap[i][j] + " ");     //adds the number to the StringBuilder
+            }
+            
+            string.append("\n"); //starts a new line for the next row
+        }
+        
+        string.append("\nPuma Populations\n\n");
+        
+        for(int i = 0; i < pumaMap.length; i++)
+        {
+            for(int j = 0; j < pumaMap[0].length; j++)
+            {
+                string.append(pumaMap[i][j] + " ");     //adds the number to the StringBuilder
+            }
+            
+            string.append("\n"); //starts a new line for the next row
+        }
+        
+        return new String(string);
+    }
+    
+
+   
+    
+    /**
+     * This method sets the size of the time step.
+     * 
+     * @param delta_t The new time step.
+     */
+    
+    public void set_delta_t(double delta_t)
+    {
+        this.delta_t = delta_t;
+        
+        T = getT() / delta_t; //changing delta_t changes the value of T
+    }
+    
+    /**
+     * This method sets the number of time steps between outputs.
+     * 
+     * @param T The new number of time steps.
+     */
+    
+    public void set_T(int T)
+    {
+        this.T = T;
+        
+        delta_t = getT() / T; //changing the value of T changes the value of delta_t
+    }
+   
+ 
+    /**
+     * @return the t
+     */
+    public double getT() {
+        return t;
+    }
+    
+    //Method to return the population at a given point on a map
+    //Maybe not most natural place to put this
+    public double getPop(double[][] map, int i, int j){
+        return map[i][j];
+    }
+    
+    public double getTotalPop(double[][] map){
+        double totalPop = 0;
+        for(int i =0; i < nx;i++){
+            for(int j=0; j<ny;j++){
+                totalPop +=map[i][j];
+            }
+        }
+        return totalPop;
+    }
+   
+    public void setPop(double[][] map, double newPop, int i, int j){
+        map[i][j] = newPop;
+    }
+    
+    
+    public double[][] getPredatorMap(){
+        return pumas;
+    }
+        
+   
+    
+     
+    
+}
