@@ -1,14 +1,15 @@
-package groupproject;
+ 
 /**
  * The population class stores the population maps for pumas and hares.
  * 
  * Note that this class like the GridMap class distinguishes between map coordinates and data
  * (structure) coordinates where map coordinates, which are not defined the same. 
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
+ * @version 7 November 2014
  */
-public class Population{
+public class Population
+{
     
    private double[][] hares; //the density of hares (prey)
    private double[][] pumas; //the density of pumas (predators)
@@ -147,28 +148,35 @@ public class Population{
         return adjPops;
     }  
     
-
+    /**
+     * This get method returns the average predator density.
+     * 
+     * @return The average predator density.
+     */
+    public double getPredatorAverageDensity()
+    {
+      return getTotalPop(pumas) / (getTotalPop(pumas) + getTotalPop(hares));
+    }
     
+    /**
+     * This get method returns the average prey density.
+     * 
+     * @return The average prey density.
+     */
+    public double getPreyAverageDensity()
+    {
+      return getTotalPop(hares) / (getTotalPop(hares) + getTotalPop(pumas));
+    }
     
-  public double getPredatorAverageDensity(){
-      
-      double pumaDens = getTotalPop(pumas)/(getTotalPop(pumas)+getTotalPop(hares));
-      
-      return pumaDens;
-  }
-  
-  public double getPreyAverageDensity(){
-      
-      double hareDens = getTotalPop(hares)/(getTotalPop(hares)+getTotalPop(pumas));
-      
-      return hareDens;
-  }
-   
- public double getTotalDensity(){
-     
-     double out = getTotalPop(hares)+getTotalPop(pumas);
-     return out;
- }
+    /**
+     * This get method returns the total density for the entire landscape.
+     * 
+     * @return The total density for the landscape. 
+     */
+    public double getTotalDensity()
+    {
+        return getTotalPop(hares) + getTotalPop(pumas);
+    }
               
 
     /**
@@ -208,9 +216,6 @@ public class Population{
         return new String(string);
     }
     
-
-   
-    
     /**
      * This method sets the size of the time step.
      * 
@@ -237,41 +242,49 @@ public class Population{
         delta_t = getT() / T; //changing the value of T changes the value of delta_t
     }
    
- 
     /**
-     * @return the t
+     * @return The t
      */
-    public double getT() {
+    public double getT() 
+    {
         return t;
     }
     
     //Method to return the population at a given point on a map
     //Maybe not most natural place to put this
-    public double getPop(double[][] map, int i, int j){
+    public double getPop(double[][] map, int i, int j)
+    {
         return map[i][j];
     }
     
-    public double getTotalPop(double[][] map){
+    public double getTotalPop(double[][] map)
+    {
         double totalPop = 0;
-        for(int i =0; i < nx;i++){
-            for(int j=0; j<ny;j++){
-                totalPop +=map[i][j];
+        for(int i = 0; i < nx;i++)
+        {
+            for(int j = 0; j < ny;j++)
+            {
+                totalPop += map[i][j];
             }
         }
         return totalPop;
     }
    
-    public void setPop(double[][] map, double newPop, int i, int j){
+    /**
+     * This set method 
+     */
+    public void setPop(double[][] map, double newPop, int i, int j)
+    {
         map[i][j] = newPop;
     }
     
-    
-    public double[][] getPredatorMap(){
+    /**
+     * This get method returns the matrix holding the puma densities.
+     * 
+     * @return The field pumas holding the puma densities across the landscape.
+     */
+    public double[][] getPredatorMap()
+    {
         return pumas;
     }
-        
-   
-    
-     
-    
 }

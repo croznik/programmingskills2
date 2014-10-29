@@ -1,27 +1,32 @@
-package groupproject;
+ 
 
 import java.io.*;
-import java.util.Random;
+
+/**
+ * @version 7 November 2014
+ */
 public class TestDriver{
     
    public static void main(String[] arg)throws IOException
     {
         GridMap map = new GridMap(20,20);
-        
-        //GridMap map = new GridMap(50,50,"small.dat");//small.dat is in LREAN, just use this to test
         System.out.print(map.toString());
-        Random random = new Random();
-        PrintWriter out = new PrintWriter(new FileWriter("outTest.ppm"));
-        double[][] testMap = new double[500][500];
-        for(int i=0; i<testMap.length;i++){
-            for(int j=0; j<testMap[0].length; j++){
-                testMap[i][j] = random.nextDouble();
+        double[][] randomMap = new double[3][3];
+        for(int i =0; i <3;i++){
+            for(int j=0; j<3;j++){
+                randomMap[i][j] = Math.random();
             }
         }
-        System.out.println("");
-        PrintMethods.printPPMFile(out,1.0,testMap,2);
-        //System.out.print(PrintMethods.printPPMFile(out,1.0,testMap));
-    out.close();  
+        int[][] randomMap1 = PrintMethods.convertDensityMapToColorMap(randomMap,10.0,1,200);
+         for(int i =0; i <3;i++){
+            for(int j=0; j<3;j++){
+                System.out.print(randomMap1[i][j]+" ");
+            }
+            System.out.println("");
+        }
+         
+        PrintWriter out = new PrintWriter(new FileWriter("Test.txt"));
+        PrintMethods.printPPMFile(out, 5.0, randomMap);
+        out.close();
     }
-   
 }

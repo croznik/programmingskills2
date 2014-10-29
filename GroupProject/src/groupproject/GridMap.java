@@ -1,4 +1,7 @@
-package groupproject;
+ 
+import java.util.*;
+import java.io.*;
+
 /**
  * This class creates a map using a 2D array data structure; the assignment specifies that the grid has
  * ny rows and nx columns and each element is referred to by (nx,ny), the rows range from 1 to ny and
@@ -6,15 +9,13 @@ package groupproject;
  * element at column 1 and row 1 is in the bottom left corner. Dry portions of land in the map are coded
  * with a 1 and water areas are coded with a zero.
  * 
-  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * 
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik 
+ * @version 7 November 2014
  */
 
-import java.util.*;
-import java.io.*;
-
-public class GridMap{
+public class GridMap
+{
     
     private int[][] map;
     private int ny; //the number of rows
@@ -32,38 +33,51 @@ public class GridMap{
     {
     }
     
-    public GridMap(int nrow, int ncol,String filename){
-     nx = nrow;
-     ny = ncol;
-     map = new int[nx][ny];
-     File file = new File(filename);
-     BufferedReader reader = null;
+    /**
+     * This constructor creates a new GridMap object based on an incoming file. 
+     * 
+     * @param nrow The number of rows for the GridMap object.
+     * @param ncol The number of columns for the GridMap object. 
+     * @param fileName The name of the file containing the data for the landscape. 
+     */
+    
+    public GridMap(int nrow, int ncol,String fileName)
+    {
+        nx = nrow;
+        ny = ncol;
+        map = new int[nx][ny];
+        File file = new File(fileName);
+        BufferedReader reader = null;  
     try
-     {
+      { 
           reader = new BufferedReader(new FileReader(file));
           String tempString = null;
           int line = -1;
      while ((tempString = reader.readLine()) != null)
      {
-      if (line == -1)
-     {
-       line++;
-       continue;
-       } 
-       String [] sArray = tempString.split(" ");//store the file to temp array
-       for(int j=0; j<nx; j++)
-    {
-       map[line][j]=Integer.parseInt(sArray[j]);//change string to int
-      }
-      line++;
-      }
-    reader.close();
-    } catch (IOException e) {
-    e.printStackTrace();
-    } finally {
-   if (reader != null) {
-      try {
+         if (line == -1)
+         {
+             line++;
+             continue;
+         } 
+         String [] sArray = tempString.split(" ");//store the file to temp array
+        for(int j=0; j<nx; j++)
+        {
+            map[line][j]=Integer.parseInt(sArray[j]);//change string to int
+        }
+        line++;
+     }
      reader.close();
+    } catch (IOException e) 
+    {
+        e.printStackTrace();
+    } finally 
+    {
+        if (reader != null) 
+        {
+      try 
+      {
+          reader.close();
      } catch (IOException e1) {}
   }
  }
