@@ -32,25 +32,31 @@ public class Animal {
     }
     
        
-    public double getDiffusionRate(){
+    public double getDiffusionRate()
+    {
         return dRate;
     }
-    public double getBirthRate(){
+    public double getBirthRate()
+    {
         return bRate;
     }
-    public double getMortalityRate(){
+    public double getMortalityRate()
+    {
         return mRate;
     }
-    public double getPredationRate(){
+    public double getPredationRate()
+    {
         return pRate;
     }
     
-    public GridMap getMap(){
+    public GridMap getMap()
+    {
         return map;
     }
 
     //This is probably an ugly way to differentiate the types
-    public boolean isPredator(){
+    public boolean isPredator()
+    {
        boolean result = false;
       
        if(type.compareTo("prey")!=0 && type.compareTo("predator")!=0){
@@ -67,13 +73,16 @@ public class Animal {
     
     
   
-    public void setDiffusionRate(double dRate){
+    public void setDiffusionRate(double dRate)
+    {
         this.dRate=dRate;
     }
-    public void setBirthRate(double bRate){
+    public void setBirthRate(double bRate)
+    {
         this.bRate=bRate;
     }
-    public void setMortalityRate(double mRate){
+    public void setMortalityRate(double mRate)
+    {
         if(isPredator()==false){
             mRate=0.0;
             
@@ -86,7 +95,8 @@ public class Animal {
     //This is kind of a personal choice, either the predation rate is applied to prey so goes with prey
     //OR the predatation rate is something which the predator does to the prey hence goes with predator
     //I'm defining it using the latter for now but it can change
-    public void setPredationRate(double pRate){
+    public void setPredationRate(double pRate)
+    {
         if(isPredator()==false){
           pRate=0.0;
         }
@@ -95,11 +105,13 @@ public class Animal {
         }
     }
     
-    public void setType(String type){
+    public void setType(String type)
+    {
         this.type=type;
         }
     
-    public void setMap(GridMap map){
+    public void setMap(GridMap map)
+    {
         this.map=map;
-}
+    }
 }
