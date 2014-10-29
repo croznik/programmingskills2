@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 
 /**
  *
- * @author 
+ * @author Sarah E. Beggs
  */
 public class AnimalTest {
     
