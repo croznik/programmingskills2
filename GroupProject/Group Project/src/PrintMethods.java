@@ -10,24 +10,21 @@ import java.io.*;
  * @author s1023011
  * @version 7 November 2014
  */
-public class PrintMethods 
-{
+public class PrintMethods {
     
   
    //Prints average population at given time
-   public static void printDensityFile(PrintWriter outfile, Population p)
-   {
+   public static void printDensityFile(PrintWriter outfile, Population p){
        double predatorDens = p.getPredatorAverageDensity();
        double preyDens = p.getPreyAverageDensity();
        //Prints to file 1st column time, 2nd column predator density, 3rd column prey density
-       outfile.println(+p.get_t()+" "+predatorDens+" "+preyDens);   
+       outfile.println(+p.getT()+" "+predatorDens+" "+preyDens);   
        
    }
    
    //PPM file writer method. Almost complete just need to work out colour conversions.
    //Will get rid of totalDensity just place hol
-   public static void printPPMFile(PrintWriter outfile, double densityTotal, double[][] map)
-   {
+   public static void printPPMFile(PrintWriter outfile, double densityTotal, double[][] map){
        outfile.println("P3");
        outfile.println("");
        outfile.println(map.length+" "+map[0].length);
@@ -45,16 +42,14 @@ public class PrintMethods
    }
    
    //To convert to RBG value take density, normalize (divide by total) * multiply by 
-   public static int convertDensityToRGB(double number, double total, int maxRGB)
-   {
-       double colour = (number / total) * maxRGB;
+   public static int convertDensityToRGB(double number, double total, int maxRGB){
+       double colour = (number/total)*maxRGB;
        return (int)colour;
        
    }
    
    //Only converts one column to a color
-    public static int[][] convertDensityMapToColorMap(double[][] map, double total, int rgbColumn, int colorMax)
-    {
+    public static int[][] convertDensityMapToColorMap(double[][] map, double total, int rgbColumn, int colorMax){
         int[][] outArray = new int[map.length][3];
         for(int i=0; i<map.length;i++){
            outArray[i][rgbColumn] = PrintMethods.convertDensityToRGB(map[i][rgbColumn],total,colorMax);
@@ -80,4 +75,7 @@ public class PrintMethods
         
         return new String(string);
     }
+        
+       
+   
 }

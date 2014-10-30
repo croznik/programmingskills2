@@ -2,14 +2,17 @@
 /**
  * The population class stores the population maps for pumas and hares.
  * 
+ * Note that this class like the GridMap class distinguishes between map coordinates and data
+ * (structure) coordinates where map coordinates, which are not defined the same. 
+ * 
  * @author Sarah Beggs, Xiao Li, and Colum Roznik
  * @version 7 November 2014
  */
 public class Population
 {
     
-    //    private double[][] hares; //the density of hares (prey)
-    //    private double[][] pumas; //the density of pumas (predators)
+   private double[][] hares; //the density of hares (prey)
+   private double[][] pumas; //the density of pumas (predators)
    private double delta_t = .4; //the change in time
    private double T = 1250; //the number of time steps between outputs
    private double t = 0; //the current time
@@ -103,13 +106,13 @@ public class Population
          */
         
         if(map.isDry(row,col - 1))
-            adjPops += getPop(hareMap,row,col - 1); //hareMap was hares before
+            adjPops += getPop(hares,row,col - 1);
         if(map.isDry(row,col + 1))
-            adjPops += getPop(hareMap,row,col + 1); //hareMap was hares before
+            adjPops += getPop(hares,row,col + 1);
         if(map.isDry(row - 1,col))
-            adjPops += getPop(hareMap,row - 1,col); //hareMap was hares before
+            adjPops += getPop(hares,row - 1,col);
         if(map.isDry(row + 1,col))
-            adjPops += getPop(hareMap,row + 1,col); //hareMap was hares before
+            adjPops += getPop(hares,row + 1,col);
         
         return adjPops;
     }  
@@ -134,13 +137,13 @@ public class Population
          */
         
         if(map.isDry(row,col - 1))
-            adjPops += getPop(pumaMap,row,col - 1); //pumaMap was pumas before
+            adjPops += getPop(pumas,row,col - 1);
         if(map.isDry(row,col + 1))
-            adjPops += getPop(pumaMap,row,col + 1); //pumaMap was pumas before
+            adjPops += getPop(pumas,row,col + 1);
         if(map.isDry(row - 1,col))
-            adjPops += getPop(pumaMap,row - 1,col); //pumaMap was pumas before
+            adjPops += getPop(pumas,row - 1,col);
         if(map.isDry(row + 1,col))
-            adjPops += getPop(pumaMap,row + 1,col); //pumaMap was pumas before
+            adjPops += getPop(pumas,row + 1,col);
         
         return adjPops;
     }  
@@ -152,7 +155,7 @@ public class Population
      */
     public double getPredatorAverageDensity()
     {
-      return getTotalPop(pumaMap) / (getTotalPop(pumaMap) + getTotalPop(hareMap)); //hareMap was hares before //pumaMap was pumas before
+      return getTotalPop(pumas) / (getTotalPop(pumas) + getTotalPop(hares));
     }
     
     /**
@@ -162,7 +165,7 @@ public class Population
      */
     public double getPreyAverageDensity()
     {
-      return getTotalPop(hareMap) / (getTotalPop(hareMap) + getTotalPop(pumaMap)); //hareMap was hares before //pumaMap was pumas before
+      return getTotalPop(hares) / (getTotalPop(hares) + getTotalPop(pumas));
     }
     
     /**
@@ -172,7 +175,7 @@ public class Population
      */
     public double getTotalDensity()
     {
-        return getTotalPop(hareMap) + getTotalPop(pumaMap); //hareMap was hares before //pumaMap was pumas before
+        return getTotalPop(hares) + getTotalPop(pumas);
     }
               
 
@@ -223,7 +226,7 @@ public class Population
     {
         this.delta_t = delta_t;
         
-        T = get_t() / delta_t; //changing delta_t changes the value of T
+        T = getT() / delta_t; //changing delta_t changes the value of T
     }
     
     /**
@@ -236,29 +239,22 @@ public class Population
     {
         this.T = T;
         
-        delta_t = get_t() / T; //changing the value of T changes the value of delta_t
+        delta_t = getT() / T; //changing the value of T changes the value of delta_t
     }
    
     /**
-     * This value returns the value of t.
-     * 
-     * @return The t field. 
+     * @return The t
      */
-    public double get_t() 
+    public double getT() 
     {
         return t;
     }
     
-    /**
-     * This method gets the population for a given row and column of one of the density maps.
-     * 
-     * @param map Either the hareMap or the pumaMap matrices.
-     * @param row The row of the square.
-     * @param column The column of the square.
-     */
-    public double getPop(double[][] map, int row, int column)
+    //Method to return the population at a given point on a map
+    //Maybe not most natural place to put this
+    public double getPop(double[][] map, int i, int j)
     {
-        return map[row][column];
+        return map[i][j];
     }
     
     public double getTotalPop(double[][] map)
@@ -275,15 +271,11 @@ public class Population
     }
    
     /**
-     * This set method method assigns a new population to a particular square on the map.
-     * 
-     * @param map Either the hareMap or the pumaMap matrices.
-     * @param row The row of the square.
-     * @param column The column of the square.
+     * This set method 
      */
-    public void setPop(double[][] map, double newPop, int row, int column)
+    public void setPop(double[][] map, double newPop, int i, int j)
     {
-        map[row][column] = newPop;
+        map[i][j] = newPop;
     }
     
     /**
@@ -293,6 +285,6 @@ public class Population
      */
     public double[][] getPredatorMap()
     {
-        return pumaMap; //pumaMap was pumas before
+        return pumas;
     }
 }
