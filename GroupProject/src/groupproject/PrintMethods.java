@@ -36,7 +36,7 @@ public class PrintMethods
        //Print map to file with each square represented by a number that indicates a colour
        //double densityTotal = p.getTotalPop(map);
        
-       for(int i =0; i< map.length;i++){
+       for(int i = 0; i < map.length;i++){
            PrintMethods.convertDensityMapToColorMap(map, densityTotal, 1, 255);
            outfile.print(PrintMethods.toString(map)+" ");
        }
@@ -56,9 +56,10 @@ public class PrintMethods
     public static int[][] convertDensityMapToColorMap(double[][] map, double total, int rgbColumn, int colorMax)
     {
         int[][] outArray = new int[map.length][3];
-        for(int i=0; i<map.length;i++){
+        for(int i = 0; i < map.length;i++)
+        {
            outArray[i][rgbColumn] = PrintMethods.convertDensityToRGB(map[i][rgbColumn],total,colorMax);
-    }
+        }
         return outArray;
     }
     
