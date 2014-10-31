@@ -34,7 +34,7 @@ public class Puma extends Animal
     {
         super("predator", 0.2, 0.02);
          this.mRate = 0.06;
-         this.pRate =0.04;
+         this.pRate = 0.04;
     }
         
 }

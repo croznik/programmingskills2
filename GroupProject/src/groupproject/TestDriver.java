@@ -16,6 +16,7 @@ public class TestDriver
         Scanner cin = new Scanner(System.in);
         //GridMap map = new GridMap(20,20);
         //System.out.print(map.toString());
+        GridMap landscape;
         
         
         /*
@@ -34,58 +35,67 @@ public class TestDriver
             //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
             fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.txt");
             //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
+            
+            File file = new File(fileName);
+            Scanner inputFile = new Scanner(file);
+            
+            int nCol = inputFile.nextInt();
+            int nRow = inputFile.nextInt();
+            inputFile.close();
+            
+            landscape = new GridMap(nRow, nCol, fileName);
         }
         
-        System.out.print("Do you want to change the hare birth rate? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the hare birth rate? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new hare birth rate. \t");
         }
         
-        System.out.print("Do you want to change the predation rate at which pumas eat hares? Y for yes and N for no");
+        System.out.print("Do you want to change the predation rate at which pumas eat hares? Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new predation rate rate. \t");
         }
         
-        System.out.print("Do you want to change the puma birth rate? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the puma birth rate? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new puma birth rate. \t");
         }
         
-        System.out.print("Do you want to change the puma mortality rate? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the puma mortality rate? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new puma mortality rate. \t");
         }
         
-        System.out.print("Do you want to change the hare diffusion rate? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the hare diffusion rate? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new hare diffusion rate. \t");
         }
         
-        System.out.print("Do you want to change the puma diffusion rate? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the puma diffusion rate? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new puma diffusion rate. \t");
         }
         
-        System.out.print("Do you want to change the number to timesteps in the program? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the number to timesteps in the program? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
             System.out.print("Enter the new number of timesteps. \t");
         }
         
-        System.out.print("Do you want to change the puma population in a given square? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the puma population in a given square? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
@@ -96,7 +106,7 @@ public class TestDriver
             System.out.print("Enter the column:\t");
         }
         
-        System.out.print("Do you want to change the hare population in a given square? Enter Y for yes and N for no");
+        System.out.print("Do you want to change the hare population in a given square? Enter Y for yes and N for no:\t");
         yesNo = cin.nextLine().charAt(0);
         if(Character.toUpperCase(yesNo) == 'Y')
         {
