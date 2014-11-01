@@ -1,5 +1,3 @@
-package groupproject;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -19,7 +17,7 @@ public class Animal
     public double bRate; //birth rate
     public double mRate; //mortality rate
     public double pRate; //predation rate
-    
+    public GridMap map;
     
     /**
      * Constructor for super class -- applicable to prey, for predator can have another constructor
@@ -35,7 +33,7 @@ public class Animal
         this.bRate=bRate;
         mRate=0.0;
         pRate=0.0;
-       
+        map = null;
         
     }
     
@@ -79,7 +77,15 @@ public class Animal
         return pRate;
     }
     
-    
+    /**
+     * A get method that returns the GridMap object that represents the landscape/map.
+     * 
+     * @return The GridMap representing the landscape.
+     */
+    public GridMap getMap()
+    {
+        return map;
+    }
 
     /**
      * This method tells whether the animal is a predator or prey.
@@ -121,7 +127,7 @@ public class Animal
      */
     public void setBirthRate(double bRate)
     {
-        this.bRate=bRate;
+        this.bRate = bRate;
     }
     
     /**
@@ -133,11 +139,11 @@ public class Animal
     {
         if(isPredator() == false)
         {
-            mRate=0.0;
+            mRate = 0.0;
         }
         else
         {
-            this.mRate=mRate;
+            this.mRate = mRate;
         }
     }
     
@@ -175,5 +181,13 @@ public class Animal
         this.type = type;
     }
     
-   
+    /**
+     * This method sets a new GridMap object to represent the landscape for the animal. 
+     * 
+     * @param map The new GridMap object. 
+     */
+    public void setMap(GridMap map)
+    {
+        this.map = map;
+    }
 }
