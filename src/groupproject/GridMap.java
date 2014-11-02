@@ -18,10 +18,8 @@ public class GridMap
 {
     
     private int[][] map;
-    private int ny; //the number of rows
-    private int numRows;
-    private int nx; //the number of columns
-    private int numCols;
+    private int numRows; //the number of rows
+    private int numCols; //the number of columns
     
     /**
      * This constructor creates a new GridMap object based on an incoming file. 
@@ -131,9 +129,9 @@ public class GridMap
     {
        //the number of dry neighbors
         int up = 0;
-        int down =0;
-        int left =0;
-        int right =0;
+        int down = 0;
+        int left = 0;
+        int right = 0;
    
         /*
          * Finally for the general case where the square is not in a corner or on one of the sides
@@ -238,9 +236,5 @@ public class GridMap
     {
         return numRows;
     }
-    
-    
-    
-
 }
 

@@ -17,14 +17,13 @@ public class TestDriver
         Scanner cin = new Scanner(System.in);
         Random rand =  new Random();
         String printLocation;
-        //GridMap map = new GridMap(20,20);
-        //System.out.print(map.toString());
         GridMap landscape;
         Population population;
         long startTimer;
         Puma puma = new Puma();
         Hare hare = new Hare();
         int row, column;
+        int time;
         
         while(Character.toUpperCase(anotherSimulation) == 'Y')
         {
@@ -38,34 +37,31 @@ public class TestDriver
              * TestDriver step 1
              */
             
-            //         System.out.print("Do you want to read in a file to represent the landscape? Y for yes and N for no:\t");
-            //         yesNo = cin.nextLine().charAt(0);
-            //         if(Character.toUpperCase(yesNo) == 'Y')
-            {
-                System.out.println("What is the path of the file that you want to read in? \nThe file must be a .txt file.");
-                fileName = cin.nextLine();
-                
-                //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
-                fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.txt");
-                //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
-                
-                File file = new File(fileName);
-                Scanner inputFile = new Scanner(file);
-                
-                int nCol = inputFile.nextInt();
-                int nRow = inputFile.nextInt();
-                inputFile.close();
-                
-                /*
-                 * TestDriver step 2: Create GridMap Object
-                 */
-                landscape = new GridMap(nRow, nCol, fileName); 
-                
-                /*
-                 * TestDriver step 3: Create Population object
-                 */
-                population = new Population(landscape);        
-            }
+            
+            System.out.println("What is the path of the file that you want to read in? \nThe file must be a .txt file.");
+            fileName = cin.nextLine();
+            
+            //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
+            fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.txt");
+            //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
+            
+            File file = new File(fileName);
+            Scanner inputFile = new Scanner(file);
+            
+            int nCol = inputFile.nextInt();
+            int nRow = inputFile.nextInt();
+            inputFile.close();
+            
+            /*
+             * TestDriver step 2: Create GridMap Object
+             */
+            landscape = new GridMap(nRow, nCol, fileName); 
+            
+            /*
+             * TestDriver step 3: Create Population object
+             */
+            population = new Population(landscape);        
+            
             
             /*
              * TestDriver step 4: Lists the default values and asks user if he/she wants to change them.
@@ -77,6 +73,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new hare birth rate: \t");
                 hare.setBirthRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             System.out.print("Do you want to change the predation rate at which pumas eat hares from the default of 0.04?\nY for yes and N for no:\t");
@@ -85,6 +82,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new predation rate rate: \t");
                 puma.setPredationRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             System.out.print("Do you want to change the puma birth rate from the default of 0.02?\nEnter Y for yes and N for no:\t");
@@ -93,6 +91,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new puma birth rate: \t");
                 puma.setBirthRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             System.out.print("Do you want to change the puma mortality rate from the default of 0.06?\nEnter Y for yes and N for no:\t");
@@ -101,6 +100,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new puma mortality rate: \t");
                 puma.setMortalityRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             System.out.print("Do you want to change the hare diffusion rate from the default of 0.2?\nEnter Y for yes and N for no:\t");
@@ -109,6 +109,7 @@ public class TestDriver
             { 
                 System.out.print("Enter the new hare diffusion rate: \t");
                 hare.setDiffusionRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             System.out.print("Do you want to change the puma diffusion rate from the default of 0.2?\nEnter Y for yes and N for no:\t");
@@ -117,6 +118,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new puma diffusion rate: \t");
                 puma.setDiffusionRate(cin.nextDouble());
+                cin.nextLine();
             }
             
             /*
@@ -130,6 +132,7 @@ public class TestDriver
                 System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                 //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
                 population.set_numberTimeSteps(cin.nextDouble()); 
+                cin.nextLine();
             }
             
             /*
@@ -206,10 +209,28 @@ public class TestDriver
              * TestDriver step 9: Run a loop 500 times updates the population each time, printing it to the file,
              * and printing average densities each time. 
              */
-            
-            for(int i = 0; i < 500; i++)
+            population.set_t(0);
+            time = 0;
+            for(int timeStep = 0; timeStep < population.get_numberTimeSteps(); timeStep++)
             {
                 population.updatePop(puma, hare);
+                time++;
+                population.set_t(time);
+                
+                /*
+                 * Below here we want to print out to the file and print the
+                 * average density (whatever that is)
+                 */
+                
+                //print average density to a file
+                PrintMethods.printDensityFile(new PrintWriter(new File(printLocation)), population);
+                
+                //printing the pumas map
+                PrintMethods.printPPMFile(new PrintWriter(new File(printLocation)), 0.0, population.getPredatorMap());
+                
+                //printing the hares map
+                PrintMethods.printPPMFile(new PrintWriter(new File(printLocation)), 0.0, population.getPreyMap());
+                
             }
             
             
