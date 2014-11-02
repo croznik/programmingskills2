@@ -172,31 +172,16 @@ public class Population
      * @return Graphic representation of the two population maps.
      */
     
-    public String toString(double[][] map)
+    public static String toString(double[][] map)
     {
         StringBuilder string = new StringBuilder();
         
-        string.append("Hare Populations\n\n");
-        
-        for(int i = 0; i < hareMap.length; i++)
+        for(int i = 0; i < map.length; i++)
         {
-            for(int j = 0; j < hareMap[0].length; j++)
+            for(int j = 0; j < map[0].length; j++)
             {
-                string.append(hareMap[i][j] + " ");     //adds the number to the StringBuilder
+                string.append(map[i][j] + " "); //adds the number to the StringBuilder
             }
-            
-            string.append("\n"); //starts a new line for the next row
-        }
-        
-        string.append("\nPuma Populations\n\n");
-        
-        for(int i = 0; i < pumaMap.length; i++)
-        {
-            for(int j = 0; j < pumaMap[0].length; j++)
-            {
-                string.append(pumaMap[i][j] + " ");     //adds the number to the StringBuilder
-            }
-            
             string.append("\n"); //starts a new line for the next row
         }
         
