@@ -19,7 +19,9 @@ public class GridMap
     
     private int[][] map;
     private int ny; //the number of rows
+    private int numRows;
     private int nx; //the number of columns
+    private int numCols;
     
     /**
      * This constructor creates a new GridMap object based on an incoming file. 
@@ -31,9 +33,9 @@ public class GridMap
     
         public GridMap(int nrow, int ncol,String fileName)
         {
-            nx = nrow;
-            ny = ncol;
-            map = new int[nx][ny];
+            numRows = nrow;
+            numCols = ncol;
+            map = new int[numRows][numCols];
             File file = new File(fileName);
             BufferedReader reader = null;  
             try
@@ -49,9 +51,9 @@ public class GridMap
                      continue;
                  } 
              String [] sArray = tempString.split(" ");//store the file to temp array
-            for(int j=0; j<nx; j++)
+            for(int j = 0; j < numRows; j++)
                 {
-                    map[line][j]=Integer.parseInt(sArray[j]);//change string to int
+                    map[line][j] = Integer.parseInt(sArray[j]);//change string to int
                 }
             line++;
              }
@@ -82,16 +84,16 @@ public class GridMap
     {
         Random rand = new Random();
         
-        nx = nrow;
-        ny = ncol;
+        numRows = nrow;
+        numCols = ncol;
         
         //the map must dimensions must not exceed 2000 x 2000
-        if(nx > 2000)
-            nx = 2000;
-        if(ny > 2000)
-            ny = 2000;
+        if(numRows > 2000)
+            numRows = 2000;
+        if(numCols > 2000)
+            numCols = 2000;
         
-        map = new int[nx][ny];
+        map = new int[numRows][numCols];
         
         /*
          * Creating a map using the random number generator
@@ -223,7 +225,7 @@ public class GridMap
     
     public int getNCols()
     {
-        return nx;
+        return numCols;
     }
     
     /**
@@ -234,7 +236,7 @@ public class GridMap
     
     public int getNRows()
     {
-        return ny;
+        return numRows;
     }
     
     

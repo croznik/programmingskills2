@@ -56,15 +56,22 @@ public class TestDriver
                 int nRow = inputFile.nextInt();
                 inputFile.close();
                 
-                landscape = new GridMap(nRow, nCol, fileName); //TestDriver step 2: Create GridMap Object
-                population = new Population(landscape);        //TestDriver step 3: Create Population object
+                /*
+                 * TestDriver step 2: Create GridMap Object
+                 */
+                landscape = new GridMap(nRow, nCol, fileName); 
+                
+                /*
+                 * TestDriver step 3: Create Population object
+                 */
+                population = new Population(landscape);        
             }
             
             /*
              * TestDriver step 4: Lists the default values and asks user if he/she wants to change them.
              */
             
-            System.out.print("Do you want to change the hare birth rate from the default of 0.08? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the hare birth rate from the default of 0.08?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -72,7 +79,7 @@ public class TestDriver
                 hare.setBirthRate(cin.nextDouble());
             }
             
-            System.out.print("Do you want to change the predation rate at which pumas eat hares from the default of 0.04? Y for yes and N for no:\t");
+            System.out.print("Do you want to change the predation rate at which pumas eat hares from the default of 0.04?\nY for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -80,7 +87,7 @@ public class TestDriver
                 puma.setPredationRate(cin.nextDouble());
             }
             
-            System.out.print("Do you want to change the puma birth rate from the default of 0.02? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the puma birth rate from the default of 0.02?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -88,7 +95,7 @@ public class TestDriver
                 puma.setBirthRate(cin.nextDouble());
             }
             
-            System.out.print("Do you want to change the puma mortality rate from the default of 0.06? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the puma mortality rate from the default of 0.06?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -96,15 +103,15 @@ public class TestDriver
                 puma.setMortalityRate(cin.nextDouble());
             }
             
-            System.out.print("Do you want to change the hare diffusion rate from the default of 0.2? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the hare diffusion rate from the default of 0.2?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
-            {
+            { 
                 System.out.print("Enter the new hare diffusion rate: \t");
                 hare.setDiffusionRate(cin.nextDouble());
             }
             
-            System.out.print("Do you want to change the puma diffusion rate from the default of 0.2? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the puma diffusion rate from the default of 0.2?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -116,7 +123,7 @@ public class TestDriver
              * TestDriver step 5: Ask user to choose T (# of time steps)
              */
             
-            System.out.print("Do you want to change the number to timesteps in the program from 1,250? Enter Y for yes and N for no:\t");
+            System.out.print("Do you want to change the number to timesteps in the program from 1,250?\nEnter Y for yes and N for no:\t");
             yesNo = cin.nextLine().charAt(0);
             if(Character.toUpperCase(yesNo) == 'Y')
             {
@@ -124,18 +131,6 @@ public class TestDriver
                 //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
                 population.set_numberTimeSteps(cin.nextDouble()); 
             }
-            
-            System.out.print("Do you want to change the puma population in a given square? Enter Y for yes and N for no:\t");
-            yesNo = cin.nextLine().charAt(0);
-            if(Character.toUpperCase(yesNo) == 'Y')
-            {
-                System.out.print("Enter the new puma diffusion rate. \t");
-                
-                System.out.print("Enter the row:\t");
-                
-                System.out.print("Enter the column:\t");
-            }
-            
             
             /*
              * TestDriver step 6: How does the user want to initialize the simulation
@@ -182,7 +177,10 @@ public class TestDriver
                 {
                     for(int j = 0; j < landscape.getNCols(); j++)
                     {
-                        if(landscape.isDry(i,j)) //if the square is dry then a population of between 1 and 5 will be assigned
+                        /*
+                         * If the square is dry then a population of between 1 and 5 will be assigned
+                         */
+                        if(landscape.isDry(i,j))
                         {
                             population.setSquarePop("hare", rand.nextInt(5) + 1, i, j);
                             population.setSquarePop("puma", rand.nextInt(5) + 1, i, j);
