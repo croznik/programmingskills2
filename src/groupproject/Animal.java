@@ -19,6 +19,7 @@ public class Animal
     public double bRate; //birth rate
     public double mRate; //mortality rate
     public double pRate; //predation rate
+    public GridMap map;
     
     
     /**
@@ -30,11 +31,12 @@ public class Animal
      */
     public Animal(String type, double dRate, double bRate)
     {
-        this.type=type;
-        this.dRate=dRate;
-        this.bRate=bRate;
-        mRate=0.0;
-        pRate=0.0;
+        setType(type);
+        setDiffusionRate(dRate);
+        setBirthRate(bRate);
+        setMortalityRate(0.0);
+        setPredationRate(0.0);
+        map = null;
        
         
     }
@@ -67,6 +69,16 @@ public class Animal
     public double getMortalityRate()
     {
         return mRate;
+    }
+    
+     /**
+   * A get method that returns the GridMap object that represents the landscape/map.
+   *
+   * @return The GridMap representing the landscape.
+ */
+   public GridMap getMap()
+   {
+            return map;
     }
     
     /**
@@ -111,7 +123,10 @@ public class Animal
      */
     public void setDiffusionRate(double dRate)
     {
-        this.dRate=dRate;
+        if(dRate<0){
+            throw new IllegalArgumentException("Diffusion rate must be positive");
+        }
+        this.dRate = dRate;
     }
     
     /**
@@ -121,7 +136,10 @@ public class Animal
      */
     public void setBirthRate(double bRate)
     {
-        this.bRate=bRate;
+        if(bRate<0){
+            throw new IllegalArgumentException("Birth rate must be positive. For death rate use mortality rate");
+        }
+        this.bRate = bRate;
     }
     
     /**
@@ -131,13 +149,16 @@ public class Animal
      */
     public void setMortalityRate(double mRate)
     {
+        if(mRate<0){
+            throw new IllegalArgumentException("Mortality Rate must be positive. Use birth rate for births.");
+        }
         if(isPredator() == false)
         {
             mRate=0.0;
         }
         else
         {
-            this.mRate=mRate;
+            this.mRate = mRate;
         }
     }
     
@@ -155,6 +176,9 @@ public class Animal
      */
     public void setPredationRate(double pRate)
     {
+        if(pRate<0){
+            throw new IllegalArgumentException("Predation rate cannot be negative");
+        }
         if(isPredator() == false)
         {
             pRate = 0.0;
@@ -173,6 +197,16 @@ public class Animal
     public void setType(String type)
     {
         this.type = type;
+    }
+    
+     /**
+    * This method sets a new GridMap object to represent the landscape for the animal.
+    *
+    * @param map The new GridMap object.
+    */
+    public void setGripMap(GridMap map)
+    {
+        this.map = map;
     }
     
    
