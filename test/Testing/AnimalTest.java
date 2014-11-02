@@ -6,8 +6,7 @@ package Testing;
 
 import groupproject.*;
 import org.junit.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -42,6 +41,26 @@ public class AnimalTest {
       assertEquals("Test prey predation rate is 0.0", 0.0, animalObj.getPredationRate(),TOLERANCE);
       
   }
-    
+   
+   @Test(expected = IllegalArgumentException.class)
+   public void notNegativeBirthRate(){
+       animalObj = new Animal("prey", 0.0, -0.3);
+   }
+   @Test(expected = IllegalArgumentException.class)
+   public void notNegativeDiffusionRate(){
+       animalObj = new Animal("prey", -0.3,0.0);
+   }
+   
+   @Test(expected = IllegalArgumentException.class)
+   public void notNegativeMortalityRate(){
+       animalObj = new Animal("predator", 0.3,0.3);
+       animalObj.setMortalityRate(-0.4);
+   }
+   
+   @Test(expected = IllegalArgumentException.class)
+   public void notNegativePredationRate(){
+       animalObj = new Animal("predator",0.4,0.3);
+       animalObj.setPredationRate(-0.2);
+   }
 }
 
