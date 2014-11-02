@@ -1,5 +1,3 @@
-package groupproject;
-
  
 import java.util.*;
 import java.io.*;
@@ -21,19 +19,9 @@ public class GridMap
     
     private int[][] map;
     private int ny; //the number of rows
+    private int numRows;
     private int nx; //the number of columns
-    
-    /**
-     * This constructor takes in a bitmask ASCII file to create a new map.
-     * 
-     * @param nrow The number of rows for the map.
-     * @param ncol The number of columns for the map.
-     * @param file The incoming bitmask ASCII file.
-     */
-    
-    public GridMap(int nrow, int ncol,File file)
-    {
-    }
+    private int numCols;
     
     /**
      * This constructor creates a new GridMap object based on an incoming file. 
@@ -43,47 +31,47 @@ public class GridMap
      * @param fileName The name of the file containing the data for the landscape. 
      */
     
-    public GridMap(int nrow, int ncol,String fileName)
-    {
-        nx = nrow;
-        ny = ncol;
-        map = new int[nx][ny];
-        File file = new File(fileName);
-        BufferedReader reader = null;  
-    try
-      { 
-          reader = new BufferedReader(new FileReader(file));
-          String tempString = null;
-          int line = -1;
-     while ((tempString = reader.readLine()) != null)
-     {
-         if (line == -1)
-         {
-             line++;
-             continue;
-         } 
-         String [] sArray = tempString.split(" ");//store the file to temp array
-        for(int j=0; j<nx; j++)
+        public GridMap(int nrow, int ncol,String fileName)
         {
-            map[line][j]=Integer.parseInt(sArray[j]);//change string to int
-        }
-        line++;
-     }
-     reader.close();
-    } catch (IOException e) 
-    {
-        e.printStackTrace();
-    } finally 
-    {
-        if (reader != null) 
-        {
-      try 
-      {
-          reader.close();
-     } catch (IOException e1) {}
-  }
- }
-}
+            numRows = nrow;
+            numCols = ncol;
+            map = new int[numRows][numCols];
+            File file = new File(fileName);
+            BufferedReader reader = null;  
+            try
+             { 
+                  reader = new BufferedReader(new FileReader(file));
+                  String tempString = null;
+                  int line = -1;
+             while ((tempString = reader.readLine()) != null)
+             {
+             if (line == -1)
+                 {
+                     line++;
+                     continue;
+                 } 
+             String [] sArray = tempString.split(" ");//store the file to temp array
+            for(int j = 0; j < numRows; j++)
+                {
+                    map[line][j] = Integer.parseInt(sArray[j]);//change string to int
+                }
+            line++;
+             }
+             reader.close();
+             } catch (IOException e) 
+             {
+                e.printStackTrace();
+             } finally 
+             {
+                if (reader != null) 
+                {
+              try 
+              {
+                  reader.close();
+             } catch (IOException e1) {}
+          }
+         }
+    }
     
     /**
      * Constructor where a map can be created from a given number of input columns and rows and it
@@ -96,16 +84,16 @@ public class GridMap
     {
         Random rand = new Random();
         
-        nx = nrow;
-        ny = ncol;
+        numRows = nrow;
+        numCols = ncol;
         
         //the map must dimensions must not exceed 2000 x 2000
-        if(nx > 2000)
-            nx = 2000;
-        if(ny > 2000)
-            ny = 2000;
+        if(numRows > 2000)
+            numRows = 2000;
+        if(numCols > 2000)
+            numCols = 2000;
         
-        map = new int[nx][ny];
+        map = new int[numRows][numCols];
         
         /*
          * Creating a map using the random number generator
@@ -148,7 +136,8 @@ public class GridMap
         int right =0;
    
         /*
-         * General case with if statements to set the neighbour to zero if on a corner/edge as relevant
+         * Finally for the general case where the square is not in a corner or on one of the sides
+         * of the map
          */
     
         if(isDry(row,col - 1)){
@@ -236,7 +225,7 @@ public class GridMap
     
     public int getNCols()
     {
-        return nx;
+        return numCols;
     }
     
     /**
@@ -247,12 +236,11 @@ public class GridMap
     
     public int getNRows()
     {
-        return ny;
+        return numRows;
     }
     
     
     
 
 }
-
 

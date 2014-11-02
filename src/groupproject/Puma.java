@@ -1,5 +1,3 @@
-package groupproject;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -30,7 +28,7 @@ public class Puma extends Animal
     
     /**
      * The default constructor where the mortality and predation rates are 
-     * as set 
+     * the default values
      */
     public Puma()
     {

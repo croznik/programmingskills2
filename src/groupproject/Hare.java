@@ -1,5 +1,3 @@
-package groupproject;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,14 +12,14 @@ package groupproject;
 public class Hare extends Animal 
 {
     
-   //Creates a default Hare object with the initial conditions as in the problem sheet
-   //Death rate = 0.2, Birth rate = 0.08
+   /**
+    * This default constructor creates a new Hare object using the constructor from the Animal class
+    * and set the diffusion rate to 0.2 and the birth rate to 0.08.
+    */
     public Hare()
     {
         super("prey", 0.2, 0.08);
     }
-    
-   
         
         
         

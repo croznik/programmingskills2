@@ -1,5 +1,3 @@
-package groupproject;
-
  
 /**
  * The population class stores the population maps for pumas and hares.
@@ -13,8 +11,8 @@ public class Population
     //    private double[][] hares; //the density of hares (prey)
     //    private double[][] pumas; //the density of pumas (predators)
    private double delta_t = .4; //the change in time
-   private double T = 1250; //the number of time steps between outputs
-   private double t = 0; //the current time
+   private double numberTimeSteps = 1250; //the number of time steps between outputs
+   private double t = 500; //the current time
    private int ny; //the number of rows
    private int nx; //the number of columns
    private double[][] hareMap; //a 2D array representing the hare population densities for each square
@@ -36,15 +34,15 @@ public class Population
         ny = map.getNRows();
         hareMap = new double[ny][nx];
         pumaMap = new double[ny][nx];
-        pumaObj = new Puma();
-        hareObj = new Hare();
+        //         pumaObj = new Puma();
+        //         hareObj = new Hare();
     }
     
     /**
      * This method updates the population maps according to the equation given in the assignment. 
      */
     
-    public void updatePop()
+    public void updatePop(Puma pumaObj,Hare hareObj)
     {
         //these 2D arrays will temporarily hold the new population maps
         double[][] newHareMap = new double[ny][nx];
@@ -225,7 +223,7 @@ public class Population
     {
         this.delta_t = delta_t;
         
-        T = get_t() / delta_t; //changing delta_t changes the value of T
+        numberTimeSteps = get_t() / delta_t; //changing delta_t changes the value of T
     }
     
     /**
@@ -234,11 +232,11 @@ public class Population
      * @param T The new number of time steps.
      */
     
-    public void set_T(int T)
+    public void set_numberTimeSteps(double T)
     {
-        this.T = T;
+        numberTimeSteps = T;
         
-        delta_t = get_t() / T; //changing the value of T changes the value of delta_t
+        delta_t = get_t() / numberTimeSteps; //changing the value of T changes the value of delta_t
     }
    
     /**
@@ -283,9 +281,16 @@ public class Population
      * @param row The row of the square.
      * @param column The column of the square.
      */
-    public void setPop(double[][] map, double newPop, int row, int column)
+    public void setSquarePop(String pumaOrHare, double newPop, int row, int column)
     {
-        map[row][column] = newPop;
+        if(pumaOrHare == "puma")
+        {
+            pumaMap[row][column] = newPop;
+        }
+        else 
+        {
+            hareMap[row][column] = newPop;
+        }
     }
     
     /**
