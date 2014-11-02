@@ -7,9 +7,6 @@
  */
 public class Population
 {
-    
-    //    private double[][] hares; //the density of hares (prey)
-    //    private double[][] pumas; //the density of pumas (predators)
    private double delta_t = .4; //the change in time
    private double numberTimeSteps = 1250; //the number of time steps between outputs
    private double t; //the current time
@@ -175,7 +172,7 @@ public class Population
      * @return Graphic representation of the two population maps.
      */
     
-    public String toString()
+    public String toString(double[][] map)
     {
         StringBuilder string = new StringBuilder();
         
@@ -225,7 +222,7 @@ public class Population
      * @param T The new number of time steps.
      */
     
-    public void set_numberTimeSteps(double T)
+    public void setNumberTimeSteps(double T)
     {
         numberTimeSteps = T;
         
@@ -238,7 +235,7 @@ public class Population
      * @return The numberTimeSteps field.
      */
     
-    public double get_numberTimeSteps()
+    public double getNumberTimeSteps()
     {
         return numberTimeSteps;
     }

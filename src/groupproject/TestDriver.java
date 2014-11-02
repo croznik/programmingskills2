@@ -38,11 +38,11 @@ public class TestDriver
              */
             
             
-            System.out.println("What is the path of the file that you want to read in? \nThe file must be a .txt file.");
+            System.out.println("What is the path of the file that you want to read in?.");
             fileName = cin.nextLine();
             
             //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
-            fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.txt");
+            fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.dat");
             //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
             
             File file = new File(fileName);
@@ -131,7 +131,7 @@ public class TestDriver
             {
                 System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                 //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
-                population.set_numberTimeSteps(cin.nextDouble()); 
+                population.setNumberTimeSteps(cin.nextDouble()); 
                 cin.nextLine();
             }
             
@@ -185,8 +185,8 @@ public class TestDriver
                          */
                         if(landscape.isDry(i,j))
                         {
-                            population.setSquarePop("hare", rand.nextInt(5) + 1, i, j);
-                            population.setSquarePop("puma", rand.nextInt(5) + 1, i, j);
+                            population.setSquarePop("hare", rand.nextInt(6), i, j);
+                            population.setSquarePop("puma", rand.nextInt(6), i, j);
                         }
                     }
                 }
@@ -211,7 +211,7 @@ public class TestDriver
              */
             population.set_t(0);
             time = 0;
-            for(int timeStep = 0; timeStep < population.get_numberTimeSteps(); timeStep++)
+            for(int timeStep = 0; timeStep < population.getNumberTimeSteps(); timeStep++)
             {
                 population.updatePop(puma, hare);
                 time++;
@@ -232,31 +232,6 @@ public class TestDriver
                 PrintMethods.printPPMFile(new PrintWriter(new File(printLocation)), 0.0, population.getPreyMap());
                 
             }
-            
-            
-            double[][] randomMap = new double[3][3];
-            for(int i = 0; i < 3;i++)
-            {
-                for(int j = 0; j < 3;j++)
-                {
-                    randomMap[i][j] = Math.random();
-                }
-            }
-            
-            int[][] randomMap1 = PrintMethods.convertDensityMapToColorMap(randomMap,10.0,1,200);
-             for(int i = 0; i < 3;i++)
-             {
-                for(int j = 0; j < 3;j++)
-                {
-                    System.out.print(randomMap1[i][j]+" ");
-                }
-                System.out.println("");
-            }
-             
-            PrintWriter out = new PrintWriter(new FileWriter("Test.txt"));
-            PrintMethods.printPPMFile(out, 5.0, randomMap);
-            out.close();
-            
             
             /*
              * TestDriver step 10: Stop the timer and show how long the simulation took to run 
