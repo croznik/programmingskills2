@@ -1,18 +1,14 @@
-package groupproject; 
+  
 
 import java.util.*;
 import java.io.*;
 
 /**
  * 
- * This class creates a map using a 2D array data structure; the assignment specifies that the grid has
- * ny rows and nx columns and each element is referred to by (nx,ny), the rows range from 1 to ny and
- * the columns range from 1 to nx, and that the grid "starts" at the bottom left corner so that the
- * element at column 1 and row 1 is in the bottom left corner. Dry portions of land in the map are coded
+ * This class creates a map using a 2D array data structure where dry portions of land in the map are coded
  * with a 1 and water areas are coded with a zero.
  * 
- * 
- * @author Sarah Beggs, Xiao Li, and Colum Roznik 
+ * @author Colum Roznik 
  * @version 7 November 2014
  */
 

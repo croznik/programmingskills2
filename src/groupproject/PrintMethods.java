@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package groupproject;
+ 
 
 /**
  *
@@ -10,7 +10,8 @@ package groupproject;
  */
 import java.io.*;
 
-public class PrintMethods {
+public class PrintMethods 
+{
 
  
   //Prints average population densities at given time (can graph these to see behaviour

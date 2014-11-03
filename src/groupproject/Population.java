@@ -1,8 +1,8 @@
- package groupproject;
+  
 /**
  * The population class stores the population maps for pumas and hares.
  * 
- * @author Sarah Beggs, Xiao Li, and Colum Roznik
+ * @author Colum Roznik
  * @version 7 November 2014
  */
 public class Population
@@ -85,13 +85,7 @@ public class Population
     
     public double getAdjHarePops(int row, int col)
     {
-        //the coordinates are translated to the coordinates in the data structure
         double adjPops = 0; //the sum of the adjacent hare populations
-        
-        /*
-         * Finally for the general case where the square is not in a corner or on one of the sides
-         * of the map
-         */
         
         if(map.isDry(row,col - 1))
             adjPops += getPop(hareMap,row,col - 1); //hareMap was hares before
@@ -113,16 +107,9 @@ public class Population
      * 
      * @return The sum of the adjacent squares' puma populations. 
      */
-    ///
     public double getAdjPumaPops(int row, int col)
     {
-        //the coordinates are translated to the coordinates in the data structure
         double adjPops = 0; //the sum of the adjacent hare populations
-        
-        /*
-         * Finally for the general case where the square is not in a corner or on one of the sides
-         * of the map
-         */
         
         if(map.isDry(row,col - 1))
             adjPops += getPop(pumaMap,row,col - 1); //pumaMap was pumas before
@@ -167,16 +154,33 @@ public class Population
     }
     
     /**
-     * This method sets the time to a new time
-     * @param t  new time 
+     * This method sets the time to a new time.
+     * 
+     * @param t The new time.
      */
-    
-
     public void setTime(double t)
     {
-       this.t=t;
+       this.t = t;
     }
-
+    
+    /**
+     * This value returns the value of t.
+     * 
+     * @return The t field. 
+     */
+    public double getTime() 
+    {
+        return t;
+    }
+    
+    /**
+     * This static method prints out a String representation of an incoming
+     * 2-dimensional array. 
+     * 
+     * @param map The incoming 2-dimensional array.
+     * 
+     * @return A String holding a a representation of the 2-dimensional array.
+     */
     public static String toString(double[][] map)
     {
         StringBuilder string = new StringBuilder();
@@ -194,13 +198,11 @@ public class Population
 
     }
  
-    
     /**
      * This method sets the size of the time step.
      * 
      * @param delta_t The new time step.
      */
-    
     public void setDeltaT(double delta_t)
     {
         this.delta_t = delta_t;
@@ -213,7 +215,6 @@ public class Population
      * 
      * @param T The new number of time steps.
      */
-    
     public void setNumberTimeSteps(double T)
     {
         numberTimeSteps = T;
@@ -226,30 +227,9 @@ public class Population
      * 
      * @return The numberTimeSteps field.
      */
-    
     public double getNumberTimeSteps()
     {
         return numberTimeSteps;
-    }
-   
-    /**
-     * This value returns the value of t.
-     * 
-     * @return The t field. 
-     */
-    public double getTime() 
-    {
-        return t;
-    }
-    
-    /**
-     * This method sets the current time represented in the field t.
-     * 
-     * @param t The new current time.
-     */
-    public void set_t(int t)
-    {
-        this.t = t;
     }
     
     /**

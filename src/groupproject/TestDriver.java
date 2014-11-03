@@ -1,18 +1,19 @@
-package groupproject; 
+  
 
 import java.io.*;
 import java.util.*;
 
 /**
  * @version 7 November 2014
+ * @author Colum Roznik
  */
 public class TestDriver
 {
-    
    public static void main(String[] arg) throws IOException
     {
         char yesNo;
         char anotherSimulation = 'Y';
+        char assignMorePops = 'Y';
         String fileName;
         Scanner cin = new Scanner(System.in);
         Random rand =  new Random();
@@ -156,35 +157,58 @@ public class TestDriver
              */
             
             System.out.print("How do you want to start the simulation? Do you want to start by assigning hares and\n" +
-                             "pumas into a particular square? If so enter 1. If you want to start the simulation by\n" +
+                             "pumas into particular squares? If so enter 1. If you want to start the simulation by\n" +
                              "assigning random populations to each square in the landscape between 1 and 5 then enter\n" +
                              "another value besides 1:\t");
                              
             if(cin.nextLine().charAt(0) == '1')
             {
-                /*
-                 * Enter the puma population
-                 */
-                System.out.print("What is the row of the square where you want to assign a puma population?\t");
-                row = cin.nextInt();
+                while(Character.toUpperCase(assignMorePops) == 'Y')
+                {
+                    /*
+                     * Enter the puma population
+                     */
+                    System.out.print("What is the row of the square where you want to assign a puma population?\t");
+                    row = cin.nextInt();
+                    
+                    System.out.print("What is the column of the square?\t");
+                    column = cin.nextInt();
+                    
+                    System.out.print("And what population do you want to assign to that square?\t");
+                    if(landscape.isDry(row, column)) //only assigns the population to the square if it's dry
+                    {
+                        population.setSquarePop("puma", cin.nextDouble(), row, column);
+                    }
+                    
+                    System.out.print("Do you want to assign more puma populations into particular square?\nEnter Y for yes and N for no:\t");
+                    assignMorePops = cin.nextLine().charAt(0);
+                }
                 
-                System.out.print("What is the column of the square?\t");
-                column = cin.nextInt();
+                assignMorePops = 'Y';
                 
-                System.out.print("And what population do you want to assign to that square?\t");
-                population.setSquarePop("puma", cin.nextDouble(), row, column);
+                while(Character.toUpperCase(assignMorePops) == 'Y')
+                {
+                    
+                    /*
+                     * Enter the hare population
+                     */
+                    System.out.print("What is the row of the square where you want to assign a hare population?\t");
+                    row = cin.nextInt();
+                    
+                    System.out.print("What is the column of the square?\t");
+                    column = cin.nextInt();
+                    
+                    System.out.print("And what population do you want to assign to that square?\t");
+                    if(landscape.isDry(row, column)) //only assigns the population to the square if it's dry 
+                    {
+                        population.setSquarePop("hare", cin.nextDouble(), row, column);
+                    }
+                    
+                    System.out.print("Do you want to assign more hare populations into particular square?\nEnter Y for yes and N for no:\t");
+                    assignMorePops = cin.nextLine().charAt(0);
+                }
                 
-                /*
-                 * Enter the hare population
-                 */
-                System.out.print("What is the row of the square where you want to assign a hare population?\t");
-                row = cin.nextInt();
-                
-                System.out.print("What is the column of the square?\t");
-                column = cin.nextInt();
-                
-                System.out.print("And what population do you want to assign to that square?\t");
-                population.setSquarePop("hare", cin.nextDouble(), row, column);
+                assignMorePops = 'Y';
             }
             else
             {
@@ -226,7 +250,7 @@ public class TestDriver
              * and printing average densities each time. 
              */
 
-            time =0;
+            time = 0;
             //I've changed the constructor of population to make the default time 0 this is now redundant. 
             //population.setTime(0);
             
@@ -234,8 +258,8 @@ public class TestDriver
             {
                 population.updatePop(puma, hare);
                 //Only prints to file when timestep is a multiple of print time
-                int currentPrintTime =0;
-                if(timeStep%printTime == 0)
+                int currentPrintTime = 0;
+                if(timeStep % printTime == 0)
                 {
                     //Prints densities to file
                     PrintMethods.printDensityFile(densityOutFile, population);
@@ -257,11 +281,9 @@ public class TestDriver
                 
                 time++;
                 population.setTime(time);
-                
-                
             }
             
-                    /*
+            /*
              * TestDriver step 10: Stop the timer and show how long the simulation took to run 
              * The simulation ends right before this timer belows ends.
              */
@@ -278,6 +300,5 @@ public class TestDriver
         }
         
         densityOutFile.close();
-        
     }
 }
