@@ -1,4 +1,4 @@
- 
+package groupproject; 
 
 import java.io.*;
 import java.util.*;
@@ -17,14 +17,17 @@ public class TestDriver
         Scanner cin = new Scanner(System.in);
         Random rand =  new Random();
         String printLocation;
-        //GridMap map = new GridMap(20,20);
-        //System.out.print(map.toString());
+        //Will add something to allow the user to change this name
+        PrintWriter densityOutFile = new PrintWriter(new FileWriter("Density.txt"));
         GridMap landscape;
         Population population;
         long startTimer;
         Puma puma = new Puma();
         Hare hare = new Hare();
         int row, column;
+        int time;
+        //Default to 50, user can change
+        int printTime = 50;
         
         while(Character.toUpperCase(anotherSimulation) == 'Y')
         {
@@ -129,7 +132,16 @@ public class TestDriver
             {
                 System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                 //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
-                population.set_numberTimeSteps(cin.nextDouble()); 
+                population.setNumberTimeSteps(cin.nextDouble()); 
+            }
+            
+            System.out.println("Do you want to change how often the program prints to file");
+            yesNo = cin.nextLine().charAt(0);
+            if(Character.toUpperCase(yesNo)== 'Y')
+            {
+                System.out.print("Enter a number of times to print to file. This must be an integer and less than the total number of time steps: \t");
+                //Need to check this works correctly 
+                printTime = cin.nextInt();
             }
             
             /*
@@ -206,37 +218,42 @@ public class TestDriver
              * TestDriver step 9: Run a loop 500 times updates the population each time, printing it to the file,
              * and printing average densities each time. 
              */
+            time =0;
+            //I've changed the constructor of population to make the default time 0 this is now redundant. 
+            //population.setTime(0);
             
-            for(int i = 0; i < 500; i++)
+            for(int timeStep = 0; timeStep < population.getNumberTimeSteps(); timeStep++)
             {
                 population.updatePop(puma, hare);
-            }
-            
-            
-            double[][] randomMap = new double[3][3];
-            for(int i = 0; i < 3;i++)
-            {
-                for(int j = 0; j < 3;j++)
+                //Only prints to file when timestep is a multiple of print time
+                int currentPrintTime =0;
+                if(timeStep%printTime == 0)
                 {
-                    randomMap[i][j] = Math.random();
+                    //Prints densities to file
+                    PrintMethods.printDensityFile(densityOutFile, population);
+                    //Creates a name for this prints PPM files
+                    String hareFileName = "HarePPM" + Integer.toString(currentPrintTime) +".ppm";
+                    String pumaFileName = "PumaPPM" + Integer.toString(currentPrintTime) +".ppm";
+                    
+                    PrintWriter harePPMFile = new PrintWriter(new FileWriter(hareFileName));
+                    PrintWriter pumaPPMFile = new PrintWriter(new FileWriter(pumaFileName));
+                    //Prints PPM files
+                    PrintMethods.printPPMFile(pumaPPMFile, population.getTotalDensity(), population.getPredatorMap(), 0);
+                    PrintMethods.printPPMFile(harePPMFile, population.getTotalDensity(), population.getPreyMap(), 2);
+                    
+                    
+                    currentPrintTime++;
+                    pumaPPMFile.close();
+                    harePPMFile.close();
                 }
+                
+                time++;
+                population.setTime(time);
+                
+                
             }
             
-            int[][] randomMap1 = PrintMethods.convertDensityMapToColorMap(randomMap,10.0,1,200);
-             for(int i = 0; i < 3;i++)
-             {
-                for(int j = 0; j < 3;j++)
-                {
-                    System.out.print(randomMap1[i][j]+" ");
-                }
-                System.out.println("");
-            }
-             
-            PrintWriter out = new PrintWriter(new FileWriter("Test.txt"));
-            PrintMethods.printPPMFile(out, 5.0, randomMap);
-            out.close();
-            
-            
+                  
             /*
              * TestDriver step 10: Stop the timer and show how long the simulation took to run 
              * The simulation ends right before this timer belows ends.
@@ -252,5 +269,8 @@ public class TestDriver
             System.out.print("Do you want to run another simulation? Enter Y for yes and N for no:\t");
             anotherSimulation = cin.nextLine().charAt(0);
         }
+        
+        densityOutFile.close();
+        
     }
 }
