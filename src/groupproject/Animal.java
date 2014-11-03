@@ -1,3 +1,4 @@
+package groupproject;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -18,10 +19,7 @@ public class Animal
     public double mRate; //mortality rate
     public double pRate; //predation rate
     public GridMap map;
-<<<<<<< HEAD
-    
-=======
->>>>>>> fb288d49cbab9345afd35e2436d58a4faff9a347
+
     
     /**
      * Constructor for super class -- applicable to prey, for predator can have another constructor
@@ -32,7 +30,7 @@ public class Animal
      */
     public Animal(String type, double dRate, double bRate)
     {
-<<<<<<< HEAD
+
         setType(type);
         setDiffusionRate(dRate);
         setBirthRate(bRate);
@@ -40,14 +38,14 @@ public class Animal
         setPredationRate(0.0);
         map = null;
        
-=======
+
         this.type=type;
         this.dRate=dRate;
         this.bRate=bRate;
         mRate=0.0;
         pRate=0.0;
         map = null;
->>>>>>> fb288d49cbab9345afd35e2436d58a4faff9a347
+
         
     }
     
@@ -101,15 +99,7 @@ public class Animal
         return pRate;
     }
     
-    /**
-     * A get method that returns the GridMap object that represents the landscape/map.
-     * 
-     * @return The GridMap representing the landscape.
-     */
-    public GridMap getMap()
-    {
-        return map;
-    }
+
 
     /**
      * This method tells whether the animal is a predator or prey.
@@ -154,12 +144,10 @@ public class Animal
      */
     public void setBirthRate(double bRate)
     {
-<<<<<<< HEAD
+
         if(bRate<0){
             throw new IllegalArgumentException("Birth rate must be positive. For death rate use mortality rate");
         }
-=======
->>>>>>> fb288d49cbab9345afd35e2436d58a4faff9a347
         this.bRate = bRate;
     }
     
@@ -220,7 +208,7 @@ public class Animal
         this.type = type;
     }
     
-<<<<<<< HEAD
+
      /**
     * This method sets a new GridMap object to represent the landscape for the animal.
     *
@@ -231,8 +219,7 @@ public class Animal
         this.map = map;
     }
     
-   
-=======
+
     /**
      * This method sets a new GridMap object to represent the landscape for the animal. 
      * 
@@ -242,5 +229,5 @@ public class Animal
     {
         this.map = map;
     }
->>>>>>> fb288d49cbab9345afd35e2436d58a4faff9a347
+
 }
