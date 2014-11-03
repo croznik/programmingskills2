@@ -175,7 +175,7 @@ public class Population
     public void setTime(double t)
     {
        this.t=t;
-    
+    }
 
     public static String toString(double[][] map)
     {
@@ -240,15 +240,6 @@ public class Population
     public double getTime() 
     {
         return t;
-    }
-    /**
-     * This returns the number of time steps
-     * @return T (Number of time steps)
-     */
-    
-    public double getNumberTimeSteps()
-    {
-        return numberTimeSteps;
     }
     
     /**
