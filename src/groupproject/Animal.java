@@ -19,7 +19,7 @@ public class Animal
     public double bRate; //birth rate
     public double mRate; //mortality rate
     public double pRate; //predation rate
-    public GridMap map;
+    
 
     
     /**
@@ -31,32 +31,15 @@ public class Animal
      */
     public Animal(String type, double dRate, double bRate)
     {
-<<<<<<< HEAD
 
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         setType(type);
         setDiffusionRate(dRate);
         setBirthRate(bRate);
         setMortalityRate(0.0);
         setPredationRate(0.0);
-        map = null;
-<<<<<<< HEAD
-       
-
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
-        this.type=type;
-        this.dRate=dRate;
-        this.bRate=bRate;
         mRate=0.0;
         pRate=0.0;
-        map = null;
-<<<<<<< HEAD
 
-        
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
     }
     
     /**
@@ -98,11 +81,7 @@ public class Animal
     {
         return pRate;
     }
-<<<<<<< HEAD
-    
 
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 
     /**
      * This method tells whether the animal is a predator or prey.
@@ -147,10 +126,7 @@ public class Animal
      */
     public void setBirthRate(double bRate)
     {
-<<<<<<< HEAD
 
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         if(bRate<0){
             throw new IllegalArgumentException("Birth rate must be positive. For death rate use mortality rate");
         }
@@ -210,30 +186,9 @@ public class Animal
     {
         this.type = type;
     }
-<<<<<<< HEAD
+
     
 
-     /**
-    * This method sets a new GridMap object to represent the landscape for the animal.
-    *
-    * @param map The new GridMap object.
-    */
-    public void setGripMap(GridMap map)
-    {
-        this.map = map;
-    }
-    
 
-    /**
-     * This method sets a new GridMap object to represent the landscape for the animal. 
-     * 
-     * @param map The new GridMap object. 
-     */
-    public void setMap(GridMap map)
-    {
-        this.map = map;
-    }
 
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 }
