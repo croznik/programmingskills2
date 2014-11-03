@@ -25,20 +25,11 @@ public class Population
     public Population(GridMap map)
     {
         this.map = map;
-<<<<<<< HEAD
-        nx = map.getNCols();
-        ny = map.getNRows();
-        t =0;
-        hareMap = new double[ny][nx];
-        pumaMap = new double[ny][nx];
-        //         pumaObj = new Puma();
-        //         hareObj = new Hare();
-=======
         nCols = map.getNCols();
         nRows = map.getNRows();
         hareMap = new double[nRows][nCols];
         pumaMap = new double[nRows][nCols];
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
+
     }
     
     /**
@@ -180,12 +171,12 @@ public class Population
      * @param t  new time 
      */
     
-<<<<<<< HEAD
+
     public void setTime(double t)
     {
        this.t=t;
     
-=======
+
     public static String toString(double[][] map)
     {
         StringBuilder string = new StringBuilder();
@@ -200,7 +191,7 @@ public class Population
         }
         
         return new String(string);
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
+
     }
  
     
@@ -324,13 +315,6 @@ public class Population
         return pumaMap; //pumaMap was pumas before
     }
     
-<<<<<<< HEAD
-    public double [][] getPreyMap(){
-        return hareMap;
-    }
-    
-    
-=======
     /**
      * This get method returns the matrix holding the hare densities.
      * 
@@ -340,5 +324,4 @@ public class Population
     {
         return hareMap; 
     }
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 }
