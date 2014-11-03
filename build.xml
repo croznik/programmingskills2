@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+
+<project name="Programmingskills2" default="all" basedir=".">
+
+  <description>
+  ANT build file groupproject (developed with Java 1.7.0, JUnit 4,
+  ANT 1.7.1)
+
+  Put source code in a src/directory.
+
+  Put JUnit test code in a test/directory.
+ 
+  Run
+    ant jar to compile and JAR src/code into a JAR in lib/.
+    ant jarTests to compile and JAR test/code into a JAR in lib/.
+    ant runTests to run tests.   
+  </description>
+
+  <property file="ant.properties"/>
+  <!-- Libraries -->
+  <property name="lib.dir" value="lib"/>
+  <!-- Source directories. -->
+  <property name="src.dir" value="src"/>
+  <property name="test.src.dir" value="test"/>
+  <!-- Build directories. -->
+  <property name="build.dir" value="build"/>
+  <property name="build.classes.dir" value="${build.dir}/bin"/> 
+  <property name="test.classes.dir" value="${build.dir}/test-bin"/> 
+  <property name="test.report.xml.dir" 
+            value="${build.dir}/test-xml"/> 
+  <property name="test.report.html.dir" 
+            value="${build.dir}/test-html"/> 
+
+  <!-- Build control. -->
+  <property name="java.debug" value="on"/>
+  <property name="java.deprecation" value="off"/>
+  <property name="compiler.jvmarg" value=""/>
+
+  <!-- JAR names -->
+  <property name="jar.name" value="groupwork.jar"/>
+  <property name="test.jar.name" value="groupwork-test.jar"/>
+
+  <!-- CLASSPATH -->
+  <path id="classpath">
+    <pathelement path="${build.classes.dir}"/>
+    <pathelement path="${test.classes.dir}"/>
+    <pathelement path="lib/junit-4.10.jar"/>
+    <pathelement path="lib/hamcrest-core-1.3.jar"/>
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- Make build directory. -->
+  <target name="init" description="Make build directory" depends="clean">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes.dir}"/>
+    <mkdir dir="${test.classes.dir}"/>
+    <mkdir dir="${lib.dir}"/>
+  </target>
+
+  <!-- Remove build directory. -->
+  <target name="clean" description="Remove build directory">
+    <delete dir="${build.dir}"/>
+    <delete>
+      <fileset dir="${lib.dir}">
+        <include name="**/groupwork*.jar"/>
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+    </delete>
+  </target>
+
+  <!-- Compile code. -->
+  <target name="compile" description="Compile code" depends="init">
+    <compile src="${src.dir}" bin="${build.classes.dir}"
+             classpathref="classpath"/>
+  </target>
+
+  <!-- JAR classes. -->
+  <target name="jar" description="JAR classes"
+          depends="compile, createManifest">
+    <makeJAR bin="${build.classes.dir}" lib="${lib.dir}" name="${jar.name}"
+             manifest="${build.dir}/MANIFEST.MF"/>
+  </target>
+
+  <!-- run source code.-->
+  <target name="run" depends="jar">
+    <java classname="groupproject.TestDriver">
+      
+      <classpath>
+       <pathelement path="${build.classes.dir}"/>
+      </classpath> 
+    </java>
+  </target>
+
+  <!-- Compile tests. -->
+  <target name="compileTests" description="Compile tests" depends="jar">
+   <compile src="${test.src.dir}" 
+             bin="${test.classes.dir}"
+             classpathref="classpath"/>
+  </target>
+
+  <!-- JAR test classes. -->
+  <target name="jarTests" 
+          description="JAR test classes"
+          depends="compileTests, createManifest">
+    <makeJAR bin="${test.classes.dir}" lib="${lib.dir}" 
+             name="${test.jar.name}"
+             manifest="${build.dir}/MANIFEST.MF"/>
+  </target>
+
+  <!-- Run tests. -->
+  <target name="runTests" 
+          description="Run tests"
+          depends="compileTests">
+    <runTests src="${test.src.dir}"
+              xmlReports="${test.report.xml.dir}"
+              htmlReports="${test.report.html.dir}"
+              classpathref="classpath"/>
+    <antcall target="testReport">
+      <param name="base.dir" value="${base.dir}"/>
+      <param name="xml.dir" value="${test.report.xml.dir}"/>
+      <param name="html.dir" value="${test.report.html.dir}"/>
+    </antcall>
+  </target>
+
+  <!-- Create JAR manifest -->
+  <target name="createManifest" 
+          description="Create JAR manifest">
+    <mkdir dir="${build.dir}"/>
+    <tstamp>
+      <format property="build.time" pattern="EEE d MMMM yyyy HH:mm"/>
+    </tstamp>
+    <manifest file="${build.dir}/MANIFEST.MF">
+      <attribute name="Built-By" value="${user.name}"/>
+      <attribute name="Built-At" value="${build.time}"/>
+    </manifest>
+  </target>
+
+  <!-- Convert ANT junit XML reports into HTML. -->
+  <target name="testReport"
+          description="Convert ANT junit XML reports into HTML">
+    <mkdir dir="${html.dir}"/>
+    <!-- Destination of aggregated XML report -->
+    <junitreport todir="${xml.dir}">
+      <fileset dir="${xml.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report todir="${html.dir}"/>
+    </junitreport>
+  </target>
+
+  <!-- MACRO-DEFs -->
+
+  <!--
+    compile macro-def. Compile Java code.
+
+    The attributes are:
+    -src - source directory.
+    -bin - binary directory.
+    -classpathref - CLASSPATH reference.
+  -->
+  <macrodef name="compile">
+    <attribute name="src"/>
+    <attribute name="bin"/>
+    <attribute name="classpathref"/>
+    <sequential>
+      <mkdir dir="@{bin}"/>
+      <javac srcdir="@{src}" 
+             destdir="@{bin}"
+             debug="${java.debug}"
+             deprecation="${java.deprecation}"
+             classpathref="@{classpathref}">
+        <include name="**/*.java"/>
+        <compilerarg line="${compiler.jvmarg}"/>
+      </javac>
+    </sequential>
+  </macrodef>
+
+  <!--
+    makeJAR macro-def. JAR compiled Java code adding timestamp
+    and manifest.
+
+    The attributes are:
+    -bin - binary directory.
+    -lib - library directory.
+    -name - JAR name.
+    -manifest - MANIFEST file location.
+  -->
+  <macrodef name="makeJAR">
+    <attribute name="bin"/>
+    <attribute name="lib"/>
+    <attribute name="name"/>
+    <attribute name="manifest"/>
+    <sequential>
+      <mkdir dir="@{lib}"/>
+      <!-- 
+        Make a binary directory if none is there. The skip below
+        avoids empty JARs anyway.
+      -->
+      <mkdir dir="@{bin}"/>
+      <tstamp>
+        <format property="build.time" pattern="EEE d MMMM yyyy HH:mm"/>
+      </tstamp>
+      <jar destfile="@{lib}/@{name}" 
+           basedir="@{bin}"
+           manifest="@{manifest}"
+           whenmanifestonly="skip"/>
+    </sequential>
+  </macrodef>
+
+  <!--
+    runTests macro-def. Run JUnit tests and convert results to HTML.
+
+    The attributes are:
+    -src - source directory. Tests to are run are selected from
+     here. A pattern in the test.filter property determines what is
+     run. The default is "**/*Test.java".
+    -xmlReports - directory for XML reports.
+    -htmlReports - directory for HTML reports.
+    -classpathref - CLASSPATH reference.
+  -->
+  <macrodef name="runTests">
+    <attribute name="src"/>
+    <attribute name="xmlReports"/>
+    <attribute name="htmlReports"/>
+    <attribute name="classpathref"/>
+    <sequential>
+      <mkdir dir="@{xmlReports}"/>
+      <mkdir dir="@{htmlReports}"/>
+      <property name="test.filter" value="**/*Test.java"/>
+      <junit printsummary="yes" 
+             haltonfailure="no">
+        <classpath>
+          <path refid="@{classpathref}"/>
+        </classpath>
+        <formatter type="xml"/>
+        <batchtest fork="yes" 
+                   todir="@{xmlReports}">
+          <fileset dir="@{src}">
+            <include name="${test.filter}"/>
+          </fileset>
+        </batchtest>
+        <sysproperty key="ogsadai.test.properties"
+                     value="${ogsadai.test.properties}"/>
+      </junit>
+    </sequential>
+  </macrodef>
+
+  <!-- Clean, compile and JAR everything and run tests. -->
+  <target name="all" description="Clean, compile, JAR and run tests"
+          depends="run, jarTests, runTests"/>
+
+</project>
