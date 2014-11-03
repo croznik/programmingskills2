@@ -17,11 +17,8 @@ public class TestDriver
         Scanner cin = new Scanner(System.in);
         Random rand =  new Random();
         String printLocation;
-<<<<<<< HEAD
         //Will add something to allow the user to change this name
         PrintWriter densityOutFile = new PrintWriter(new FileWriter("Density.txt"));
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         GridMap landscape;
         Population population;
         long startTimer;
@@ -29,12 +26,9 @@ public class TestDriver
         Hare hare = new Hare();
         int row, column;
         int time;
-<<<<<<< HEAD
         //Default to 50, user can change
         int printTime = 50;
-=======
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
-        
+
         while(Character.toUpperCase(anotherSimulation) == 'Y')
         {
         
@@ -142,7 +136,7 @@ public class TestDriver
                 System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                 //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
                 population.setNumberTimeSteps(cin.nextDouble()); 
-<<<<<<< HEAD
+
             }
             
             System.out.println("Do you want to change how often the program prints to file");
@@ -152,9 +146,9 @@ public class TestDriver
                 System.out.print("Enter a number of times to print to file. This must be an integer and less than the total number of time steps: \t");
                 //Need to check this works correctly 
                 printTime = cin.nextInt();
-=======
+
                 cin.nextLine();
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
+
             }
             
             /*
@@ -231,7 +225,7 @@ public class TestDriver
              * TestDriver step 9: Run a loop 500 times updates the population each time, printing it to the file,
              * and printing average densities each time. 
              */
-<<<<<<< HEAD
+
             time =0;
             //I've changed the constructor of population to make the default time 0 this is now redundant. 
             //population.setTime(0);
@@ -267,34 +261,7 @@ public class TestDriver
                 
             }
             
-                  
-=======
-            population.set_t(0);
-            time = 0;
-            for(int timeStep = 0; timeStep < population.getNumberTimeSteps(); timeStep++)
-            {
-                population.updatePop(puma, hare);
-                time++;
-                population.set_t(time);
-                
-                /*
-                 * Below here we want to print out to the file and print the
-                 * average density (whatever that is)
-                 */
-                
-                //print average density to a file
-                PrintMethods.printDensityFile(new PrintWriter(new File(printLocation)), population);
-                
-                //printing the pumas map
-                PrintMethods.printPPMFile(new PrintWriter(new File(printLocation)), 0.0, population.getPredatorMap());
-                
-                //printing the hares map
-                PrintMethods.printPPMFile(new PrintWriter(new File(printLocation)), 0.0, population.getPreyMap());
-                
-            }
-            
->>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
-            /*
+                    /*
              * TestDriver step 10: Stop the timer and show how long the simulation took to run 
              * The simulation ends right before this timer belows ends.
              */
