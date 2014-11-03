@@ -1,4 +1,4 @@
- 
+ package groupproject;
 /**
  * The population class stores the population maps for pumas and hares.
  * 
@@ -32,6 +32,7 @@ public class Population
         this.map = map;
         nx = map.getNCols();
         ny = map.getNRows();
+        t =0;
         hareMap = new double[ny][nx];
         pumaMap = new double[ny][nx];
         //         pumaObj = new Puma();
@@ -174,44 +175,18 @@ public class Population
     {
         return getTotalPop(hareMap) + getTotalPop(pumaMap); //hareMap was hares before //pumaMap was pumas before
     }
-              
-
+    
     /**
-     * This method prints out a graphical representation of the two population maps. 
-     * 
-     * @return Graphic representation of the two population maps.
+     * This method sets the time to a new time
+     * @param t  new time 
      */
     
-    public String toString()
+    public void setTime(double t)
     {
-        StringBuilder string = new StringBuilder();
-        
-        string.append("Hare Populations\n\n");
-        
-        for(int i = 0; i < hareMap.length; i++)
-        {
-            for(int j = 0; j < hareMap[0].length; j++)
-            {
-                string.append(hareMap[i][j] + " ");     //adds the number to the StringBuilder
-            }
-            
-            string.append("\n"); //starts a new line for the next row
-        }
-        
-        string.append("\nPuma Populations\n\n");
-        
-        for(int i = 0; i < pumaMap.length; i++)
-        {
-            for(int j = 0; j < pumaMap[0].length; j++)
-            {
-                string.append(pumaMap[i][j] + " ");     //adds the number to the StringBuilder
-            }
-            
-            string.append("\n"); //starts a new line for the next row
-        }
-        
-        return new String(string);
+       this.t=t;
+    
     }
+ 
     
     /**
      * This method sets the size of the time step.
@@ -219,11 +194,11 @@ public class Population
      * @param delta_t The new time step.
      */
     
-    public void set_delta_t(double delta_t)
+    public void setDeltaT(double delta_t)
     {
         this.delta_t = delta_t;
         
-        numberTimeSteps = get_t() / delta_t; //changing delta_t changes the value of T
+        numberTimeSteps = getTime() / delta_t; //changing delta_t changes the value of T
     }
     
     /**
@@ -232,11 +207,11 @@ public class Population
      * @param T The new number of time steps.
      */
     
-    public void set_numberTimeSteps(double T)
+    public void setNumberTimeSteps(double T)
     {
         numberTimeSteps = T;
         
-        delta_t = get_t() / numberTimeSteps; //changing the value of T changes the value of delta_t
+        delta_t = getTime() / numberTimeSteps; //changing the value of T changes the value of delta_t
     }
    
     /**
@@ -244,9 +219,18 @@ public class Population
      * 
      * @return The t field. 
      */
-    public double get_t() 
+    public double getTime() 
     {
         return t;
+    }
+    /**
+     * This returns the number of time steps
+     * @return T (Number of time steps)
+     */
+    
+    public double getNumberTimeSteps()
+    {
+        return numberTimeSteps;
     }
     
     /**
@@ -302,4 +286,10 @@ public class Population
     {
         return pumaMap; //pumaMap was pumas before
     }
+    
+    public double [][] getPreyMap(){
+        return hareMap;
+    }
+    
+    
 }
