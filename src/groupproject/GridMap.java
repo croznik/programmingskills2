@@ -1,8 +1,10 @@
- 
+package groupproject; 
+
 import java.util.*;
 import java.io.*;
 
 /**
+ * 
  * This class creates a map using a 2D array data structure; the assignment specifies that the grid has
  * ny rows and nx columns and each element is referred to by (nx,ny), the rows range from 1 to ny and
  * the columns range from 1 to nx, and that the grid "starts" at the bottom left corner so that the
