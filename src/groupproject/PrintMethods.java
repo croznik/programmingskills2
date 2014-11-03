@@ -45,6 +45,7 @@ public class PrintMethods {
   outfile.println(p.getTime());
   outfile.println("");
   outfile.print(PrintMethods.toString(p.getPredatorMap()));
+  outfile.println("");
   outfile.print(PrintMethods.toString(p.getPreyMap()));
   }
  
@@ -100,15 +101,6 @@ public class PrintMethods {
 
   }
 
- //Only converts one column to a color
- //Not used anymore will probably delete
-  public static int[][] convertDensityMapToColorMap(double[] map, double total, int rgbColumn, int colorMax){
-  int[][] outArray = new int[map.length][3];
-  for(int i=0; i<map.length;i++){
-  outArray[i][rgbColumn] = PrintMethods.convertDensityToRGB(map[i],total,colorMax);
-  }
-  return outArray;
-  }
 
  //To String method
  //Same as in GridMap class but has spaces before (as first need to space for ppm)
