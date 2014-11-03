@@ -8,6 +8,7 @@ package groupproject;
 /**
  * Superclass for an animal, which creates the basic properties of an animal: death rate, 
  * birth rate, mortality rate, predation rate.
+ * 
  * @author 
  */
 public class Animal 
@@ -30,23 +31,32 @@ public class Animal
      */
     public Animal(String type, double dRate, double bRate)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         setType(type);
         setDiffusionRate(dRate);
         setBirthRate(bRate);
         setMortalityRate(0.0);
         setPredationRate(0.0);
         map = null;
+<<<<<<< HEAD
        
 
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         this.type=type;
         this.dRate=dRate;
         this.bRate=bRate;
         mRate=0.0;
         pRate=0.0;
         map = null;
+<<<<<<< HEAD
 
         
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
     }
     
     /**
@@ -79,16 +89,6 @@ public class Animal
         return mRate;
     }
     
-     /**
-   * A get method that returns the GridMap object that represents the landscape/map.
-   *
-   * @return The GridMap representing the landscape.
- */
-   public GridMap getMap()
-   {
-            return map;
-    }
-    
     /**
      * A get method for the animal's predation rate.
      * 
@@ -98,8 +98,11 @@ public class Animal
     {
         return pRate;
     }
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 
     /**
      * This method tells whether the animal is a predator or prey.
@@ -144,7 +147,10 @@ public class Animal
      */
     public void setBirthRate(double bRate)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
         if(bRate<0){
             throw new IllegalArgumentException("Birth rate must be positive. For death rate use mortality rate");
         }
@@ -161,6 +167,7 @@ public class Animal
         if(mRate<0){
             throw new IllegalArgumentException("Mortality Rate must be positive. Use birth rate for births.");
         }
+        
         if(isPredator() == false)
         {
             mRate = 0.0;
@@ -170,10 +177,6 @@ public class Animal
             this.mRate = mRate;
         }
     }
-    
-    //This is kind of a personal choice, either the predation rate is applied to prey so goes with prey
-    //OR the predatation rate is something which the predator does to the prey hence goes with predator
-    //I'm defining it using the latter for now but it can change
     
     /**
      * This set method change's the animal's predation rate; 
@@ -207,6 +210,7 @@ public class Animal
     {
         this.type = type;
     }
+<<<<<<< HEAD
     
 
      /**
@@ -230,4 +234,6 @@ public class Animal
         this.map = map;
     }
 
+=======
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 }

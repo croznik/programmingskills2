@@ -7,19 +7,14 @@
  */
 public class Population
 {
-    
-    //    private double[][] hares; //the density of hares (prey)
-    //    private double[][] pumas; //the density of pumas (predators)
    private double delta_t = .4; //the change in time
    private double numberTimeSteps = 1250; //the number of time steps between outputs
-   private double t = 500; //the current time
-   private int ny; //the number of rows
-   private int nx; //the number of columns
+   private double t; //the current time
+   private int nRows; //the number of rows
+   private int nCols; //the number of columns
    private double[][] hareMap; //a 2D array representing the hare population densities for each square
    private double[][] pumaMap; //a 2D array representing the puma population densities for each square
    private GridMap map; //the geographic map showing what's land and water
-   private Puma pumaObj;
-   private Hare hareObj;
    
     /**
      * This constructor creates a new object that is attached to a GridMap object that shows
@@ -30,6 +25,7 @@ public class Population
     public Population(GridMap map)
     {
         this.map = map;
+<<<<<<< HEAD
         nx = map.getNCols();
         ny = map.getNRows();
         t =0;
@@ -37,6 +33,12 @@ public class Population
         pumaMap = new double[ny][nx];
         //         pumaObj = new Puma();
         //         hareObj = new Hare();
+=======
+        nCols = map.getNCols();
+        nRows = map.getNRows();
+        hareMap = new double[nRows][nCols];
+        pumaMap = new double[nRows][nCols];
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
     }
     
     /**
@@ -46,8 +48,8 @@ public class Population
     public void updatePop(Puma pumaObj,Hare hareObj)
     {
         //these 2D arrays will temporarily hold the new population maps
-        double[][] newHareMap = new double[ny][nx];
-        double[][] newPumaMap = new double[ny][nx];
+        double[][] newHareMap = new double[nRows][nCols];
+        double[][] newPumaMap = new double[nRows][nCols];
         
         /*
          * Below the new hare population map is calculated
@@ -79,9 +81,6 @@ public class Population
         
         hareMap = newHareMap;
         pumaMap = newPumaMap;
-        
-        
-        t += delta_t; //updatting the time
     }
     
     /**
@@ -181,10 +180,27 @@ public class Population
      * @param t  new time 
      */
     
+<<<<<<< HEAD
     public void setTime(double t)
     {
        this.t=t;
     
+=======
+    public static String toString(double[][] map)
+    {
+        StringBuilder string = new StringBuilder();
+        
+        for(int i = 0; i < map.length; i++)
+        {
+            for(int j = 0; j < map[0].length; j++)
+            {
+                string.append(map[i][j] + " "); //adds the number to the StringBuilder
+            }
+            string.append("\n"); //starts a new line for the next row
+        }
+        
+        return new String(string);
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
     }
  
     
@@ -213,6 +229,17 @@ public class Population
         
         delta_t = getTime() / numberTimeSteps; //changing the value of T changes the value of delta_t
     }
+    
+    /**
+     * This method returns the numberTimeSteps field.
+     * 
+     * @return The numberTimeSteps field.
+     */
+    
+    public double getNumberTimeSteps()
+    {
+        return numberTimeSteps;
+    }
    
     /**
      * This value returns the value of t.
@@ -234,6 +261,16 @@ public class Population
     }
     
     /**
+     * This method sets the current time represented in the field t.
+     * 
+     * @param t The new current time.
+     */
+    public void set_t(int t)
+    {
+        this.t = t;
+    }
+    
+    /**
      * This method gets the population for a given row and column of one of the density maps.
      * 
      * @param map Either the hareMap or the pumaMap matrices.
@@ -248,9 +285,9 @@ public class Population
     public double getTotalPop(double[][] map)
     {
         double totalPop = 0;
-        for(int i = 0; i < nx;i++)
+        for(int i = 0; i < nCols;i++)
         {
-            for(int j = 0; j < ny;j++)
+            for(int j = 0; j < nRows;j++)
             {
                 totalPop += map[i][j];
             }
@@ -287,9 +324,21 @@ public class Population
         return pumaMap; //pumaMap was pumas before
     }
     
+<<<<<<< HEAD
     public double [][] getPreyMap(){
         return hareMap;
     }
     
     
+=======
+    /**
+     * This get method returns the matrix holding the hare densities.
+     * 
+     * @return The field hares holding the hare densities across the landscape.
+     */
+    public double[][] getPreyMap()
+    {
+        return hareMap; 
+    }
+>>>>>>> a630708a2bd268411d715da4907d31ffd5642d80
 }
