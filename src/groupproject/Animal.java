@@ -1,15 +1,11 @@
-package groupproject; 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package groupproject;
  
 
 /**
  * Superclass for an animal, which creates the basic properties of an animal: death rate, 
  * birth rate, mortality rate, predation rate.
  * 
- * @author 
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
  */
 public class Animal 
 {

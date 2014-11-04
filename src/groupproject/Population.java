@@ -1,9 +1,9 @@
-package groupproject;
+package groupproject; 
 
 /**
  * The population class stores the population maps for pumas and hares.
  * 
- * @author Colum Roznik
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
  * @version 7 November 2014
  */
 public class Population

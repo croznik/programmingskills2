@@ -1,11 +1,11 @@
-package groupproject;  
+package groupproject;   
 
 import java.io.*;
 import java.util.*;
 
 /**
  * @version 7 November 2014
- * @author Colum Roznik
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
  */
 public class TestDriver
 {
@@ -24,11 +24,13 @@ public class TestDriver
         int time;
         int runNo = 0;
          
-        if(args[1].compareTo("terminal")==0 && args.length == 2){
+        if(args[1].compareTo("terminal")==0 && args.length == 2)
+        {
             ivReadMethod.readInitialValuesFromUserTerminal();
         }
         
-        else if(args[1].compareTo("file")==0 && args.length == 3){
+        else if(args[1].compareTo("file") == 0 && args.length == 3)
+        {
             ivReadMethod.readInitialValuesFromFile(args[2]);
         }
         
@@ -37,7 +39,8 @@ public class TestDriver
             
         }
         
-        else{
+        else
+        {
             System.out.println("Illegal Input type. Either have use TestDriver(landscapeFile, terminal) for to enter initial values through terminal. \n Or use TestDriver(landscapeFile, file, inputFile) to get the initial values from a file. \n Else use TestDriver(landscapeFile) to use the default valiues for everything");
             System.exit(-1);
         }
@@ -58,7 +61,7 @@ public class TestDriver
             startTimer = System.currentTimeMillis();
             
             /*
-             * TestDriver step 9: Run a loop 500 times updates the population each time, printing it to the file,
+             * TestDriver step 9: Run a loop updating the population each time, printing it to the file,
              * and printing average densities each time. 
              */
 

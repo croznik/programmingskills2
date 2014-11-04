@@ -1,4 +1,4 @@
-package groupproject;  
+package groupproject;   
 
 import java.util.*;
 import java.io.*;
@@ -8,7 +8,7 @@ import java.io.*;
  * This class creates a map using a 2D array data structure where dry portions of land in the map are coded
  * with a 1 and water areas are coded with a zero.
  * 
- * @author Colum Roznik 
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
  * @version 7 November 2014
  */
 
@@ -18,6 +18,40 @@ public class GridMap
     private int[][] map;
     private int numRows; //the number of rows
     private int numCols; //the number of columns
+    
+    /**
+     * The default constructor creates a GridMap object representing a random map of minimum 
+     * dimensions 10x10 but no more than 2000x2000.
+     */
+    
+    public GridMap()
+    {
+        Random rand = new Random();
+        
+        numRows = rand.nextInt(1991) + 10;
+        numCols = rand.nextInt(1991) + 10;
+        
+        map = new int[numRows][numCols];
+        
+        /*
+         *The map is surrounded by a border of water and only about 20% of the interior is water.
+         */
+        
+        for(int i = 1; i < (map.length - 1); i++)
+        {
+            for(int j = 1; j < (map.length - 1); j++)
+            {
+                if(rand.nextInt(5) == 0)
+                {
+                    map[i][j] = 0;
+                }
+                else
+                {
+                    map[i][j] = 1;
+                }
+            }
+        }
+    }
     
     /**
      * This constructor creates a new GridMap object based on an incoming file. 
