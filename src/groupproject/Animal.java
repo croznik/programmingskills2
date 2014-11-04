@@ -1,4 +1,4 @@
- 
+package groupproject; 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -37,9 +37,28 @@ public class Animal
         setBirthRate(bRate);
         setMortalityRate(0.0);
         setPredationRate(0.0);
-        mRate=0.0;
-        pRate=0.0;
+       
 
+    }
+    
+    
+    /** 2nd constructor all variables specified
+     * @param type (predator/prey)
+     * @param dRate diffusion rate
+     * @param bRate birth rate
+     * @param mRate mortality rate
+     * @param pRate predation rate
+     * */
+    
+    
+    public Animal(String type, double dRate, double bRate, double mRate, double pRate)
+    {
+        setType(type);
+        setDiffusionRate(dRate);
+        setBirthRate(bRate);
+        setMortalityRate(mRate);
+        setPredationRate(pRate);
+        
     }
     
     /**

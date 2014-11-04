@@ -1,4 +1,4 @@
-  
+package groupproject;  
 
 import java.util.*;
 import java.io.*;
@@ -125,47 +125,58 @@ public class GridMap
     
     public int getDryNeighbors(int row, int col)
     {
-       //the number of dry neighbors
-        int up = 0;
-        int down = 0;
-        int left = 0;
-        int right = 0;
-   
-        /*
-         * Finally for the general case where the square is not in a corner or on one of the sides
-         * of the map
-         */
-    
-        if(isDry(row,col - 1)){
-             if(col==0){
-            left=0;
-             }
-             else left++;
-        }     
-        if(isDry(row,col + 1)){
-             if(col==getNCols()){
-            right=0;
-             }
-             else right++;
-        }    
-        
-        
-        if(isDry(row - 1,col)){
-            if(row==0){
-            up=0;
-            }
-            else up++;
-        }
-        
-        if(isDry(row + 1,col)){
-            if(row==getNRows()){
-            down=0;
-        }
-            else down++;
-        }
-        int neighbors = up+down+left+right;
-   
-        
+      int neighbors;
+      //Maybe throw exception instead??
+      if(row < 0 || row > getNRows() || col <0 || col> getNCols()){
+        neighbors = 0;
+      }
+             
+      else{
+      int up = 0;
+      int down = 0;
+      int left = 0;
+      int right = 0;
+      //Special cases if on edges of grid
+      if(col == 0)
+      {
+      left=0;
+      }
+      
+      if(col == getNCols())
+      {
+          right =0;
+      }
+      
+      if(row == 0)
+      {
+          up = 0;
+      }
+      
+      if(row == getNRows())
+      {
+          down = 0;
+      }
+      
+      if((col != 0) && isDry(row,col - 1))
+      {
+          left++;
+      }
+ 
+      if((col != getNCols()) && isDry(row,col + 1))
+      {
+
+          right++;
+      }    
+
+      if((row != 0) && isDry(row - 1,col)){
+            up++;
+      }
+
+      if((row != getNRows()) && isDry(row + 1,col)){
+           down++;
+      }
+        neighbors = up+left+down+right;
+      }
         return neighbors;
     }
     

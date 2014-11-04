@@ -1,4 +1,4 @@
- 
+package groupproject; 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -20,6 +20,13 @@ public class Hare extends Animal
     public Hare()
     {
         super("prey", 0.2, 0.08);
+    }
+    
+    public Hare(double dRate, double bRate){
+        
+        
+        super("prey",dRate, bRate);
+        
     }
         
         

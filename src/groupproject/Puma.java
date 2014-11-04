@@ -1,4 +1,5 @@
- 
+package groupproject; 
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -18,6 +19,8 @@ public class Puma extends Animal
      * @param mRate The puma mortality rate.
      * @param pRate The puma predation rate. 
      */
+
+    
     public Puma(double mRate, double pRate)
     {
         super("predator", 0.2, 0.02);
@@ -28,14 +31,17 @@ public class Puma extends Animal
     //Default constructor where mortality and predation rates as set in question
     
     /**
-     * The default constructor where the mortality and predation rates are 
+     * The default constructor where the mortality 0.06 and predation 0.04 rates are 
      * the default values
      */
     public Puma()
     {
-        super("predator", 0.2, 0.02);
-         this.mRate = 0.06;
-         this.pRate = 0.04;
+        super("predator", 0.2, 0.02,0.06,0.04);
+         
+    }
+    
+    public Puma(double dRate, double bRate, double mRate, double pRate){
+        super("predator", dRate, bRate, mRate, pRate);
     }
         
 }

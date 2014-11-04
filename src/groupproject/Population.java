@@ -1,4 +1,5 @@
-  
+package groupproject;
+
 /**
  * The population class stores the population maps for pumas and hares.
  * 
@@ -73,7 +74,9 @@ public class Population
         hareMap = newHareMap;
         pumaMap = newPumaMap;
     }
-    
+    //We don't need two methods really hareMap and pumaMap are both double[][] 
+    //So can make one method that does both these things
+    //Haven't implemented it yet.
     /**
      * This method returns the combined hare populations of all the squares adjacent to a given square.
      * 
@@ -82,6 +85,68 @@ public class Population
      * 
      * @return The sum of the adjacent squares' hare populations. 
      */
+    public double getAdjPop(double[][] map, int row, int col)
+    {
+        double adjPops = 0;
+      
+      //Maybe throw exception instead??
+      if(row < 0 || row > map.length || col <0 || col> map[0].length){
+        adjPops = 0;
+      }
+             
+      else{
+      double up = 0;
+      double down = 0;
+      double left = 0;
+      double right = 0;
+      //Special cases if on edges of grid
+      if(col == 0)
+      {
+      left=0;
+      }
+      
+      if(col == map[0].length)
+      {
+          right =0;
+      }
+      
+      if(row == 0)
+      {
+          up = 0;
+      }
+      
+      if(row == map.length)
+      {
+          down = 0;
+      }
+      
+      if(col != 0)
+      {
+          left = getPop(map,row, col -1);
+      }
+ 
+      if(col != map[0].length)
+      {
+
+          right = getPop(map,row, col +1);
+      }    
+
+      if(row != 0){
+            up = getPop(map,row-1,col);
+      }
+
+      if(row != map.length){
+           down = getPop(map,row+1, col);
+      }
+      
+        adjPops = up+left+down+right;
+      }
+        return adjPops;
+        
+        
+        
+    }
+    
     
     public double getAdjHarePops(int row, int col)
     {
@@ -130,7 +195,7 @@ public class Population
      */
     public double getPredatorAverageDensity()
     {
-      return getTotalPop(pumaMap) / (getTotalPop(pumaMap) + getTotalPop(hareMap)); //hareMap was hares before //pumaMap was pumas before
+      return getTotalPop(pumaMap) / getTotalAnimalPopulation(); //hareMap was hares before //pumaMap was pumas before
     }
     
     /**
@@ -140,7 +205,7 @@ public class Population
      */
     public double getPreyAverageDensity()
     {
-      return getTotalPop(hareMap) / (getTotalPop(hareMap) + getTotalPop(pumaMap)); //hareMap was hares before //pumaMap was pumas before
+      return getTotalPop(hareMap) / getTotalAnimalPopulation(); //hareMap was hares before //pumaMap was pumas before
     }
     
     /**
@@ -148,7 +213,7 @@ public class Population
      * 
      * @return The total density for the landscape. 
      */
-    public double getTotalDensity()
+    public double getTotalAnimalPopulation()
     {
         return getTotalPop(hareMap) + getTotalPop(pumaMap); //hareMap was hares before //pumaMap was pumas before
     }
