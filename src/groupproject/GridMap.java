@@ -148,6 +148,40 @@ public class GridMap
     }
     
     /**
+     * New constuctor (mostly for testing purposes)
+     * @param int[][] map of 1, 0 's to GridMap object
+     * */
+    
+    public GridMap(int[][] inMap)  
+    {
+        
+        if(inMap.length > 2000 || inMap[0].length < 0){
+            throw new IllegalArgumentException("Grid map row and col dimenstion cannot exceed 2000");
+        }
+        
+        //If input map is not ones or zeroes numbers > 1 Go to 1 and Numbers less than <0
+        for(int i=0; i<inMap.length; i++){
+            for(int j=0; j<inMap[0].length; j++){
+                if(inMap[i][j] > 1){
+                    inMap[i][j] = 1;
+                     System.out.println("Warning. Map contains numbers greater than one these have been set to 1");
+                      }
+                if(inMap[i][j] < 0){
+                    inMap[i][j] =0;
+                    System.out.println("Warning. Map contains numbers less than 0 these have been set to 0");
+                }
+            }
+        }
+        
+         map = inMap;
+    }
+        
+        
+        
+    
+    
+    
+    /**
      * This method returns the number of dry squares adjacent to the square at map[row][col]
      * using the square's data coordinates.
      * 
@@ -157,40 +191,28 @@ public class GridMap
      * @return The number of dry neighbors
      */
     
+    public boolean isInMap(int row, int col){
+        boolean isInMap = true;
+        
+       if(row < 0 || row > getNRows() || col < 0 || col > getNCols())
+       {
+           isInMap = false;
+       }
+       
+       return isInMap;
+    }
+    
     public int getDryNeighbors(int row, int col)
     {
-      int neighbors;
-      //Maybe throw exception instead??
-      if(row < 0 || row > getNRows() || col <0 || col> getNCols()){
-        neighbors = 0;
-      }
-             
-      else{
+      int neighbors = 0;
+      //Checks is actually in grid before 
+      
+      if(isInMap(row,col)){
+      
       int up = 0;
       int down = 0;
       int left = 0;
       int right = 0;
-      //Special cases if on edges of grid
-      if(col == 0)
-      {
-      left=0;
-      }
-      
-      if(col == getNCols())
-      {
-          right =0;
-      }
-      
-      if(row == 0)
-      {
-          up = 0;
-      }
-      
-      if(row == getNRows())
-      {
-          down = 0;
-      }
-      
       if((col != 0) && isDry(row,col - 1))
       {
           left++;
@@ -210,6 +232,7 @@ public class GridMap
            down++;
       }
         neighbors = up+left+down+right;
+      
       }
         return neighbors;
     }

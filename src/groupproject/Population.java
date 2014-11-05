@@ -1,7 +1,7 @@
 package groupproject; 
 
 /**
- * The population class stores the population maps for pumas and hares.
+ * The population class stores the population maps for predator(pumas) and prey(hares).
  * 
  * @author Sarah Beggs, Xiao Li, and Colum Roznik
  * @version 7 November 2014
@@ -13,8 +13,8 @@ public class Population
    private double t; //the current time
    private int nRows; //the number of rows
    private int nCols; //the number of columns
-   private double[][] hareMap; //a 2D array representing the hare population densities for each square
-   private double[][] pumaMap; //a 2D array representing the puma population densities for each square
+   private double[][] preyMap; //a 2D array representing the prey population densities for each square
+   private double[][] predatorMap; //a 2D array representing the predator population densities for each square
    private GridMap map; //the geographic map showing what's land and water
    
     /**
@@ -28,8 +28,8 @@ public class Population
         this.map = map;
         nCols = map.getNCols();
         nRows = map.getNRows();
-        hareMap = new double[nRows][nCols];
-        pumaMap = new double[nRows][nCols];
+        preyMap = new double[nRows][nCols];
+        predatorMap = new double[nRows][nCols];
 
     }
     
@@ -37,55 +37,55 @@ public class Population
      * This method updates the population maps according to the equation given in the assignment. 
      */
     
-    public void updatePop(Puma pumaObj,Hare hareObj)
+    public void updatePop(Animal predatorObj,Animal preyObj)
     {
         //these 2D arrays will temporarily hold the new population maps
-        double[][] newHareMap = new double[nRows][nCols];
-        double[][] newPumaMap = new double[nRows][nCols];
+        double[][] newPreyMap = new double[nRows][nCols];
+        double[][] newPredatorMap = new double[nRows][nCols];
         
         /*
-         * Below the new hare population map is calculated
+         * Below the new prey population map is calculated
          */
         
-        for(int i = 1; i < (hareMap.length - 1); i++)
+        for(int i = 1; i < (preyMap.length - 1); i++)
         {
-            for(int j = 1; j < (hareMap[0].length - 1); j++)
+            for(int j = 1; j < (preyMap[0].length - 1); j++)
             {
-                newHareMap[i][j] = hareMap[i][j] + delta_t * (hareObj.getBirthRate() * hareMap[i][j] -
-                pumaObj.getPredationRate() * hareMap[i][j] * pumaMap[i][j] + 
-                hareObj.getDiffusionRate() * (getAdjHarePops(i,j) - map.getDryNeighbors(i,j) * hareMap[i][j]));
+                newPreyMap[i][j] = preyMap[i][j] + delta_t * (preyObj.getBirthRate() * preyMap[i][j] -
+                predatorObj.getPredationRate() * preyMap[i][j] * predatorMap[i][j] + 
+                preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * preyMap[i][j]));
             }
         }
         
         /*
-         * Below the new puma population map is calculated
+         * Below the new predator population map is calculated
          */
         
-        for(int i = 1; i < (pumaMap.length - 1); i++)
+        for(int i = 1; i < (predatorMap.length - 1); i++)
         {
-            for(int j = 1; j < (pumaMap[0].length - 1); j++)
+            for(int j = 1; j < (predatorMap[0].length - 1); j++)
             {
-                newPumaMap[i][j] = pumaMap[i][j] + delta_t * (pumaObj.getBirthRate() * hareMap[i][j] * pumaMap[i][j] -
-                pumaObj.getMortalityRate() * pumaMap[i][j] + 
-                pumaObj.getDiffusionRate() * (getAdjPumaPops(i,j) - map.getDryNeighbors(i,j) * pumaMap[i][j]));
+                newPredatorMap[i][j] = predatorMap[i][j] + delta_t * (predatorObj.getBirthRate() * preyMap[i][j] * predatorMap[i][j] -
+                predatorObj.getMortalityRate() * predatorMap[i][j] + 
+                predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * predatorMap[i][j]));
             }
         }
         
-        hareMap = newHareMap;
-        pumaMap = newPumaMap;
+        preyMap = newPreyMap;
+        predatorMap = newPredatorMap;
     }
-    //We don't need two methods really hareMap and pumaMap are both double[][] 
+    //We don't need two methods really preyMap and predatorMap are both double[][] 
     //So can make one method that does both these things
     //Haven't implemented it yet.
     /**
-     * This method returns the combined hare populations of all the squares adjacent to a given square.
-     * 
+     * This method returns the combined populations of all the squares adjacent to a given square.
+     * @param double[][] population map
      * @param row The row of the given square's coordinates.
      * @param col The column of the given square's coordinates.
      * 
-     * @return The sum of the adjacent squares' hare populations. 
+     * @return The sum of the adjacent squares' populations. 
      */
-    public double getAdjPop(double[][] map, int row, int col)
+    public double getAdjPops(double[][] map, int row, int col)
     {
         double adjPops = 0;
       
@@ -147,46 +147,7 @@ public class Population
         
     }
     
-    
-    public double getAdjHarePops(int row, int col)
-    {
-        double adjPops = 0; //the sum of the adjacent hare populations
-        
-        if(map.isDry(row,col - 1))
-            adjPops += getPop(hareMap,row,col - 1); //hareMap was hares before
-        if(map.isDry(row,col + 1))
-            adjPops += getPop(hareMap,row,col + 1); //hareMap was hares before
-        if(map.isDry(row - 1,col))
-            adjPops += getPop(hareMap,row - 1,col); //hareMap was hares before
-        if(map.isDry(row + 1,col))
-            adjPops += getPop(hareMap,row + 1,col); //hareMap was hares before
-        
-        return adjPops;
-    }  
-    
-    /**
-     * This method returns the combined puma populations of all the squares adjacent to a given square.
-     * 
-     * @param row The row of the given square's coordinates. 
-     * @param col The column of the given square's coordinates.
-     * 
-     * @return The sum of the adjacent squares' puma populations. 
-     */
-    public double getAdjPumaPops(int row, int col)
-    {
-        double adjPops = 0; //the sum of the adjacent hare populations
-        
-        if(map.isDry(row,col - 1))
-            adjPops += getPop(pumaMap,row,col - 1); //pumaMap was pumas before
-        if(map.isDry(row,col + 1))
-            adjPops += getPop(pumaMap,row,col + 1); //pumaMap was pumas before
-        if(map.isDry(row - 1,col))
-            adjPops += getPop(pumaMap,row - 1,col); //pumaMap was pumas before
-        if(map.isDry(row + 1,col))
-            adjPops += getPop(pumaMap,row + 1,col); //pumaMap was pumas before
-        
-        return adjPops;
-    }  
+
     
     /**
      * This get method returns the average predator density.
@@ -195,7 +156,12 @@ public class Population
      */
     public double getPredatorAverageDensity()
     {
-      return getTotalPop(pumaMap) / getTotalAnimalPopulation(); //hareMap was hares before //pumaMap was pumas before
+        double predDensity = 0;
+        if(getTotalAnimalPopulation() != 0){
+        predDensity = getTotalPop(predatorMap) / getTotalAnimalPopulation();
+        }
+        
+      return predDensity;
     }
     
     /**
@@ -205,17 +171,21 @@ public class Population
      */
     public double getPreyAverageDensity()
     {
-      return getTotalPop(hareMap) / getTotalAnimalPopulation(); //hareMap was hares before //pumaMap was pumas before
+      double preyDensity =0;
+      if(getTotalAnimalPopulation() != 0){
+      preyDensity = getTotalPop(preyMap) / getTotalAnimalPopulation();
+      }
+      return preyDensity;
     }
     
     /**
-     * This get method returns the total density for the entire landscape.
+     * This get method returns the total population for the entire landscape.
      * 
-     * @return The total density for the landscape. 
+     * @return The total animal population for the landscape. 
      */
     public double getTotalAnimalPopulation()
     {
-        return getTotalPop(hareMap) + getTotalPop(pumaMap); //hareMap was hares before //pumaMap was pumas before
+        return getTotalPop(preyMap) + getTotalPop(predatorMap); 
     }
     
     /**
@@ -300,7 +270,7 @@ public class Population
     /**
      * This method gets the population for a given row and column of one of the density maps.
      * 
-     * @param map Either the hareMap or the pumaMap matrices.
+     * @param map Either the preyMap or the predatorMap matrices.
      * @param row The row of the square.
      * @param column The column of the square.
      */
@@ -319,45 +289,51 @@ public class Population
                 totalPop += map[i][j];
             }
         }
+        //Ensure if there is a negative population this is reset to 0
+        if(totalPop < 0){
+            totalPop =0;
+        }
         return totalPop;
     }
    
     /**
      * This set method method assigns a new population to a particular square on the map.
      * 
-     * @param map Either the hareMap or the pumaMap matrices.
+     * @param map Either the preyMap or the predatorMap matrices.
      * @param row The row of the square.
      * @param column The column of the square.
      */
-    public void setSquarePop(String pumaOrHare, double newPop, int row, int column)
+    public void setSquarePop(String predatorOrPrey, double newPop, int row, int column)
     {
-        if(pumaOrHare == "puma")
+        if(predatorOrPrey == "predator")
         {
-            pumaMap[row][column] = newPop;
+            predatorMap[row][column] = newPop;
         }
         else 
         {
-            hareMap[row][column] = newPop;
+            preyMap[row][column] = newPop;
         }
+          
+    
     }
     
     /**
-     * This get method returns the matrix holding the puma densities.
+     * This get method returns the matrix holding the predator densities.
      * 
-     * @return The field pumas holding the puma densities across the landscape.
+     * @return The field predator map holding the predator densities across the landscape.
      */
     public double[][] getPredatorMap()
     {
-        return pumaMap; //pumaMap was pumas before
+        return predatorMap; 
     }
     
     /**
-     * This get method returns the matrix holding the hare densities.
+     * This get method returns the matrix holding the prey densities.
      * 
-     * @return The field hares holding the hare densities across the landscape.
+     * @return The field preyMap holding the prey densities across the landscape.
      */
     public double[][] getPreyMap()
     {
-        return hareMap; 
+        return preyMap; 
     }
 }
