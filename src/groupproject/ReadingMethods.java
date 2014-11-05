@@ -42,6 +42,18 @@ public class ReadingMethods
               hare = new Hare();
         }
         
+        public ReadingMethods()
+        {
+            random = new Random();
+            printTime  = 50;
+            puma = new Puma();
+            hare = new Hare();
+            population = null;
+            landscape = null;
+        
+            
+        }
+        
         /**
          * This method returns the printTime field.
          * 
@@ -147,17 +159,49 @@ public class ReadingMethods
          */
         public void readInitialValuesFromUserTerminal() throws IOException
         {
+            //Never use printlocation??
             String printLocation;
             int row, column;
             char yesNo;
-            char anotherSimulation = 'Y';
+            String fileName;
+            
             char assignMorePops = 'Y';
             Scanner cin = new Scanner(System.in);
-
-            while(Character.toUpperCase(anotherSimulation) == 'Y')
-            {
-                 //Sarah: I've made the constructor do the first 3 stages;
-                //Create class with input file (if not in 
+          
+           
+                       /*
+             * Below here when the user enters a file extension I want to read only the first line and
+             * see how many rows and columns there are so that that I can send the number of rows and 
+             * columns to the GridMap class
+             * 
+             * TestDriver step 1
+             */
+            
+            
+            System.out.println("What is the path of the file that you want to read in?.");
+            fileName = cin.nextLine();
+            
+            //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
+            fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.dat");
+            //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
+            
+            File file = new File(fileName);
+            Scanner inputFile = new Scanner(file);
+            
+            int nCol = inputFile.nextInt();
+            int nRow = inputFile.nextInt();
+            inputFile.close();
+            
+            /*
+             * TestDriver step 2: Create GridMap Object
+             */
+            landscape = new GridMap(nRow, nCol, fileName); 
+            
+            /*
+             * TestDriver step 3: Create Population object
+             */
+            population = new Population(landscape);  
+             
            
                
                 /*
@@ -334,7 +378,8 @@ public class ReadingMethods
                                     "from the simulation?");
                 printLocation = cin.nextLine();
             }   
-        }
+        
+
         
         /**
          * The user can choose to read in the initial hare and puma population values across 
@@ -426,7 +471,12 @@ public class ReadingMethods
                     population.setSquarePop("hare", inputs.nextDouble(), row, col);
                 }
             }
+            
+            
         }
      }
 }
+
+        
+      
 
