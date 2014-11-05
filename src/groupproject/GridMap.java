@@ -154,7 +154,7 @@ public class GridMap
     
     public GridMap(int[][] inMap)  
     {
-        
+       
         if(inMap.length > 2000 || inMap[0].length < 0){
             throw new IllegalArgumentException("Grid map row and col dimenstion cannot exceed 2000");
         }
@@ -173,7 +173,10 @@ public class GridMap
             }
         }
         
-         map = inMap;
+        numRows = inMap.length;
+        numCols = inMap[0].length;
+        map= inMap;
+        
     }
         
         
@@ -196,7 +199,8 @@ public class GridMap
         
        if(row < 0 || row > getNRows() || col < 0 || col > getNCols())
        {
-           isInMap = false;
+           System.out.println(row+" "+col);
+          
        }
        
        return isInMap;
