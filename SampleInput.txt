@@ -1,0 +1,27 @@
+0.08 
+0.2
+0.02
+0.2
+0.04
+0.06
+1250
+50
+2
+1 1
+2 2
+3
+1 0
+0 1
+3 3
+
+#Birth rate hares
+#Hare diff rate
+#Puma birth rate
+#Puma diff rate
+#Puma pred rate
+#Puma mort rate
+#No time steps
+#print interval
+#No squares to assign Puma pop to
+#Those squares row col, each new square new line
+#NoSquares to assign huma pop to
