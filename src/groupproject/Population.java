@@ -47,33 +47,38 @@ public class Population
          * Below the new prey population map is calculated
          */
         
-        for(int i = 1; i < (preyMap.length - 1); i++)
+        for(int i = 0; i < preyMap.length; i++)
         {
-            for(int j = 1; j < (preyMap[0].length - 1); j++)
+            for(int j = 0; j < preyMap[0].length; j++)
             {
-                newPreyMap[i][j] = preyMap[i][j] + delta_t * (preyObj.getBirthRate() * preyMap[i][j] -
-                predatorObj.getPredationRate() * preyMap[i][j] * predatorMap[i][j] + 
-                preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * preyMap[i][j]));
+                if(map.isDry(i,j)){
+                newPreyMap[i][j] = getPreyMap()[i][j] + delta_t * (preyObj.getBirthRate() * getPreyMap()[i][j] -
+                predatorObj.getPredationRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] + 
+                preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * getPreyMap()[i][j]));
             }
+        }
         }
         
         /*
          * Below the new predator population map is calculated
          */
         
-        for(int i = 1; i < (predatorMap.length - 1); i++)
+        for(int i = 0; i < predatorMap.length; i++)
         {
-            for(int j = 1; j < (predatorMap[0].length - 1); j++)
+            for(int j = 0; j < predatorMap[0].length; j++)
             {
-                newPredatorMap[i][j] = predatorMap[i][j] + delta_t * (predatorObj.getBirthRate() * preyMap[i][j] * predatorMap[i][j] -
-                predatorObj.getMortalityRate() * predatorMap[i][j] + 
-                predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * predatorMap[i][j]));
+                if(map.isDry(i,j)){
+                newPredatorMap[i][j] = getPredatorMap()[i][j] + delta_t * (predatorObj.getBirthRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] -
+                predatorObj.getMortalityRate() * getPredatorMap()[i][j] + 
+                predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * getPredatorMap()[i][j]));
             }
         }
+        }
         
-        preyMap = newPreyMap;
-        predatorMap = newPredatorMap;
+        setPreyMap(newPreyMap);
+        setPredatorMap(newPreyMap);
     }
+    
     //We don't need two methods really preyMap and predatorMap are both double[][] 
     //So can make one method that does both these things
     //Haven't implemented it yet.
@@ -311,7 +316,17 @@ public class Population
     public double[][] getPreyMap()
     {
         return preyMap; 
-    }
+       
+            }
+    
+     public void setPredatorMap(double[][] predatorMap){
+         this.predatorMap = predatorMap;
+     }
+     
+     public void setPreyMap(double[][] preyMap){
+         this.preyMap = preyMap;
+     }
+     
     
     /**
      * Method to see if a square is populated
@@ -321,7 +336,8 @@ public class Population
      * @param int j column 
      * @return whether or not the grid has a population in it.
      */
-     
+    
+   
   
   public static boolean squareIsPopulated(double[][] inMap, int i, int j){
        boolean hasPop = false;

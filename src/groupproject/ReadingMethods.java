@@ -178,10 +178,11 @@ public class ReadingMethods
              */
             
             
-            System.out.println("What is the path of the file that you want to read in?.");
+            System.out.println("What is the name of the file that you want to read in?.");
             fileName = cin.nextLine();
             
             //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
+            //
             //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.dat");
             //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
             
@@ -275,6 +276,7 @@ public class ReadingMethods
                     System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                     //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
                     population.setNumberTimeSteps(cin.nextDouble()); 
+                    cin.nextLine();
     
                 }
                 
@@ -301,7 +303,7 @@ public class ReadingMethods
                                  
                 if(cin.nextLine().charAt(0) == '1')
                 {
-                    while(Character.toUpperCase(assignMorePops) == 'Y')
+                   /* while(Character.toUpperCase(assignMorePops) == 'Y')
                     {
                         /*
                          * Enter the puma population
@@ -318,14 +320,14 @@ public class ReadingMethods
                             population.setSquarePop("puma", cin.nextDouble(), row, column);
                         }
                         
-                        System.out.print("Do you want to assign more puma populations into particular square?\nEnter Y for yes and N for no:\t");
+                       /* System.out.print("Do you want to assign more puma populations into particular square?\nEnter Y for yes and N for no:\t");
                         assignMorePops = cin.nextLine().charAt(0);
-                    }
+                    }*/
                     
                     assignMorePops = 'Y';
                     
-                    while(Character.toUpperCase(assignMorePops) == 'Y')
-                    {
+                    /*while(Character.toUpperCase(assignMorePops) == 'Y')
+                    {*/
                         
                         /*
                          * Enter the hare population
@@ -342,9 +344,9 @@ public class ReadingMethods
                             population.setSquarePop("hare", cin.nextDouble(), row, column);
                         }
                         
-                        System.out.print("Do you want to assign more hare populations into particular square?\nEnter Y for yes and N for no:\t");
+                      /*  System.out.print("Do you want to assign more hare populations into particular square?\nEnter Y for yes and N for no:\t");
                         assignMorePops = cin.nextLine().charAt(0);
-                    }
+                    }*/
                     
                     assignMorePops = 'Y';
                 }
@@ -363,8 +365,8 @@ public class ReadingMethods
                              */
                             if(landscape.isDry(i,j))
                             {
-                                population.setSquarePop("hare", random.nextInt(6), i, j);
-                                population.setSquarePop("puma", random.nextInt(6), i, j);
+                                population.setSquarePop("prey", random.nextInt(6), i, j);
+                                population.setSquarePop("predator", random.nextInt(6), i, j);
                             }
                         }
                     }
@@ -411,28 +413,25 @@ public class ReadingMethods
         //Assign Puma pop to certain square? 
         //Way to check whether want to assign multiple animal pops to the grid
         int noPumaInitSquares =  10;
-  
+        double fractionPuma = 0.25;
+        double fractionHare = 0.75;
+        double newPop =0;
         int row = 0;
         int col = 0;
-        for(int i = 0; i < landscape.getNRows(); i++)
-        {
-          for(int j = 0; j < landscape.getNCols(); j++)
-             {
-              /*
-                 * If the square is dry then a population of between 1 and 5 will be assigned
-                  */
-                    if(landscape.isDry(i,j))
-                        {
-                          population.setSquarePop("hare", random.nextInt(6), i, j);
-                            population.setSquarePop("puma", random.nextInt(6), i, j);
-                            }
-                        }
-        
-      
-    
-            
-        
-     }
+        int percentPuma = (int) fractionPuma *100;
+        int percentHare = (int) fractionHare *100;
+      /*
+         for(int i=0; i<percentPuma+1; i++){
+             
+             
+              row = random.nextInt(landscape.getNRows());
+              col = random.nextInt(landscape.getNCols());
+                               
+               newPop++;    
+               population.setSquarePop("predator", i, j);
+              */
+              
+              
 
         }
 }

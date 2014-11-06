@@ -70,12 +70,12 @@ public class TestDriver
                 
                 if(timeStep % printTime == 0)
                 {
-                    //Prints densities to file
-                    PrintMethods.printDensityFile(densityOutFile, population);
+                    
+                    
                     //Creates a name for this prints PPM files
                     String hareFileName = "HarePPM" + Integer.toString(currentPrintTime) +".ppm";
                     String pumaFileName = "PumaPPM" + Integer.toString(currentPrintTime) +".ppm";
-                    String bothFileName = "Hare&PummaPPM" + Integer.toString(currentPrintTime) + ".ppm";
+                    String bothFileName = "BothPPM" + Integer.toString(currentPrintTime) + ".ppm";
                     
                     PrintWriter harePPMFile = new PrintWriter(new FileWriter(hareFileName));
                     PrintWriter pumaPPMFile = new PrintWriter(new FileWriter(pumaFileName));
@@ -83,12 +83,17 @@ public class TestDriver
                     //Prints PPM files
                     double[][] preyMap = population.getPreyMap();
                     double[][] predMap = population.getPredatorMap();
+                    System.out.println(population.getTotalPop(preyMap));
+                    System.out.println(population.getTotalPop(predMap));
                     int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, population.getTotalPop(preyMap), 0, 255);
                     int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap, population.getTotalPop(predMap), 2, 255);
                     int[][] bothColorMatrix = PrintMethods.addTwoOneColorMatrices(pumaColorMatrix,hareColorMatrix);                           
                     PrintMethods.printPPMFile(pumaPPMFile, pumaColorMatrix);
                     PrintMethods.printPPMFile(harePPMFile, hareColorMatrix);
                     PrintMethods.printPPMFile(bothPPMFile, bothColorMatrix);
+                    
+                    //Prints densities to file
+                    PrintMethods.printDensityFile(densityOutFile, population);
                     
                     currentPrintTime++;
                     pumaPPMFile.close();
