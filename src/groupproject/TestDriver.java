@@ -51,9 +51,7 @@ public class TestDriver
              */
 
             time = 0;
-            
-            //I've changed the constructor of population to make the default time 0 this is now redundant. 
-            //population.setTime(0);
+    
             Puma puma = ivReadMethod.getPuma();
             Hare hare = ivReadMethod.getHare();
             Population population = ivReadMethod.getPopulation();
@@ -61,6 +59,7 @@ public class TestDriver
             String densityFileName = "AverageDensityFile.txt";
             PrintWriter densityOutFile = new PrintWriter(new FileWriter(densityFileName));
             int printTime = ivReadMethod.getPrintTime();
+            
             
             int currentPrintTime = 0;
             for(int timeStep = 0; timeStep < population.getNumberTimeSteps(); timeStep++)
@@ -75,17 +74,25 @@ public class TestDriver
                     //Creates a name for this prints PPM files
                     String hareFileName = "HarePPM" + Integer.toString(currentPrintTime) +".ppm";
                     String pumaFileName = "PumaPPM" + Integer.toString(currentPrintTime) +".ppm";
+                    String bothFileName = "Hare&PummaPPM" + Integer.toString(currentPrintTime) + ".ppm";
                     
                     PrintWriter harePPMFile = new PrintWriter(new FileWriter(hareFileName));
                     PrintWriter pumaPPMFile = new PrintWriter(new FileWriter(pumaFileName));
+                    PrintWriter bothPPMFile = new PrintWriter(new FileWriter(bothFileName));
                     //Prints PPM files
-                    PrintMethods.printPPMFile(pumaPPMFile, population.getTotalAnimalPopulation(), population.getPredatorMap(), 0);
-                    PrintMethods.printPPMFile(harePPMFile, population.getTotalAnimalPopulation(), population.getPreyMap(), 2);
-                    
+                    double[][] preyMap = population.getPreyMap();
+                    double[][] predMap = population.getPredatorMap();
+                    int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, population.getTotalPop(preyMap), 0, 255);
+                    int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap, population.getTotalPop(predMap), 2, 255);
+                    int[][] bothColorMatrix = PrintMethods.addTwoOneColorMatrices(pumaColorMatrix,hareColorMatrix);                           
+                    PrintMethods.printPPMFile(pumaPPMFile, pumaColorMatrix);
+                    PrintMethods.printPPMFile(harePPMFile, hareColorMatrix);
+                    PrintMethods.printPPMFile(bothPPMFile, bothColorMatrix);
                     
                     currentPrintTime++;
                     pumaPPMFile.close();
                     harePPMFile.close();
+                    bothPPMFile.close();
                 }
                 
                 time++;

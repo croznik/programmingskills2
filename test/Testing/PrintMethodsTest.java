@@ -32,7 +32,7 @@ public class PrintMethodsTest{
               testMap[i][j] = random.nextDouble();
           }
 }
-         PrintMethods.printPPMFile(outfile, 100.0, testMap, 3);
+         PrintMethods.produceOneColorRGBMatrix(testMap, 100.0, 3,255);
      }
      
      @Test(expected = IllegalArgumentException.class)
@@ -44,7 +44,7 @@ public class PrintMethodsTest{
               testMap[i][j] = random.nextDouble();
           }
        }
-         PrintMethods.printPPMFile(outfile, 100.0, testMap, -1);
+          PrintMethods.produceOneColorRGBMatrix(testMap, 100.0, 3,255);
      }   
     
      

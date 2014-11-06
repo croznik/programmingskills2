@@ -20,10 +20,10 @@ public class PrintMethods
   */
  
   public static void printDensityFile(PrintWriter outfile, Population p){
-  double predatorDens = p.getPredatorAverageDensity();
-  double preyDens = p.getPreyAverageDensity();
-  //Prints to file 1st column time, 2nd column predator density, 3rd column prey density
-  outfile.println(+p.getTime()+" "+predatorDens+" "+preyDens);
+     double predatorDens = p.getPredatorAverageDensity();
+     double preyDens = p.getPreyAverageDensity();
+      //Prints to file 1st column time, 2nd column predator density, 3rd column prey density
+      outfile.println(+p.getTime()+" "+predatorDens+" "+preyDens);
 
   }
  
@@ -39,11 +39,11 @@ public class PrintMethods
   * */
  
   public static void printDensityGridsFile(PrintWriter outfile, Population p){
-  outfile.println(p.getTime());
-  outfile.println("");
-  outfile.print(PrintMethods.toString(p.getPredatorMap()));
-  outfile.println("");
-  outfile.print(PrintMethods.toString(p.getPreyMap()));
+          outfile.println(p.getTime());
+          outfile.println("");
+          outfile.print(PrintMethods.toString(p.getPredatorMap()));
+          outfile.println("");
+          outfile.print(PrintMethods.toString(p.getPreyMap()));
   }
  
   //PPM file writer method.
@@ -58,43 +58,108 @@ public class PrintMethods
   *
   * */
   //Still don't like having to give the densitytotal the whole time (would be nice to just call get density)?
-  public static void printPPMFile(PrintWriter outfile, double densityTotal, double[][] map, int colourIndex){
-  //if colorindex not 0,1,2 throws exception (must be either red, green, blue)
-  if((colourIndex<0) || colourIndex>2){
-  throw new IllegalArgumentException("colour index must be 0 (red) or 1(green) or 2(blue) only");
+  public static void printPPMFile(PrintWriter outfile, int[][] map){
+      
+      if(map[0].length % 3 != 0){
+           throw new IllegalArgumentException("Must convert to PPM matrix before printing PPM.");
+      }
+             //Initialize plain ppm
+             outfile.println("P3");
+             outfile.println("");
+             //print dimension of map (hence pixels)
+             outfile.println(map.length+" "+(map[0].length%3)); 
+             //This is the largest value rgb values can take
+             outfile.println(255);
+             //Print map to file with each square represented by a number that indicates a colour
+             outfile.print(PrintMethods.toString(map)); 
   }
-  //Initialize plain ppm
-  outfile.println("P3");
-  outfile.println("");
-  //print dimension of map (hence pixels)
-  outfile.println(map.length+" "+map[0].length);
-  //This is the largest value rgb values can take
-  outfile.println(255);
-  //Print map to file with each square represented by a number that indicates a colour
-  //Create a new matrix that has 3x as many columns
-  int[][] outMap = new int[map.length][3*map[0].length];
- 
-  //Loop over input density map columns
-  for(int i =0; i< map[0].length;i++){
-  //Loop over rows
-  for(int k=0; k<map.length;k++){
-  //Assign to relevant column (based on colorIndex choice)
-  outMap[k][(3*i)+colourIndex] = PrintMethods.convertDensityToRGB(map[k][i], densityTotal, 255);
+  
+  /**
+   * Method to create an rgb matrix of one color with white squares for no population
+   * @param double[][] map to be converted
+   * @param double total density e.g.
+   * @param color of matrix
+   * @param maxRGB value 
+   * return matrix with shades of one color red/ green/ blue
+   * 
+   * 
+*/ 
+  
+  public static int[][] produceOneColorRGBMatrix(double[][] map, double total, int colorIndex, int maxRGB){
+    if((colorIndex<0) || colorIndex>2){
+            throw new IllegalArgumentException("colour index must be 0 (red) or 1(green) or 2(blue) only");
+           }
+    //Create a new matrix that has 3x as many columns
+   int[][] outMap = new int[map.length][3*map[0].length];
+    //Loop over input density map columns
+        for(int i =0; i< map[0].length;i++)
+        {
+         //Loop over rows
+           for(int k=0; k<map.length;k++)
+           {
+              //If there is no population in a square its rgb value is now set to 255, 255, 255 (white)
+                if(map[k][i]==0){
+                      for(int l =0; l <3; l++){
+                          outMap[k][(3*1)+l] = 255;
+            }
+           } 
+            else{    
+                outMap[k][(3*i)+colorIndex] = PrintMethods.convertDensityToRGB(map[k][i], total, maxRGB);
+              }
+                
+        }
+     }
+        
+     return outMap;
+     }
+  
+  public static int[][] addTwoOneColorMatrices(int[][] matrix1, int[][] matrix2){
+     
+   if(matrix1.length != matrix2.length ||matrix1[0].length != matrix2.length){
+       throw new IllegalArgumentException("Cannot add matrices of different sizes.");
+   }
+     
+   int[][] outMap = new int[matrix1.length][matrix1[0].length];
+    
+        for(int i =0; i< matrix1[0].length;i++)
+        {
+         
+           for(int k=0; k<matrix1.length;k++)
+           {
+              //Two white cells added together stay white
+                if(matrix1[k][i]== 255 && matrix2[k][i] ==255){
+                     
+                          outMap[k][i] = 255;
+                   }
+                //One white cell added to another color stays as non white color
+                else if(matrix1[k][i] == 255 && matrix2[k][i] != 255){
+                     outMap[k][i] = matrix2[k][i];
+                }
+                 //One white cell added to another color stays as non white color        
+                else if(matrix1[k][i] != 255 && matrix2[k][i] == 255){
+                    outMap[k][i] = matrix1[k][i];
+                }
+                 //Else can add the two one color matrices. If were mixed colors this method would give > 255 values but won't for two single color matrices
+                 else{
+                    outMap[k][i] = matrix1[k][i] + matrix2[k][i];
+                }
+           }
+           } 
+        return outMap;
   }
+      
+      
  
-  }
-  //Prints result to file
-  outfile.print(PrintMethods.toString(outMap)); 
-  }
- 
- 
- 
- 
-  //To convert to RBG value take density, normalize (divide by total) * multiply by
-  public static int convertDensityToRGB(double number, double total, int maxRGB){
- 
-  double colour = (number/total)*maxRGB;
-  return (int)colour;
+  //Reversed color order -- before very dense dark (black), no density (white)
+  //Have changed to light color for lower density and dark for high density as more logical;
+ /*To convert to RBG value take density, normalize (divide number by total) 
+  then divide maxRGB value by normalization to get 0 color. 
+  */
+ public static int convertDensityToRGB(double number, double total, int maxRGB){
+
+     double colorFraction = (maxRGB*total)/ number;
+          
+     return (int) colorFraction;
 
   }
 
@@ -136,6 +201,8 @@ public class PrintMethods
         }
    return new String(string);
  } 
+  
+
 
 
 

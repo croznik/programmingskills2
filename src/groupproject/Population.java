@@ -336,4 +336,26 @@ public class Population
     {
         return preyMap; 
     }
+    
+    /**
+     * Method to see if a square is populated
+     * Static as can refer to general map and used without the population object as a whole
+     * @param double[][] inMap
+     * @param int i row
+     * @param int j column 
+     * @return whether or not the grid has a population in it.
+     */
+     
+  
+  public static boolean squareIsPopulated(double[][] inMap, int i, int j){
+       boolean hasPop = false;
+        if(inMap[i][j] > 0){
+            hasPop = false;
+        }
+        return hasPop;
+    }
+    
+            
+    
+    
 }
