@@ -47,6 +47,23 @@ public class PrintMethodsTest{
           PrintMethods.produceOneColorRGBMatrix(testMap, 100.0, 3,255);
      }   
     
+     public void testCombinedPPM() throws IOException{
+        PrintWriter test1 = new PrintWriter(new FileWriter("Test1.ppm"));
+        PrintWriter test2 = new PrintWriter(new FileWriter("Test2.ppm"));
+        PrintWriter test3 = new PrintWriter(new FileWriter("Test3.ppm"));
+        int[][] testMat1 = new int[][]{{155,0,0,150,0,0,155,0,0},{255,255,255,255,255,255,255,255,255},{40,0,0,40,0,0,40,0,0},{155,0,0,150,0,0,155,0,0},{255,255,255,255,255,255,255,255,255},{40,0,0,40,0,0,40,0,0}};
+        System.out.println(testMat1.length+" "+testMat1[0].length);
+        int[][] testMat2 = new int[][]{{0,0,150,0,0,155,0,0,155},{255,255,255,255,255,255,255,255,255},{0,0,40,0,0,40,0,0,40},{0,0,150,0,0,155,0,0,155},{255,255,255,255,255,255,255,255,255},{0,0,40,0,0,40,0,0,40}};
+         System.out.println(testMat2.length+" "+testMat2[0].length);
+        int[][] testMat3 = PrintMethods.addTwoOneColorMatrices(testMat1,testMat2);
+        PrintMethods.printPPMFile(test1,testMat1);
+        PrintMethods.printPPMFile(test2,testMat2);
+        PrintMethods.printPPMFile(test3,testMat3);
+        test1.close();
+        test2.close();
+        test3.close();
+        System.exit(0);
+     }
      
             
     

@@ -15,6 +15,7 @@ public class TestDriver
         ReadingMethods ivReadMethod = new ReadingMethods();   
         long startTimer;
         int time;
+   
         
          
         if(args.length == 0)

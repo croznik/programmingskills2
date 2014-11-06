@@ -67,7 +67,8 @@ public class PrintMethods
              outfile.println("P3");
              outfile.println("");
              //print dimension of map (hence pixels)
-             outfile.println(map.length+" "+(map[0].length%3)); 
+             
+             outfile.println(map.length+" "+(map[0].length/3)); 
              //This is the largest value rgb values can take
              outfile.println(255);
              //Print map to file with each square represented by a number that indicates a colour
@@ -115,7 +116,7 @@ public class PrintMethods
   
   public static int[][] addTwoOneColorMatrices(int[][] matrix1, int[][] matrix2){
      
-   if(matrix1.length != matrix2.length ||matrix1[0].length != matrix2.length){
+   if(matrix1.length != matrix2.length ||matrix1[0].length != matrix2[0].length){
        throw new IllegalArgumentException("Cannot add matrices of different sizes.");
    }
      
