@@ -51,11 +51,14 @@ public class Population
         {
             for(int j = 0; j < preyMap[0].length; j++)
             {
-                if(map.isDry(i,j)){
-                newPreyMap[i][j] = getPreyMap()[i][j] + delta_t * (preyObj.getBirthRate() * getPreyMap()[i][j] -
-                predatorObj.getPredationRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] + 
-                preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * getPreyMap()[i][j]));
-            }
+                if(map.isDry(i,j) ){
+                   
+                newPreyMap[i][j] = getPreyMap()[i][j] + delta_t * ((preyObj.getBirthRate() * getPreyMap()[i][j] -
+                predatorObj.getPredationRate() * getPreyMap()[i][j] * getPredatorMap()[i][j]) + 
+                (preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * getPreyMap()[i][j])));
+                System.out.println(preyMap[i][j]);
+                System.out.println(newPreyMap[i][j]);
+           }
         }
         }
         
@@ -68,15 +71,18 @@ public class Population
             for(int j = 0; j < predatorMap[0].length; j++)
             {
                 if(map.isDry(i,j)){
-                newPredatorMap[i][j] = getPredatorMap()[i][j] + delta_t * (predatorObj.getBirthRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] -
-                predatorObj.getMortalityRate() * getPredatorMap()[i][j] + 
-                predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * getPredatorMap()[i][j]));
-            }
+                    
+                newPredatorMap[i][j] = getPredatorMap()[i][j] + delta_t * ((predatorObj.getBirthRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] -
+                predatorObj.getMortalityRate() * getPredatorMap()[i][j] )+ 
+                (predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * getPredatorMap()[i][j])));
+                 System.out.println(predatorMap[i][j]);
+                System.out.println(newPredatorMap[i][j]);
+           }
         }
         }
         
         setPreyMap(newPreyMap);
-        setPredatorMap(newPreyMap);
+        setPredatorMap(newPredatorMap);
     }
     
     //We don't need two methods really preyMap and predatorMap are both double[][] 
@@ -162,6 +168,7 @@ public class Population
     public double getPredatorAverageDensity()
     {
         double predDensity = 0;
+        System.out.println(getTotalPop(predatorMap));
         if(getTotalAnimalPopulation() != 0){
         predDensity = getTotalPop(predatorMap) / getTotalAnimalPopulation();
         }
@@ -177,11 +184,92 @@ public class Population
     public double getPreyAverageDensity()
     {
       double preyDensity =0;
+      System.out.println(getTotalPop(preyMap));
       if(getTotalAnimalPopulation() != 0){
+      
       preyDensity = getTotalPop(preyMap) / getTotalAnimalPopulation();
       }
       return preyDensity;
     }
+    
+    public double[][] densityOverLand(double[][] grid)
+    {
+        double[][] densityOverLand = new double[grid.length][grid[0].length];
+        for(int i =0; i<grid[0].length; i++)
+        {
+            for(int j=0; j<grid.length; j++){
+                if(map.isDry(i,j)){
+                densityOverLand[i][j] = grid[i][j]/map.totalDryLand();
+                }
+            }
+        }
+        return densityOverLand;
+    }
+    
+    public double avDensityOverLand(double[][] landDensGrid)
+    {
+       double totalDensity =0;
+       for(int i=0; i<landDensGrid[0].length; i++)
+       {
+           for(int j=0; j<landDensGrid.length;j++)
+           {
+               totalDensity += landDensGrid[i][j];
+           }
+       }
+       double avDens = totalDensity/ map.totalDryLand();
+    
+       return avDens;
+    }
+        
+       public double[][] densityOverAnimals(double[][] grid)
+    {
+        
+        double[][] densityOverAnimals = new double[grid.length][grid[0].length];
+        for(int i =0; i<grid[0].length; i++)
+        {
+            for(int j=0; j<grid.length; j++){
+                if(map.isDry(i,j)){
+                densityOverAnimals[i][j] = grid[i][j]/getTotalAnimalPopulation();
+                //System.out.println(grid[i][j]);
+                //System.out.println(getTotalAnimalPopulation());
+                }
+            
+        }
+        }
+        return densityOverAnimals;
+    }
+    
+    public double avDensityOverAnimals(double[][] landDensGrid)
+    {
+       double totalDensity =0;
+       
+       for(int i=0; i<landDensGrid[0].length; i++)
+       {
+           for(int j=0; j<landDensGrid.length;j++)
+           {
+               totalDensity += landDensGrid[i][j];
+           }
+       }
+       double avDens = (double) totalDensity/ noOccupiedSquares(landDensGrid);
+    
+       return avDens;
+    }
+    
+    public int noOccupiedSquares(double[][] map)
+    {
+    
+        int noOccupied =0;
+        for(int i=0; i<map.length; i++)
+        {
+            for(int j =0; j<map[0].length; j++){
+                if(squareIsPopulated(map,i,j)){
+                    noOccupied++;
+                }
+            }
+        }
+         return noOccupied;
+        }
+        
     
     /**
      * This get method returns the total population for the entire landscape.
@@ -268,6 +356,7 @@ public class Population
             for(int j = 0; j < nRows;j++)
             {
                 totalPop += map[i][j];
+                //System.out.println(totalPop);
             }
         }
         //Ensure if there is a negative population this is reset to 0

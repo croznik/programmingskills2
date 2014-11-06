@@ -199,7 +199,8 @@ public class GridMap
         
        if(row < 0 || row > getNRows() || col < 0 || col > getNCols())
        {
-           System.out.println(row+" "+col);
+           //System.out.println(row+" "+col);
+           isInMap = false;
           
        }
        
@@ -260,6 +261,22 @@ public class GridMap
         {
             return false;
         }
+    }
+    
+    public int totalDryLand()
+    {
+        int isLand =0;
+        for(int i =0; i<getNRows(); i++)
+        {
+            for(int j =0; j<getNCols(); j++)
+            {
+                if(isDry(j,i)){
+                    isLand++;
+                }
+            }
+        }
+        
+    return isLand;
     }
     
     /**

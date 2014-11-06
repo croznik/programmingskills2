@@ -86,7 +86,7 @@ public class PrintMethods
    * 
 */ 
   
-  public static int[][] produceOneColorRGBMatrix(double[][] map, double total, int colorIndex, int maxRGB){
+  public static int[][] produceOneColorRGBMatrix(double[][] map, double total, int colorIndex){
     if((colorIndex<0) || colorIndex>2){
             throw new IllegalArgumentException("colour index must be 0 (red) or 1(green) or 2(blue) only");
            }
@@ -107,7 +107,7 @@ public class PrintMethods
                        }
                       } 
             else{    
-                outMap[k][(3*i)+colorIndex] = PrintMethods.convertDensityToRGB(map[k][i], total, maxRGB);
+                outMap[k][(3*i)+colorIndex] = PrintMethods.convertDensityToRGB(map[k][i], total);
                
               }
                 
@@ -165,10 +165,10 @@ public class PrintMethods
  /*To convert to RBG value take density, normalize (divide number by total) 
   then divide maxRGB value by normalization to get 0 color. 
   */
- public static int convertDensityToRGB(double number, double total, int maxRGB){
+ public static int convertDensityToRGB(double number, double total){
 
      
-     double colorFraction = 255 - (number*maxRGB)/total;
+     double colorFraction = 10+  (number*245)/total;
      //System.out.println(colorFraction);    
      return (int) colorFraction;
 

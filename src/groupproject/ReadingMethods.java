@@ -267,7 +267,22 @@ public class ReadingMethods
                 
                 /*
                  * TestDriver step 5: Ask user to choose T (# of time steps)
+                 * 
+                 * 
+                 * 
                  */
+                
+                
+                System.out.print("Do you want to change deltaT from 0.4?\nEnter Y for yes and N for no:\t");
+                yesNo = cin.nextLine().charAt(0);
+                if(Character.toUpperCase(yesNo) == 'Y')
+                {
+                    System.out.print("Enter the new number of timesteps; it must be an integer: \t");
+                    //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
+                    population.setDeltaT(cin.nextDouble()); 
+                    cin.nextLine();
+    
+                }
                 
                 System.out.print("Do you want to change the number to timesteps in the program from 1,250?\nEnter Y for yes and N for no:\t");
                 yesNo = cin.nextLine().charAt(0);
@@ -280,7 +295,7 @@ public class ReadingMethods
     
                 }
                 
-                System.out.println("Do you want to change how often the program prints to file");
+                System.out.println("Do you want to change how often the program prints to file\t");
                 yesNo = cin.nextLine().charAt(0);
                 if(Character.toUpperCase(yesNo)== 'Y')
                 {
@@ -303,7 +318,7 @@ public class ReadingMethods
                                  
                 if(cin.nextLine().charAt(0) == '1')
                 {
-                   /* while(Character.toUpperCase(assignMorePops) == 'Y')
+                   while(Character.toUpperCase(assignMorePops) == 'Y')
                     {
                         /*
                          * Enter the puma population
@@ -320,14 +335,14 @@ public class ReadingMethods
                             population.setSquarePop("puma", cin.nextDouble(), row, column);
                         }
                         
-                       /* System.out.print("Do you want to assign more puma populations into particular square?\nEnter Y for yes and N for no:\t");
+                        System.out.print("Do you want to assign more puma populations into particular square?\nEnter Y for yes and N for no:\t");
                         assignMorePops = cin.nextLine().charAt(0);
-                    }*/
+                    }
                     
                     assignMorePops = 'Y';
                     
-                    /*while(Character.toUpperCase(assignMorePops) == 'Y')
-                    {*/
+                    while(Character.toUpperCase(assignMorePops) == 'Y')
+                    {
                         
                         /*
                          * Enter the hare population
@@ -344,9 +359,9 @@ public class ReadingMethods
                             population.setSquarePop("hare", cin.nextDouble(), row, column);
                         }
                         
-                      /*  System.out.print("Do you want to assign more hare populations into particular square?\nEnter Y for yes and N for no:\t");
+                        System.out.print("Do you want to assign more hare populations into particular square?\nEnter Y for yes and N for no:\t");
                         assignMorePops = cin.nextLine().charAt(0);
-                    }*/
+                    }
                     
                     assignMorePops = 'Y';
                 }
@@ -406,32 +421,52 @@ public class ReadingMethods
         puma = new Puma(pumaDiffRate,pumaBirthRate,pumaMortRate,pumaPredRate);
         hare = new Hare(hareDiffRate, hareBirthRate);
         //Need to read time steps and no print intervals from file.
+        double deltaT = inputs.nextDouble();
+        population.setDeltaT(deltaT);
         double noTimeSteps = inputs.nextDouble();
         population.setNumberTimeSteps(noTimeSteps);
         printTime = inputs.nextInt();
         
         //Assign Puma pop to certain square? 
         //Way to check whether want to assign multiple animal pops to the grid
-        int noPumaInitSquares =  10;
-        double fractionPuma = 0.25;
-        double fractionHare = 0.75;
+        
+        double fractionPuma = inputs.nextDouble();
+        
+        double fractionHare = inputs.nextDouble();
         double newPop =0;
         int row = 0;
         int col = 0;
-        int percentPuma = (int) fractionPuma *100;
-        int percentHare = (int) fractionHare *100;
-      /*
-         for(int i=0; i<percentPuma+1; i++){
+        double percentPuma =  fractionPuma *100;
+       // System.out.println(percentPuma);
+        double percentHare = fractionHare *100;
+        //System.out.println(percentHare);
+         for(int i=0; i<percentPuma; i++){
              
+             for(int k=0; k<landscape.getNRows(); k++)
+            {
+                for(int l =0; l<landscape.getNCols(); l++)
+                {
+                    if(landscape.isDry(k,l)){
+                        population.setSquarePop("predator", random.nextInt(6), k, l);
+              }
+                }
+            }                   
+              
+                
+         }
+         
+         for(int j=0; j<percentHare; j++){
              
-              row = random.nextInt(landscape.getNRows());
-              col = random.nextInt(landscape.getNCols());
-                               
-               newPop++;    
-               population.setSquarePop("predator", i, j);
-              */
-              
-              
+            for(int k=0; k<landscape.getNRows(); k++)
+            {
+                for(int l =0; l<landscape.getNCols(); l++)
+                {
+                    if(landscape.isDry(k,l)){
+                        population.setSquarePop("prey", random.nextInt(6), k, l);
+              }
+                }
+            }
+         }
 
         }
 }

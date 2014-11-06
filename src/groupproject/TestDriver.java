@@ -83,10 +83,10 @@ public class TestDriver
                     //Prints PPM files
                     double[][] preyMap = population.getPreyMap();
                     double[][] predMap = population.getPredatorMap();
-                    System.out.println(population.getTotalPop(preyMap));
-                    System.out.println(population.getTotalPop(predMap));
-                    int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, population.getTotalPop(preyMap), 0, 255);
-                    int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap, population.getTotalPop(predMap), 2, 255);
+                   // System.out.println(population.getTotalPop(preyMap));
+                    //System.out.println(population.getTotalPop(predMap));   
+                    int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, 1.0, 0);
+                    int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap,1.0, 2);
                     int[][] bothColorMatrix = PrintMethods.addTwoOneColorMatrices(pumaColorMatrix,hareColorMatrix);                           
                     PrintMethods.printPPMFile(pumaPPMFile, pumaColorMatrix);
                     PrintMethods.printPPMFile(harePPMFile, hareColorMatrix);
@@ -94,7 +94,9 @@ public class TestDriver
                     
                     //Prints densities to file
                     PrintMethods.printDensityFile(densityOutFile, population);
-                    
+                   
+                    //System.out.println(population.avDensityOverAnimals(preyMap));
+                    //System.out.println(population.avDensityOverAnimals(predMap));
                     currentPrintTime++;
                     pumaPPMFile.close();
                     harePPMFile.close();
