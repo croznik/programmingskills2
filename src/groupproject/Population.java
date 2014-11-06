@@ -201,38 +201,14 @@ public class Population
     /**
      * This value returns the value of t.
      * 
-     * @return The t field. 
+     * @return The time field. 
      */
     public double getTime() 
     {
         return t;
     }
     
-    /**
-     * This static method prints out a String representation of an incoming
-     * 2-dimensional array. 
-     * 
-     * @param map The incoming 2-dimensional array.
-     * 
-     * @return A String holding a a representation of the 2-dimensional array.
-     */
-    public static String toString(double[][] map)
-    {
-        StringBuilder string = new StringBuilder();
-        
-        for(int i = 0; i < map.length; i++)
-        {
-            for(int j = 0; j < map[0].length; j++)
-            {
-                string.append(map[i][j] + " "); //adds the number to the StringBuilder
-            }
-            string.append("\n"); //starts a new line for the next row
-        }
-        
-        return new String(string);
 
-    }
- 
     /**
      * This method sets the size of the time step.
      * 

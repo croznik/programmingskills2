@@ -182,7 +182,7 @@ public class ReadingMethods
             fileName = cin.nextLine();
             
             //I've built the two paths into the code here so that I can test it on my own computer; Colum Roznik
-            fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.dat");
+            //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//islands.dat");
             //fileName = new String("//Users/croznik/Desktop//Flashdrive//Fall 2014//Programming Skills//Group Project//Example Data Files//small.txt");
             
             File file = new File(fileName);
@@ -390,8 +390,8 @@ public class ReadingMethods
          */
         public void readInitialValuesFromFile(String inputFile) throws IOException
         {
-        
-        Scanner inputs = new Scanner(inputFile);
+        BufferedReader file = new BufferedReader(new FileReader(inputFile));
+        Scanner inputs = new Scanner(file);
        
       
         //Read rates from file
@@ -407,75 +407,36 @@ public class ReadingMethods
         double noTimeSteps = inputs.nextDouble();
         population.setNumberTimeSteps(noTimeSteps);
         printTime = inputs.nextInt();
+        
         //Assign Puma pop to certain square? 
         //Way to check whether want to assign multiple animal pops to the grid
-        int noPumaInitSquares = inputs.nextInt();
+        int noPumaInitSquares =  10;
+  
         int row = 0;
         int col = 0;
-        
-        if(noPumaInitSquares == 0)
+        for(int i = 0; i < landscape.getNRows(); i++)
         {
-              for(int i = 0; i < landscape.getNRows(); i++)
-                {
-                    for(int j = 0; j < landscape.getNCols(); j++)
-                    {
-                        /*
-                         * If the square is dry then a population of between 1 and 5 will be assigned
-                         */
-                        if(landscape.isDry(i,j))
+          for(int j = 0; j < landscape.getNCols(); j++)
+             {
+              /*
+                 * If the square is dry then a population of between 1 and 5 will be assigned
+                  */
+                    if(landscape.isDry(i,j))
                         {
-                          population.setSquarePop("puma", random.nextInt(6), i, j);
+                          population.setSquarePop("hare", random.nextInt(6), i, j);
+                            population.setSquarePop("puma", random.nextInt(6), i, j);
+                            }
                         }
-                     }
-                }
-        }
-        else
-        {
-            for(int i = 0; i < noPumaInitSquares; i++)
-            {
-                row = inputs.nextInt();
-                col = inputs.nextInt();
-                if(landscape.isDry(row,col))
-                {
-                    population.setSquarePop("puma", inputs.nextDouble(), row, col);
-                }
-            }
-        }
         
-        int noHareInitSquares = inputs.nextInt();
-        if(noHareInitSquares == 0){
-                     for(int i = 0; i < landscape.getNRows(); i++)
-                {
-                    for(int j = 0; j < landscape.getNCols(); j++)
-                    {
-                        /*
-                         * If the square is dry then a population of between 1 and 5 will be assigned
-                         */
-                        if(landscape.isDry(i,j))
-                        {
-                            population.setSquarePop("hare", random.nextInt(6), i, j);
-                           
-                        }
-                     }
-                }
-        }
-        else
-        {
+      
+    
+            
         
-            for (int j=0; j < noHareInitSquares; j++)
-            {
-                row = inputs.nextInt();
-                col = inputs.nextInt();
-                if(landscape.isDry(row,col))
-                {
-                    population.setSquarePop("hare", inputs.nextDouble(), row, col);
-                }
-            }
-            
-            
-        }
      }
+
+        }
 }
+
 
         
       

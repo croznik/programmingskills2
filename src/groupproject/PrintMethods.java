@@ -90,6 +90,7 @@ public class PrintMethods
     if((colorIndex<0) || colorIndex>2){
             throw new IllegalArgumentException("colour index must be 0 (red) or 1(green) or 2(blue) only");
            }
+    
     //Create a new matrix that has 3x as many columns
    int[][] outMap = new int[map.length][3*map[0].length];
     //Loop over input density map columns
@@ -101,11 +102,13 @@ public class PrintMethods
               //If there is no population in a square its rgb value is now set to 255, 255, 255 (white)
                 if(map[k][i]==0){
                       for(int l =0; l <3; l++){
-                          outMap[k][(3*1)+l] = 255;
-            }
-           } 
+                          outMap[k][(3*i)+l] = 255;
+                       
+                       }
+                      } 
             else{    
                 outMap[k][(3*i)+colorIndex] = PrintMethods.convertDensityToRGB(map[k][i], total, maxRGB);
+               
               }
                 
         }
@@ -115,10 +118,15 @@ public class PrintMethods
      }
   
   public static int[][] addTwoOneColorMatrices(int[][] matrix1, int[][] matrix2){
-     
+    
+   //Throw error if attempt to add different sized matrix   
    if(matrix1.length != matrix2.length ||matrix1[0].length != matrix2[0].length){
        throw new IllegalArgumentException("Cannot add matrices of different sizes.");
    }
+   //Throw error if try to add matrices that are not alreadt 
+   if(matrix1[0].length % 3 != 0 ){
+           throw new IllegalArgumentException("Must convert to PPM matrix adding them with this method.");
+      }
      
    int[][] outMap = new int[matrix1.length][matrix1[0].length];
     
@@ -143,6 +151,7 @@ public class PrintMethods
                  //Else can add the two one color matrices. If were mixed colors this method would give > 255 values but won't for two single color matrices
                  else{
                     outMap[k][i] = matrix1[k][i] + matrix2[k][i];
+                    
                 }
            }
            } 
@@ -158,8 +167,9 @@ public class PrintMethods
   */
  public static int convertDensityToRGB(double number, double total, int maxRGB){
 
-     double colorFraction = (maxRGB*total)/ number;
-          
+     
+     double colorFraction = 255 - (number*maxRGB)/total;
+     //System.out.println(colorFraction);    
      return (int) colorFraction;
 
   }

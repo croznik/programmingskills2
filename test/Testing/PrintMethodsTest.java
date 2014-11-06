@@ -18,35 +18,61 @@ import static org.junit.Assert.*;
         
 public class PrintMethodsTest{
     
-   
-    Random random = new Random();
-
-
+    private Random random;
     
+    private double[][] testMap1;
+    private int[][] testMap2, testMap3, testMap4;
+    
+   @Before
+    public void setUP(){
+       
+   random = new Random();
+   testMap1 = new double[10][10];
+   testMap2 = new int[8][8];
+   testMap3 = new int[3][2];
+   testMap4 = new int[8][8];
+   
+   for(int i =0; i<testMap1.length; i++)
+   {
+       for(int j=0; j<testMap1[0].length;j++)
+       {
+           testMap1[i][j] = random.nextDouble();
+       }
+   }
+   }
+       
+  /**
+    * 
+    * Tests to make sure color index can only be 0,1,2 by testing index cannot 
+    * be greater than 2 or less than 0.
+    * */
+   
      @Test(expected = IllegalArgumentException.class)
-     public void testColorIndexNotGreaterThanTwo() throws IOException{
-      PrintWriter outfile = new PrintWriter(new FileWriter("UnitTestFile.ppm"));
-      double[][] testMap = new double[5][5];
-       for(int i =0; i<testMap.length;i++){
-          for(int j =0; j<testMap[0].length;j++){
-              testMap[i][j] = random.nextDouble();
-          }
-}
-         PrintMethods.produceOneColorRGBMatrix(testMap, 100.0, 3,255);
+     public void testColorIndexNotGreaterThanTwo() {
+
+         PrintMethods.produceOneColorRGBMatrix(testMap1, 100.0, 3,255);
      }
      
      @Test(expected = IllegalArgumentException.class)
      public void testColorIndexNotNegative() throws IOException{
-         PrintWriter outfile = new PrintWriter(new FileWriter("UnitTestFile.ppm"));
-       double[][] testMap = new double[5][5];
-       for(int i =0; i<testMap.length;i++){
-          for(int j =0; j<testMap[0].length;j++){
-              testMap[i][j] = random.nextDouble();
-          }
-       }
-          PrintMethods.produceOneColorRGBMatrix(testMap, 100.0, 3,255);
+ 
+          PrintMethods.produceOneColorRGBMatrix(testMap1, 100.0, -1,255);
      }   
+     
+     
+     @Test(expected = IllegalArgumentException.class)
+     public void cannotAddDiffSizedMatrices(){
+         PrintMethods.addTwoOneColorMatrices(testMap2, testMap3);
+     }
+     
+     @Test(expected = IllegalArgumentException.class)
+     public void ppmMatrixColNoMustDivideby3Exactly(){
+         PrintMethods.addTwoOneColorMatrices(testMap2,testMap4);
+     }
+     /*
+     
     
+     //Not sure this is strictly speaking a proper unit test more of a run test.
      public void testCombinedPPM() throws IOException{
         PrintWriter test1 = new PrintWriter(new FileWriter("Test1.ppm"));
         PrintWriter test2 = new PrintWriter(new FileWriter("Test2.ppm"));
@@ -64,6 +90,8 @@ public class PrintMethodsTest{
         test3.close();
         System.exit(0);
      }
+     
+     */
      
             
     
