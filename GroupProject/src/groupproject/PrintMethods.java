@@ -2,7 +2,8 @@ package groupproject;
 
 /**
  *
- * @author Sarah E. Beggs
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
+ * @version 7 November 2014
  */
 import java.io.*;
 
