@@ -172,7 +172,10 @@ public class PrintMethods
  public static int convertDensityToRGB(double number, double total){
 
      
-     double colorFraction = 10+  (number*24500)/total;
+     double colorFraction = 10+  (number * 245)/total;
+     if(colorFraction> 255){
+        colorFraction = 255; 
+     }
      //System.out.println(colorFraction);   
      //Maybe multiply scaling factor
      return (int) colorFraction;

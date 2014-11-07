@@ -1,0 +1,25 @@
+0.08 
+0.4
+0.02
+0.2
+0.04
+0.06
+0.01
+200
+10
+0.5
+0.5
+
+
+
+#Birth rate hares
+#Hare diff rate
+#Puma birth rate
+#Puma diff rate
+#Puma pred rate
+#Puma mort rate
+#Delta t
+#Maximum time to get to
+#print interval
+#proportion initial pop pumas
+#Proportion initial pop hares

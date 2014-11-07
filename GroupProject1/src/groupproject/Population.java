@@ -9,7 +9,7 @@ package groupproject;
 public class Population
 {
    private double delta_t = .4; //the change in time
-   private double numberTimeSteps = 1250; //the number of time steps to run program for
+   private double maxTime = 1250; //the maximum time  to run program to reach
    private double t; //the current time
    private int nRows; //the number of rows
    private int nCols; //the number of columns
@@ -53,10 +53,10 @@ public class Population
             {
                 if(map.isDry(i,j) ){
                    
-                double newPop = getPreyMap()[i][j] + delta_t * ((preyObj.getBirthRate() * getPreyMap()[i][j] -
+                newPreyMap[i][j] = getPreyMap()[i][j] + delta_t * ((preyObj.getBirthRate() * getPreyMap()[i][j] -
                 predatorObj.getPredationRate() * getPreyMap()[i][j] * getPredatorMap()[i][j]) + 
                 (preyObj.getDiffusionRate() * (getAdjPops(preyMap,i,j) - map.getDryNeighbors(i,j) * getPreyMap()[i][j])));
-                newPreyMap[i][j]= (int) (newPop+0.5);
+                
            }
         }
         }
@@ -74,7 +74,7 @@ public class Population
                 newPredatorMap[i][j] = getPredatorMap()[i][j] + delta_t * ((predatorObj.getBirthRate() * getPreyMap()[i][j] * getPredatorMap()[i][j] -
                 predatorObj.getMortalityRate() * getPredatorMap()[i][j] )+ 
                 (predatorObj.getDiffusionRate() * (getAdjPops(predatorMap,i,j) - map.getDryNeighbors(i,j) * getPredatorMap()[i][j])));
-                //newPredatorMap[i][j] = (int) (newPredPop+0.5);
+               
            }
         }
         }
@@ -165,7 +165,7 @@ public class Population
         double predDensity = 0;
        // System.out.println(getTotalPop(predatorMap));
         if(getTotalAnimalPopulation() != 0){
-         int dens = getTotalPop(predatorMap);
+         double dens = getTotalPop(predatorMap);
          double total = getTotalAnimalPopulation();
         predDensity = (double) getTotalPop(predatorMap) / getTotalAnimalPopulation();
         }
@@ -184,13 +184,19 @@ public class Population
       double preyDensity =0;
       //System.out.println(getTotalPop(preyMap));
       if(getTotalAnimalPopulation() != 0){
-      int dens = getTotalPop(preyMap);
+      double dens = getTotalPop(preyMap);
       double total = getTotalAnimalPopulation();
       preyDensity = (double) getTotalPop(preyMap)/getTotalAnimalPopulation();
       }
  
       return preyDensity;
     }
+    
+    /**
+     * Method to define the density over the number of land squares
+     * @param population grid
+     * @return density grid
+     */
     
     public double[][] densityOverLand(double[][] grid)
     {
@@ -206,7 +212,14 @@ public class Population
         return densityOverLand;
     }
     
-    public double avDensityOverLand(int[][] landDensGrid)
+    /**
+     * Method to return the average density over land
+     * 
+     * @param landDensGrid
+     * @return Average density across the entire map
+     */
+    
+    public double avDensityOverLand(double[][] landDensGrid)
     {
        double totalDensity =0;
        for(int i=0; i<landDensGrid[0].length; i++)
@@ -220,6 +233,14 @@ public class Population
     
        return avDens;
     }
+    
+    /**
+     * 
+     * Method to return the density over the number of animals present in the system
+     * 
+     * @param grid
+     * @return density grid
+     */
         
        public double[][] densityOverAnimals(int[][] grid)
     {
@@ -239,21 +260,36 @@ public class Population
         return densityOverAnimals;
     }
     
-    public double avDensityOverAnimals(double[][] landDensGrid)
+       /**
+        * Method to return the average 
+        * 
+        * 
+        * @param landDensGrid
+        * @return 
+        */
+       
+    public double avDensityOverAnimals(double[][] densGrid)
     {
        double totalDensity =0;
        
-       for(int i=0; i<landDensGrid[0].length; i++)
+       for(int i=0; i<densGrid[0].length; i++)
        {
-           for(int j=0; j<landDensGrid.length;j++)
+           for(int j=0; j<densGrid.length;j++)
            {
-               totalDensity += landDensGrid[i][j];
+               totalDensity += densGrid[i][j];
            }
        }
-       double avDens = (double) totalDensity/ noOccupiedSquares(landDensGrid);
+       double avDens = (double) totalDensity/ (double)map.totalDryLand();
     
        return avDens;
     }
+    
+    /**
+     * 
+     * Method to return the number of squares that have population in the grid
+     * @param map
+     * @return number of populated squares for a given map
+     */
     
     public int noOccupiedSquares(double[][] map)
     {
@@ -270,7 +306,9 @@ public class Population
          return noOccupied;
         }
     
-
+     
+    
+    
         
     
     /**
@@ -319,9 +357,9 @@ public class Population
      * 
      * @param T The new number of time steps.
      */
-    public void setNumberTimeSteps(double T)
+    public void setMaxEndTime(double T)
     {
-        numberTimeSteps = T;
+        maxTime = T;
         
      
     }
@@ -331,10 +369,16 @@ public class Population
      * 
      * @return The numberTimeSteps field.
      */
-    public double getNumberTimeSteps()
+    public double getMaxEndTime()
     {
-        return numberTimeSteps;
+        return maxTime;
     }
+    
+    /**
+     * 
+     * This method gets deltat
+     * @return delta t
+     */
     
     public double getDeltaT()
     {
@@ -353,8 +397,14 @@ public class Population
     {
         return map[row][column];
     }
+    /**
+     * Returns total population of a map
+     * @param map 
+     * @return total population of the map
+     * 
+     */
     
-    public int getTotalPop(double[][] map)
+    public double getTotalPop(double[][] map)
     {
         int totalPop = 0;
         for(int i = 0; i < nCols;i++)

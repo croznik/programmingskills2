@@ -279,6 +279,7 @@ public class ReadingMethods
                 yesNo = cin.nextLine().charAt(0);
                 if(Character.toUpperCase(yesNo) == 'Y')
                 {
+                    cin.nextLine();
                     System.out.print("Enter the new number of timesteps; it must be an integer: \t");
                     //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
                     population.setDeltaT(cin.nextDouble()); 
@@ -286,13 +287,14 @@ public class ReadingMethods
     
                 }
                 
-                System.out.print("Do you want to change the number to timesteps in the program from 1,250?\nEnter Y for yes and N for no:\t");
+                System.out.print("Do you want to change the maximum time for the program to reach from 1,250?\nEnter Y for yes and N for no:\t");
                 yesNo = cin.nextLine().charAt(0);
                 if(Character.toUpperCase(yesNo) == 'Y')
                 {
-                    System.out.print("Enter the new number of timesteps; it must be an integer: \t");
+                    cin.nextLine();
+                    System.out.print("Enter the maximum end time: \t");
                     //it takes in a double below instead of an integer so that some of the calculations in the Population class are coherent and work properly
-                    population.setNumberTimeSteps(cin.nextDouble()); 
+                    population.setMaxEndTime(cin.nextDouble()); 
                     cin.nextLine();
     
                 }
@@ -301,6 +303,7 @@ public class ReadingMethods
                 yesNo = cin.nextLine().charAt(0);
                 if(Character.toUpperCase(yesNo)== 'Y')
                 {
+                    cin.nextLine();
                     System.out.print("Enter a number of times to print to file. This must be an integer and less than the total number of time steps: \t");
                     //Need to check this works correctly 
                     printTime = cin.nextInt();
@@ -324,16 +327,19 @@ public class ReadingMethods
                         /*
                          * Enter the puma population
                          */
+                       cin.nextLine();
                         System.out.print("What is the row of the square where you want to assign a puma population?\t");
                         row = cin.nextInt();
+                        cin.nextLine();
                         
                         System.out.print("What is the column of the square?\t");
                         column = cin.nextInt();
+                        cin.nextLine();
                         
                         System.out.print("And what population do you want to assign to that square?\t");
                         if(landscape.isDry(row, column)) //only assigns the population to the square if it's dry
                         {
-                            population.setSquarePop("puma", cin.nextInt(), row, column);
+                            population.setSquarePop("predator", cin.nextInt(), row, column);
                         }
                         
                         cin.nextLine();
@@ -352,14 +358,16 @@ public class ReadingMethods
                          */
                         System.out.print("What is the row of the square where you want to assign a hare population?\t");
                         row = cin.nextInt();
+                        cin.nextLine();
                         
                         System.out.print("What is the column of the square?\t");
                         column = cin.nextInt();
+                        cin.nextLine();
                         
                         System.out.print("And what population do you want to assign to that square?\t");
                         if(landscape.isDry(row, column)) //only assigns the population to the square if it's dry 
                         {
-                            population.setSquarePop("hare", cin.nextInt(), row, column);
+                            population.setSquarePop("prey", cin.nextInt(), row, column);
                         }
                         
                         cin.nextLine();
@@ -391,15 +399,11 @@ public class ReadingMethods
                         }
                     }
                 }
+        }
+
+        
                 
-                /*
-                 * TestDriver step 7: Ask what path extension they want to send the files to.
-                 */
                 
-                System.out.println("What is the path extension of the folder where you want to print the data\n" +
-                                    "from the simulation?");
-                printLocation = cin.nextLine();
-            }   
         
 
         
@@ -429,7 +433,7 @@ public class ReadingMethods
         double deltaT = inputs.nextDouble();
         population.setDeltaT(deltaT);
         double noTimeSteps = inputs.nextDouble();
-        population.setNumberTimeSteps(noTimeSteps);
+        population.setMaxEndTime(noTimeSteps);
         printTime = inputs.nextInt();
         
         //Assign Puma pop to certain square? 

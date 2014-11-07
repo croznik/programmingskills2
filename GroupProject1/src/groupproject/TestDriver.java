@@ -1,7 +1,7 @@
 package groupproject;   
 
 import java.io.*;
-import java.util.*;
+
 
 /**
  * @version 7 November 2014
@@ -42,12 +42,12 @@ public class TestDriver
          
         
             /*
-             * TestDriver step 8: The timer of the execution of the simulation starts here. 
+             * The timer of the execution of the simulation starts here. 
              */
             startTimer = System.currentTimeMillis();
             
             /*
-             * TestDriver step 9: Run a loop updating the population each time, printing it to the file,
+             * Run a loop updating the population each time, printing it to the PPM file,
              * and printing average densities each time. 
              */
 
@@ -59,13 +59,13 @@ public class TestDriver
             
             String densityFileName = "AverageDensityFile.txt";
             PrintWriter densityOutFile = new PrintWriter(new FileWriter(densityFileName));
-            PrintWriter density2 = new PrintWriter(new FileWriter("densityFile.txt"));
+            
             int printTime = ivReadMethod.getPrintTime();
             
             
             int currentPrintTime = 0;
-            double maxNoTimeSteps = population.getNumberTimeSteps()/(population.getDeltaT());
-            //System.out.println(maxNoTimeSteps);
+            double maxNoTimeSteps = population.getMaxEndTime()/(population.getDeltaT());
+
             for(int timeStep = 0; timeStep < maxNoTimeSteps; timeStep++)
             {
                 population.updatePop(puma, hare);
@@ -79,31 +79,28 @@ public class TestDriver
                     String pumaFileName = "PumaPPM" + Integer.toString(currentPrintTime) +".ppm";
                     String bothFileName = "BothPPM" + Integer.toString(currentPrintTime) + ".ppm";
                     
-                   // PrintWriter harePPMFile = new PrintWriter(new FileWriter(hareFileName));
-                   // PrintWriter pumaPPMFile = new PrintWriter(new FileWriter(pumaFileName));
-                    //PrintWriter bothPPMFile = new PrintWriter(new FileWriter(bothFileName));
+                    PrintWriter harePPMFile = new PrintWriter(new FileWriter(hareFileName));
+                    PrintWriter pumaPPMFile = new PrintWriter(new FileWriter(pumaFileName));
+                    PrintWriter bothPPMFile = new PrintWriter(new FileWriter(bothFileName));
                     //Prints PPM files
                     double[][] preyMap = population.getPreyMap();
                     double[][] predMap = population.getPredatorMap();
-                   // System.out.println(population.getTotalPop(preyMap));
-                    //System.out.println(population.getTotalPop(predMap));   
-                    int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, population.getTotalAnimalPopulation(), 0);
-                    int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap, population.getTotalAnimalPopulation(), 2);
+                    
+                    int[][] hareColorMatrix = PrintMethods.produceOneColorRGBMatrix(preyMap, population.getTotalPop(preyMap), 0);
+                    int[][] pumaColorMatrix = PrintMethods.produceOneColorRGBMatrix(predMap, population.getTotalPop(predMap), 2);
+                   
                     int[][] bothColorMatrix = PrintMethods.addTwoOneColorMatrices(pumaColorMatrix,hareColorMatrix);                           
-                    //PrintMethods.printPPMFile(pumaPPMFile, pumaColorMatrix);
-                    //PrintMethods.printPPMFile(harePPMFile, hareColorMatrix);
-                    //PrintMethods.printPPMFile(bothPPMFile, bothColorMatrix);
+                    PrintMethods.printPPMFile(pumaPPMFile, pumaColorMatrix);
+                    PrintMethods.printPPMFile(harePPMFile, hareColorMatrix);
+                    PrintMethods.printPPMFile(bothPPMFile, bothColorMatrix);
                     
                     //Prints densities to file
                     PrintMethods.printDensityFile(densityOutFile, population);
-                    //PrintMethods.printDensityFile(density2, population);
                    
-                    //System.out.println(population.avDensityOverAnimals(preyMap));
-                    //System.out.println(population.avDensityOverAnimals(predMap));
                     currentPrintTime++;
-                    //pumaPPMFile.close();
-                    //harePPMFile.close();
-                    //bothPPMFile.close();
+                    pumaPPMFile.close();
+                    harePPMFile.close();
+                    bothPPMFile.close();
                 }
                 
                 time += population.getDeltaT();
@@ -118,15 +115,7 @@ public class TestDriver
             
             System.out.print("It took " + (System.currentTimeMillis() - startTimer) / 1000 +
             " seconds to execute the simulation. ");
-        
-            
-             //TestDriver step 11: Ask user if they want to run another simulation
-             //Will remove this from here?
-            /*
-            System.out.print("Do you want to run another simulation? Enter Y for yes and N for no:\t");
-            anotherSimulation = cin.nextLine().charAt(0);
-            runNo++; 
-            */
+       
             
             densityOutFile.close();
         }
