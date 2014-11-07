@@ -48,7 +48,15 @@ Compile and JAR:
 
 Run:
 
+You have two options when running the code. If you use this first method you will be led through a series of questions to set up the initial conditions.
+
  $ant run
+
+ or 
+
+If you use this second method you can run the code by giving it the map dat file and an input file with initial conditions for the simulation.
+$ ant compile
+$ java -classpath lib/groupwork.jar groupproject.TestDriver small.dat SampleInput.txt
 
 
 Compile and JAR tests:
