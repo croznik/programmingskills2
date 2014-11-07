@@ -6,6 +6,7 @@ package groupproject;
  * birth rate, mortality rate, predation rate.
  * 
  * @author Sarah Beggs, Xiao Li, and Colum Roznik
+ * @version 7 November 2014
  */
 public class Animal 
 {
