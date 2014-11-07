@@ -8,6 +8,7 @@ import java.io.*;
 /**
  *
  * @author Sarah Beggs, Xiao Li, and Colum Roznik
+ * @version 7 November 2014
  */
 public class ReadingMethods 
 {
@@ -173,8 +174,6 @@ public class ReadingMethods
              * Below here when the user enters a file extension I want to read only the first line and
              * see how many rows and columns there are so that that I can send the number of rows and 
              * columns to the GridMap class
-             * 
-             * TestDriver step 1
              */
             
             
@@ -194,19 +193,19 @@ public class ReadingMethods
             inputFile.close();
             
             /*
-             * TestDriver step 2: Create GridMap Object
+             * Create GridMap Object
              */
             landscape = new GridMap(nRow, nCol, fileName); 
             
             /*
-             * TestDriver step 3: Create Population object
+             *  Create Population object
              */
             population = new Population(landscape);  
              
            
                
                 /*
-                 * TestDriver step 4: Lists the default values and asks user if he/she wants to change them.
+                 *  Lists the default values and asks user if he/she wants to change them.
                  */
                 
                 System.out.print("Do you want to change the hare birth rate from the default of 0.08?\nEnter Y for yes and N for no:\t");
@@ -266,10 +265,7 @@ public class ReadingMethods
                 }
                 
                 /*
-                 * TestDriver step 5: Ask user to choose T (# of time steps)
-                 * 
-                 * 
-                 * 
+                 *  Ask user to choose T (# of time steps)
                  */
                 
                 
@@ -308,7 +304,7 @@ public class ReadingMethods
                 }
                 
                 /*
-                 * TestDriver step 6: How does the user want to initialize the simulation
+                 *  How does the user want to initialize the simulation
                  */
                 
                 System.out.print("How do you want to start the simulation? Do you want to start by assigning hares and\n" +
@@ -388,7 +384,7 @@ public class ReadingMethods
                 }
                 
                 /*
-                 * TestDriver step 7: Ask what path extension they want to send the files to.
+                 *  Ask what path extension they want to send the files to.
                  */
                 
                 System.out.println("What is the path extension of the folder where you want to print the data\n" +

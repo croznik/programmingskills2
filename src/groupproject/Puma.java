@@ -1,14 +1,8 @@
 package groupproject; 
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
- 
-
 /**
  *
- * @author s1023011
+ * @author Sarah Beggs, Xiao Li, and Colum Roznik
  * @version 7 November 2014
  */
 public class Puma extends Animal

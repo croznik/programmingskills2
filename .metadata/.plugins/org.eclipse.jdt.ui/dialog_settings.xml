@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="/Users/croznik/Desktop/Flashdrive/Fall 2014/Programming Skills/Group Project/Group Project/src" key="org.eclipse.jdt.ui.last.external.project"/>
+	<item value="/Users/croznik/Desktop/Flashdrive/Fall 2014/Programming Skills/Group Project/Group Project/src/groupproject" key="org.eclipse.jdt.ui.last.external.project"/>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="true" key="group_libraries"/>
 		<item value="false" key="linkWithEditor"/>
@@ -19,5 +19,8 @@
 	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item value="1" key="index"/>
+	</section>
+	<section name="NewPackageWizardPage">
+		<item value="false" key="create_package_info_java"/>
 	</section>
 </section>

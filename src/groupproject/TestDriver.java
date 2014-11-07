@@ -42,12 +42,12 @@ public class TestDriver
          
         
             /*
-             * TestDriver step 8: The timer of the execution of the simulation starts here. 
+             *  The timer of the execution of the simulation starts here.
              */
             startTimer = System.currentTimeMillis();
             
             /*
-             * TestDriver step 9: Run a loop updating the population each time, printing it to the file,
+             *  Run a loop updating the population each time, printing it to the file,
              * and printing average densities each time. 
              */
 
@@ -108,7 +108,7 @@ public class TestDriver
             }
             
             /*
-             * TestDriver step 10: Stop the timer and show how long the simulation took to run 
+             *  Stop the timer and show how long the simulation took to run
              * The simulation ends right before this timer belows ends.
              */
             
@@ -116,7 +116,7 @@ public class TestDriver
             " seconds to execute the simulation. ");
         
             
-             //TestDriver step 11: Ask user if they want to run another simulation
+             // Ask user if they want to run another simulation
              //Will remove this from here?
             /*
             System.out.print("Do you want to run another simulation? Enter Y for yes and N for no:\t");
